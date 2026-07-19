@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title id="pageTitle">Category - FreePremium</title>
+  <meta name="title" id="metaTitle" content="Category - FreePremium">
+  <meta name="description" id="metaDesc" content="Browse premium videos in this category on FreePremium.">
+  <meta name="theme-color" content="#1a1a2e">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://freepremium.com/">
+  <meta property="og:title" id="ogTitle" content="Category - FreePremium">
+  <meta property="og:description" id="ogDesc" content="Browse premium videos in this category on FreePremium.">
+  <meta property="og:image" content="https://freepremium.com/assets/hero_spotlight.png">
+  
+  <!-- Styling -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Premium Glassmorphic Header -->
+    <header class="header">
+      <div class="header-inner">
+        
+        <!-- Brand Logo -->
+                <a href="index.html" class="logo" style="display: flex; align-items: center;">
+          <img src="assets/logo.jpg" alt="FreePremium Logo" style="height: 44px; border-radius: 8px; object-fit: contain;">
+        </a>
+        
+        <!-- Search Input Bar -->
+        <div class="search-container" id="searchContainer">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search videos, movies, APKs...">
+          <i data-lucide="search" class="search-icon" style="width: 18px; height: 18px;"></i>
+        </div>
+        
+        <!-- Navigation Menu -->
+        <nav class="nav-menu" id="navMenu">
+          <a href="index.html" class="nav-link">Home</a>
+          <button id="categoriesModalBtn" class="nav-link" style="background:none; border:none; cursor:pointer; font-family:inherit;">
+            Categories <i data-lucide="list" style="width: 14px; height: 14px; display:inline-block; margin-left:4px;"></i>
+          </button>
+          <a href="category.html?cat=trending" class="nav-link">Trending</a>
+          <a href="category.html?cat=popular" class="nav-link">Popular</a>
+        
+          <a href="premium-stuff.html" class="nav-link" style="color: #ec4899; font-weight: 600;">Free Premium Stuff <i data-lucide="gift" style="width: 14px; height: 14px; display:inline-block; margin-left:4px;"></i></a>
+        </nav>
+        
+        <!-- Mobile Actions -->
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <a href="premium-stuff.html" class="mobile-premium-btn" style="color: #ec4899; display: none; align-items: center; gap: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 700; padding: 6px 10px; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 8px; white-space: nowrap;">
+            <i data-lucide="gift" style="width: 14px; height: 14px;"></i> Free Premium Stuff
+          </a>
+          <button class="menu-toggle" id="mobileSearchToggle" style="display: none; padding: 6px;">
+            <i data-lucide="search" style="width: 22px; height: 22px;"></i>
+          </button>
+          <button class="menu-toggle" id="menuToggle">
+            <i data-lucide="menu" id="menuIcon" style="width: 24px; height: 24px;"></i>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      
+      <!-- Category Hero Banner -->
+      <section class="cat-hero" id="catHero">
+        <div class="cat-hero-bg" id="catHeroBg"></div>
+        <div class="cat-hero-overlay">
+          <div class="cat-hero-content">
+            <div class="cat-hero-icon" id="catHeroIcon">
+              <i data-lucide="flame" style="width: 28px; height: 28px;"></i>
+            </div>
+            <h1 class="cat-hero-title" id="catHeroTitle">Loading...</h1>
+            <p class="cat-hero-desc" id="catHeroDesc">Discover curated premium streams.</p>
+            <div class="cat-hero-stats">
+              <span class="cat-stat" id="catVideoCount">
+                <i data-lucide="film" style="width: 14px; height: 14px;"></i> 0 Videos
+              </span>
+              <span class="cat-stat-divider">•</span>
+              <span class="cat-stat">
+                <i data-lucide="clock" style="width: 14px; height: 14px;"></i> Updated daily
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Category Navigation Chips -->
+      <section class="cat-nav-section">
+        <div class="categories-container" id="catNavContainer">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- Sort & Filter Bar -->
+      <section>
+        <div class="section-header">
+          <div class="section-title" id="gridTitle">All Videos</div>
+          <div class="sort-controls">
+            <button class="sort-btn active" data-sort="latest" id="sortLatest">
+              <i data-lucide="clock" style="width: 14px; height: 14px;"></i> Latest
+            </button>
+            <button class="sort-btn" data-sort="popular" id="sortPopular">
+              <i data-lucide="trending-up" style="width: 14px; height: 14px;"></i> Most Viewed
+            </button>
+            <button class="sort-btn" data-sort="az" id="sortAZ">
+              <i data-lucide="arrow-down-a-z" style="width: 14px; height: 14px;"></i> A-Z
+            </button>
+          </div>
+        </div>
+        
+        <div class="video-grid" id="videoGrid">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="cat-empty-state" id="emptyState" style="display: none;">
+          <i data-lucide="video-off" style="width: 56px; height: 56px; color: hsl(var(--text-muted)); margin-bottom: 16px;"></i>
+          <h3>No videos found</h3>
+          <p>Try a different category or refine your search.</p>
+        </div>
+      </section>
+
+      <!-- Ad Banner -->
+      <section class="cat-ad-banner">
+        <div class="ad-badge">Advertisement</div>
+        <div class="ad-content-box">
+          <h4>Unlock Premium Streaming — Ad-Free Experience</h4>
+          <p>Enjoy unlimited high-quality streams with zero interruptions. Upgrade to FreePremium Pro today and save 30%.</p>
+          <button class="ad-cta-btn">Upgrade Now</button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Elegant Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="logo">
+          <div class="logo-icon">
+            <i data-lucide="play" style="fill: white; width: 14px; height: 14px; margin-left: 2px;"></i>
+          </div>
+          FreePremium
+        </div>
+        <div class="footer-links">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="category.html?cat=trending" class="footer-link">Trending</a>
+          <a href="category.html?cat=popular" class="footer-link">Popular</a>
+          <a href="category.html?cat=featured" class="footer-link">Featured</a>
+          <a href="#" class="footer-link">Contact</a>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 FreePremium. Designed with high-performance dark aesthetics. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Categories Modal -->
+  <div id="categoryModalOverlay" class="cat-modal-overlay">
+    <div class="cat-modal">
+      <div class="cat-modal-header">
+        <h2 style="font-size:1.2rem; display:flex; align-items:center; gap:8px;">
+          <i data-lucide="grid" style="color:hsl(var(--primary));"></i> Browse Categories
+        </h2>
+        <button id="closeCatModal" style="background:none; border:none; color:hsl(var(--text-secondary)); cursor:pointer;">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div id="categoryModalList" class="cat-modal-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="storage.js"></script>
+  <!-- Category Page Logic -->
+  <script src="category.js"></script>
+</body>
+</html>

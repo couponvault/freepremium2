@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title id="pageTitle">Search Results - FreePremium</title>
+  <meta name="title" id="metaTitle" content="Search Results - FreePremium">
+  <meta name="description" id="metaDesc" content="Search the ultimate database of free premium videos, mod apks, and web series.">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="robots" content="noindex, follow">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://freepremium.com/">
+  <meta property="og:title" id="ogTitle" content="Search Results - FreePremium">
+  <meta property="og:description" id="ogDesc" content="Search the ultimate database of free premium videos, mod apks, and web series.">
+  <meta property="og:image" content="https://freepremium.com/assets/hero_spotlight.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    <header class="header">
+      <div class="header-inner">
+                <a href="index.html" class="logo" style="display: flex; align-items: center;">
+          <img src="assets/logo.jpg" alt="FreePremium Logo" style="height: 44px; border-radius: 8px; object-fit: contain;">
+        </a>
+        <div class="search-container" id="searchContainer">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search videos, movies, APKs...">
+          <i data-lucide="search" class="search-icon" style="width: 18px; height: 18px;"></i>
+        </div>
+        <nav class="nav-menu" id="navMenu">
+          <a href="index.html" class="nav-link">Home</a>
+          <button id="categoriesModalBtn" class="nav-link" style="background:none; border:none; cursor:pointer; font-family:inherit;">
+            Categories <i data-lucide="list" style="width: 14px; height: 14px; display:inline-block; margin-left:4px;"></i>
+          </button>
+          <a href="category.html?cat=trending" class="nav-link">Trending</a>
+          <a href="category.html?cat=popular" class="nav-link">Popular</a>
+        </nav>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <a href="premium-stuff.html" class="mobile-premium-btn" style="color: #ec4899; display: none; align-items: center; gap: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 700; padding: 6px 10px; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 8px; white-space: nowrap;">
+            <i data-lucide="gift" style="width: 14px; height: 14px;"></i> Free Premium Stuff
+          </a>
+          <button class="menu-toggle" id="mobileSearchToggle" style="display: none; padding: 6px;">
+            <i data-lucide="search" style="width: 22px; height: 22px;"></i>
+          </button>
+          <button class="menu-toggle" id="menuToggle">
+            <i data-lucide="menu" id="menuIcon" style="width: 24px; height: 24px;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content" style="padding-top: 100px;">
+      
+      <div class="section-header" style="margin-bottom: 30px;">
+        <h1 class="section-title" id="pageTitle"><i data-lucide="search" style="color: #ec4899;"></i> Searching...</h1>
+      </div>
+      
+      <!-- Videos Section -->
+      <div id="videoResultsSection" style="display: none; margin-bottom: 40px;">
+        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; color: hsl(var(--text-secondary)); border-bottom: 1px solid hsl(var(--border-color)); padding-bottom: 8px;">Video Results</h3>
+        <div class="video-grid" id="videoResultsGrid"></div>
+      </div>
+      
+      <!-- Premium Section -->
+      <div id="premiumResultsSection" style="display: none; margin-bottom: 40px;">
+        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; color: #ec4899; border-bottom: 1px solid hsla(330, 81%, 60%, 0.2); padding-bottom: 8px;">Premium Results</h3>
+        <div class="directory-grid" id="premiumResultsGrid"></div>
+      </div>
+      
+      <div id="emptyState" style="display: none; text-align: center; padding: 60px 0;">
+        <i data-lucide="search-x" style="width: 48px; height: 48px; color: hsl(var(--text-muted)); margin-bottom: 16px;"></i>
+        <h3 style="margin-bottom: 8px;">No results found</h3>
+        <p style="color: hsl(var(--text-muted));">Try a different keyword.</p>
+      </div>
+
+    </main>
+    
+    <!-- Category Modal Overlay -->
+    <div class="cat-modal-overlay" id="categoryModalOverlay">
+      <div class="cat-modal">
+        <div class="cat-modal-header">
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: hsl(var(--text-primary)); margin: 0;">Browse Categories</h3>
+          <button id="closeCatModal" style="background: none; border: none; color: hsl(var(--text-secondary)); cursor: pointer; padding: 4px;">
+            <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+          </button>
+        </div>
+        <div class="cat-modal-list" id="categoryModalList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="storage.js"></script>
+  <script src="search.js"></script>
+</body>
+</html>

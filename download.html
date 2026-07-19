@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Your File | FreePremium</title>
+  <link rel="stylesheet" href="styles.css">
+  
+  <style>
+    .download-container {
+      max-width: 800px;
+      margin: 40px auto;
+      text-align: center;
+      padding: 24px;
+    }
+    
+    .timer-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid hsl(var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0 auto 24px auto;
+      color: hsl(var(--primary));
+      background: hsla(var(--primary), 0.1);
+    }
+    
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #3b82f6, #ec4899);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      opacity: 0.5;
+      pointer-events: none;
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+    }
+    
+    .download-btn.ready {
+      opacity: 1;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    
+    .download-btn.ready:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+    }
+    
+    .ad-space-square {
+      width: 300px;
+      height: 250px;
+      background: rgba(255,255,255,0.05);
+      border: 1px dashed hsl(var(--border-color));
+      margin: 24px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: hsl(var(--text-muted));
+      font-size: 0.9rem;
+    }
+    
+    .ad-space-banner {
+      width: 100%;
+      max-width: 728px;
+      height: 90px;
+      background: rgba(255,255,255,0.05);
+      border: 1px dashed hsl(var(--border-color));
+      margin: 24px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: hsl(var(--text-muted));
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Glassmorphic Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo" style="display: flex; align-items: center;">
+        <img src="assets/logo.jpg" alt="FreePremium Logo" style="height: 44px; border-radius: 8px; object-fit: contain;">
+      </a>
+      
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="premium-stuff.html" class="nav-link" style="color: #ec4899; font-weight: 600;">Free Premium Stuff</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="download-container">
+    <h1 style="font-size: 2rem; margin-bottom: 12px;" id="itemTitle">Preparing your download...</h1>
+    <p style="color: hsl(var(--text-muted)); margin-bottom: 32px;">Please wait while we securely generate your download link.</p>
+
+    <!-- Top Ad Banner (728x90) -->
+    <div class="ad-space-banner adsterra-banner" data-ad-id="banner-top">
+      [Adsterra 728x90 Banner Ad Space]
+    </div>
+
+    <div class="timer-circle" id="countdown">
+      10
+    </div>
+
+    <!-- Square Ad (300x250) -->
+    <div class="ad-space-square adsterra-banner" data-ad-id="banner-square">
+      [Adsterra 300x250 Ad Space]
+    </div>
+
+    <a href="#" id="finalDownloadBtn" class="download-btn">
+      <i data-lucide="download" style="width: 24px; height: 24px;"></i>
+      Generating Link...
+    </a>
+
+  </main>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>lucide.createIcons();</script>
+  
+  <script src="storage.js"></script>
+  <script src="ads.js"></script>
+  <script src="download.js"></script>
+</body>
+</html>

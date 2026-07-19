@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Watch Video - FreePremium</title>
+  <meta name="title" id="metaTitle" content="Watch Video - FreePremium">
+  <meta name="description" id="metaDesc" content="Watch high-quality premium videos and streams for free on FreePremium.">
+  <meta name="theme-color" content="#1a1a2e">
+  
+  <meta property="og:type" content="video.other">
+  <meta property="og:url" content="https://freepremium.com/">
+  <meta property="og:title" id="ogTitle" content="Watch Video - FreePremium">
+  <meta property="og:description" id="ogDesc" content="Watch high-quality premium videos and streams for free on FreePremium.">
+  <meta property="og:image" id="ogImage" content="https://freepremium.com/assets/hero_spotlight.png">
+  
+  <!-- Styling -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Premium Glassmorphic Header -->
+    <header class="header">
+      <div class="header-inner">
+        
+        <!-- Brand Logo -->
+                <a href="index.html" class="logo" style="display: flex; align-items: center;">
+          <img src="assets/logo.jpg" alt="FreePremium Logo" style="height: 44px; border-radius: 8px; object-fit: contain;">
+        </a>
+        
+        <!-- Search Input Bar (Redirects or acts as index search placeholder) -->
+        <div class="search-container">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search videos, movies, APKs...">
+          <i data-lucide="search" class="search-icon" style="width: 18px; height: 18px;"></i>
+        </div>
+        
+        <!-- Navigation Menu -->
+        <nav class="nav-menu" id="navMenu">
+          <a href="index.html" class="nav-link">Home</a>
+          <button id="categoriesModalBtn" class="nav-link" style="background:none; border:none; cursor:pointer; font-family:inherit;">
+            Categories <i data-lucide="list" style="width: 14px; height: 14px; display:inline-block; margin-left:4px;"></i>
+          </button>
+          <a href="index.html" class="nav-link">Explore</a>
+          <a href="index.html" class="nav-link">Trending</a>
+        
+          <a href="premium-stuff.html" class="nav-link" style="color: #ec4899; font-weight: 600;">Free Premium Stuff <i data-lucide="gift" style="width: 14px; height: 14px; display:inline-block; margin-left:4px;"></i></a>
+        </nav>
+        
+        <!-- Mobile Actions -->
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <a href="premium-stuff.html" class="mobile-premium-btn" style="color: #ec4899; display: none; align-items: center; gap: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 700; padding: 6px 10px; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 8px; white-space: nowrap;">
+            <i data-lucide="gift" style="width: 14px; height: 14px;"></i> Free Premium Stuff
+          </a>
+          <button class="menu-toggle" id="menuToggle">
+            <i data-lucide="menu" id="menuIcon" style="width: 24px; height: 24px;"></i>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Main Content Shell (Responsive Flex/Grid Columns) -->
+    <main class="watch-main-layout" id="watchLayout">
+      
+      <!-- Left Column: Video Player & Details -->
+      <section class="watch-primary-col">
+        
+        <!-- Breadcrumbs -->
+        <div id="videoBreadcrumbs" style="margin-bottom: 16px; font-size: 0.9rem; color: hsl(var(--text-secondary));"></div>
+        
+        <!-- Video Player Wrapper (External Embed via iframe) -->
+        <div class="player-wrapper" id="playerWrapper">
+          <iframe id="videoEmbed" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture" style="width: 100%; height: 100%; border: 0;"></iframe>
+          <!-- Placeholder shown when no embed is active -->
+          <div class="player-placeholder" id="playerPlaceholder" style="cursor: pointer;">
+            <img class="player-placeholder-bg" id="placeholderBg" src="" alt="Video Thumbnail">
+            <div class="player-placeholder-overlay">
+              <div class="player-placeholder-content">
+                <div class="player-embed-icon">
+                  <i data-lucide="play-circle" style="width: 48px; height: 48px; color: hsl(var(--primary));"></i>
+                  <style>
+                    @keyframes spin { 100% { transform: rotate(360deg); } }
+                  </style>
+                </div>
+                <h3 id="placeholderTitle" style="display: none;">Click to play</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Video Details Details Card -->
+        <div class="video-info-card">
+          <div class="info-meta-row">
+            <span class="card-category" id="videoCategory">Sci-Fi</span>
+            <div class="info-stats">
+              <span id="videoViews"><i data-lucide="eye" style="width: 14px; height: 14px; display: inline; vertical-align: text-bottom; margin-right: 4px;"></i> 0 views</span>
+              <span style="color: rgba(255,255,255,0.15);">|</span>
+              <span id="videoDate"><i data-lucide="calendar" style="width: 14px; height: 14px; display: inline; vertical-align: text-bottom; margin-right: 4px;"></i> 2026-05-30</span>
+            </div>
+          </div>
+          
+          <h1 class="video-page-title" id="videoTitle" style="margin-bottom: 0;">Loading stream...</h1>
+          
+          <!-- Creator Line -->
+          <div class="creator-row" style="display: none;">
+            <div class="creator-profile">
+              <div class="creator-avatar" id="creatorAvatar">AP</div>
+              <div>
+                <div class="creator-name" id="videoCreator">Loading Creator...</div>
+                <div class="creator-subs">120K Subscribers</div>
+              </div>
+            </div>
+            <div class="action-buttons-group">
+              <button class="action-btn"><i data-lucide="thumbs-up" style="width: 16px; height: 16px;"></i> Like</button>
+              <button class="action-btn"><i data-lucide="share-2" style="width: 16px; height: 16px;"></i> Share</button>
+            </div>
+          </div>
+          
+          <hr style="border: 0; border-top: 1px solid hsl(var(--border-color)); margin: 20px 0; display: none;">
+          
+          <!-- Detailed Description Section -->
+          <div class="description-block" style="display: none;">
+            <h3 style="font-size: 1rem; margin-bottom: 8px;">Description</h3>
+            <p id="videoDescription">Loading detailed description of the stream. Sit back, relax, and enjoy this immersive entertainment experience...</p>
+          </div>
+        </div>
+
+        <!-- Premium Monetization Placement (Bottom Ad Banner) -->
+        <div class="ad-space-banner adsterra-banner" data-ad-id="banner-top" style="margin: 20px 0;">
+          [Adsterra 728x90 Banner Ad Space]
+        </div>
+
+      </section>
+
+      <!-- Right Column: Sidebar Related Videos Feed -->
+      <section class="watch-sidebar-col">
+        
+        <!-- Sidebar Ad Banner -->
+        <div class="ad-space-square adsterra-banner" data-ad-id="banner-square" style="margin-top: 0;">
+          [Adsterra 300x250 Ad Space]
+        </div>
+        
+        <div class="sidebar-header">
+          <h2 class="sidebar-title"><i data-lucide="play-circle" style="color: hsl(var(--primary)); width: 20px; height: 20px;"></i> Up Next / Related</h2>
+        </div>
+        
+        <!-- Container dynamically loaded via watch.js -->
+        <div class="related-list-container" id="relatedContainer">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Elegant Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="logo">
+          <div class="logo-icon">
+            <i data-lucide="play" style="fill: white; width: 14px; height: 14px; margin-left: 2px;"></i>
+          </div>
+          FreePremium
+        </div>
+        <div class="footer-links">
+          <a href="index.html" class="footer-link">About</a>
+          <a href="index.html" class="footer-link">Terms of Service</a>
+          <a href="index.html" class="footer-link">Privacy Policy</a>
+          <a href="index.html" class="footer-link">Contact</a>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 FreePremium. Designed with high-performance dark aesthetics. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Categories Modal -->
+  <div id="categoryModalOverlay" class="cat-modal-overlay">
+    <div class="cat-modal">
+      <div class="cat-modal-header">
+        <h2 style="font-size:1.2rem; display:flex; align-items:center; gap:8px;">
+          <i data-lucide="grid" style="color:hsl(var(--primary));"></i> Browse Categories
+        </h2>
+        <button id="closeCatModal" style="background:none; border:none; color:hsl(var(--text-secondary)); cursor:pointer;">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div id="categoryModalList" class="cat-modal-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="storage.js"></script>
+  <!-- Dynamic Watch Script -->
+  <script src="watch.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title id="pageTitle">Premium Category - FreePremium</title>
+  <meta name="title" id="metaTitle" content="Premium Category - FreePremium">
+  <meta name="description" id="metaDesc" content="Browse premium items and downloads on FreePremium.">
+  <meta name="theme-color" content="#1a1a2e">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://freepremium.com/">
+  <meta property="og:title" id="ogTitle" content="Premium Category - FreePremium">
+  <meta property="og:description" id="ogDesc" content="Browse premium items and downloads on FreePremium.">
+  <meta property="og:image" content="https://freepremium.com/assets/hero_spotlight.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    <header class="header">
+      <div class="header-inner">
+                <a href="index.html" class="logo" style="display: flex; align-items: center;">
+          <img src="assets/logo.jpg" alt="FreePremium Logo" style="height: 44px; border-radius: 8px; object-fit: contain;">
+        </a>
+        <div class="search-container" id="searchContainer">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search videos, movies, APKs...">
+          <i data-lucide="search" class="search-icon" style="width: 18px; height: 18px;"></i>
+        </div>
+        <nav class="nav-menu" id="navMenu">
+          <a href="index.html" class="nav-link">Home</a>
+          <button id="categoriesModalBtn" class="nav-link" style="background:none; border:none; cursor:pointer; font-family:inherit;">
+            Categories <i data-lucide="list" style="width: 14px; height: 14px; display:inline-block; margin-left:4px;"></i>
+          </button>
+          <a href="category.html?cat=trending" class="nav-link">Trending</a>
+          <a href="category.html?cat=popular" class="nav-link">Popular</a>
+          <a href="premium-stuff.html" class="nav-link active" style="color: #ec4899; font-weight: 600;">Free Premium Stuff <i data-lucide="gift" style="width: 14px; height: 14px; display:inline-block; margin-left:4px;"></i></a>
+        </nav>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <a href="premium-stuff.html" class="mobile-premium-btn" style="color: #ec4899; display: none; align-items: center; gap: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 700; padding: 6px 10px; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 8px; white-space: nowrap;">
+            <i data-lucide="gift" style="width: 14px; height: 14px;"></i> Free Premium Stuff
+          </a>
+          <button class="menu-toggle" id="mobileSearchToggle" style="display: none; padding: 6px;">
+            <i data-lucide="search" style="width: 22px; height: 22px;"></i>
+          </button>
+          <button class="menu-toggle" id="menuToggle">
+            <i data-lucide="menu" id="menuIcon" style="width: 24px; height: 24px;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content" style="padding-top: 100px;">
+      
+      <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <h1 class="section-title" id="pageTitle"><i data-lucide="list" style="color: #ec4899;"></i> Loading...</h1>
+        <a href="premium-stuff.html" style="color: hsl(var(--text-muted)); text-decoration: none; font-size: 0.9rem;">
+          <i data-lucide="arrow-left" style="width: 14px; height: 14px; vertical-align: middle;"></i> Back to Directory
+        </a>
+      </div>
+      
+      <div class="directory-grid" id="itemsGrid" style="margin-bottom: 40px;">
+        <!-- Items rendered via JS -->
+      </div>
+      
+      <div id="emptyState" style="display: none; text-align: center; padding: 60px 0;">
+        <i data-lucide="folder-open" style="width: 48px; height: 48px; color: hsl(var(--text-muted)); margin-bottom: 16px;"></i>
+        <h3 style="margin-bottom: 8px;">Nothing here yet</h3>
+        <p style="color: hsl(var(--text-muted));">No items have been uploaded to this category.</p>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="storage.js"></script>
+  <script src="premium-category.js"></script>
+</body>
+</html>
