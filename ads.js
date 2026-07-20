@@ -19,7 +19,16 @@ const AD_CONFIG = {
   bannerTop: `<div style="padding: 10px; background: #222; text-align: center; border: 1px dashed #444; width: 100%;">[Adsterra 728x90 Top Banner Placeholder]</div>`,
   
   // 4. 300x250 Square Banner (Script Tag)
-  bannerSquare: `<div style="padding: 10px; background: #222; text-align: center; border: 1px dashed #444; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">[Adsterra 300x250 Square Banner Placeholder]</div>`,
+  bannerSquare: `<script>
+  atOptions = {
+    'key' : '062a769776dccb3dfc5fc023c80325f9',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/062a769776dccb3dfc5fc023c80325f9/invoke.js"></script>`,
 
   // 5. Native Banner (Script Tag)
   nativeBanner: `<div style="padding: 10px; background: #222; text-align: center; border: 1px dashed #444; width: 100%;">[Adsterra Native Banner Placeholder]</div>`
@@ -27,42 +36,35 @@ const AD_CONFIG = {
 
 // Global function to trigger a popunder ad on specific clicks
 window.triggerPopunder = function() {
-  // If no link is provided, do nothing
   if (!AD_CONFIG.popunderLink || AD_CONFIG.popunderLink === "") return;
-  
-  // We use a simple window.open to simulate the popunder effect. 
-  // True popunders require complex scripts (which you can also drop in the index.html head).
-  // But for simple "Direct Links" from Adsterra, this works well.
-  
-  // Only trigger once per session to avoid annoying the user too much (optional)
   if (!sessionStorage.getItem("popunderTriggered")) {
     window.open(AD_CONFIG.popunderLink, '_blank');
     sessionStorage.setItem("popunderTriggered", "true");
   }
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+// Helper function to robustly inject Adsterra script tags (which often contain multiple <script> elements)
+function injectHTMLWithScripts(container, htmlString) {
+  // 1. Set the HTML
+  container.innerHTML = htmlString;
   
+  // 2. Find all injected scripts and re-evaluate them so the browser executes them
+  const scripts = container.querySelectorAll('script');
+  scripts.forEach(oldScript => {
+    const newScript = document.createElement('script');
+    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+    
+    // Replace the old script with the newly created one to force execution
+    oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
   // Inject Social Bar
   if (AD_CONFIG.socialBarScript && AD_CONFIG.socialBarScript.trim() !== '') {
     const socialBarContainer = document.getElementById("adsterra-social-bar");
-    if (socialBarContainer) {
-      // For script tags to execute when injected via innerHTML, we must recreate the tag.
-      // Easiest way is to just let the user replace the raw HTML string, but 
-      // document.write scripts from Adsterra might fail this way. 
-      // Instead, we create a script element if it's a src link.
-      
-      // Simple parse attempt:
-      const match = AD_CONFIG.socialBarScript.match(/src=['"]([^'"]+)['"]/);
-      if (match && match[1]) {
-        const script = document.createElement('script');
-        script.src = match[1];
-        script.type = 'text/javascript';
-        document.body.appendChild(script);
-      } else {
-        socialBarContainer.innerHTML = AD_CONFIG.socialBarScript;
-      }
-    }
+    if (socialBarContainer) injectHTMLWithScripts(socialBarContainer, AD_CONFIG.socialBarScript);
   }
 
   // Inject Banner Ads into placeholders
@@ -70,16 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
   adSpaces.forEach(space => {
     const adId = space.getAttribute('data-ad-id');
     if (AD_CONFIG[adId] && AD_CONFIG[adId].trim() !== '') {
-      
-      const match = AD_CONFIG[adId].match(/src=['"]([^'"]+)['"]/);
-      if (match && match[1]) {
-        const script = document.createElement('script');
-        script.src = match[1];
-        script.type = 'text/javascript';
-        space.appendChild(script);
-      } else {
-        space.innerHTML = AD_CONFIG[adId];
-      }
+      injectHTMLWithScripts(space, AD_CONFIG[adId]);
     }
   });
 });
