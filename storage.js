@@ -130,22 +130,24 @@ if (window.supabase) {
 }
 
 function initStorage() {
-  let existingCats = JSON.parse(localStorage.getItem("freepremium_categories"));
+  let existingCats;
+  try {
+    existingCats = JSON.parse(localStorage.getItem("freepremium_categories"));
+  } catch(e) {
+    existingCats = null;
+  }
+  
   if (!existingCats || !Array.isArray(existingCats)) {
-    existingCats = [];
+    existingCats = [...DEFAULT_CATEGORIES];
+  } else {
+    DEFAULT_CATEGORIES.forEach(cat => {
+      if (!existingCats.includes(cat)) {
+        existingCats.push(cat);
+      }
+    });
   }
   
-  let updated = false;
-  DEFAULT_CATEGORIES.forEach(cat => {
-    if (!existingCats.includes(cat)) {
-      existingCats.push(cat);
-      updated = true;
-    }
-  });
-  
-  if (updated || !localStorage.getItem("freepremium_categories")) {
-    localStorage.setItem("freepremium_categories", JSON.stringify(existingCats));
-  }
+  localStorage.setItem("freepremium_categories", JSON.stringify(existingCats));
 }
 
 async function getVideos() {
@@ -170,9 +172,12 @@ async function fetchSiteSettings() {
   data.forEach(row => {
     if (row.id === 'categories') {
       try {
-        CACHED_CATEGORIES = JSON.parse(row.value);
-        localStorage.setItem("freepremium_categories", row.value);
-        catsUpdated = true;
+        const parsed = JSON.parse(row.value);
+        if (Array.isArray(parsed)) {
+          CACHED_CATEGORIES = parsed;
+          localStorage.setItem("freepremium_categories", row.value);
+          catsUpdated = true;
+        }
       } catch(e) {}
     }
     if (row.id === 'seo_keywords') {
@@ -188,12 +193,15 @@ async function fetchSiteSettings() {
 }
 
 function getCategories() {
-  // Return cached from Supabase or fallback to localStorage
   const localCats = localStorage.getItem("freepremium_categories");
   if (localCats) {
-    try { return JSON.parse(localCats); } catch(e) {}
+    try { 
+      const parsed = JSON.parse(localCats);
+      if (Array.isArray(parsed)) return parsed;
+    } catch(e) {}
   }
-  return CACHED_CATEGORIES;
+  if (Array.isArray(CACHED_CATEGORIES)) return CACHED_CATEGORIES;
+  return DEFAULT_CATEGORIES;
 }
 
 async function saveCategories(cats) {
