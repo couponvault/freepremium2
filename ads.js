@@ -19,7 +19,10 @@ const AD_CONFIG = {
   bannerTop: `<div style="padding: 10px; background: #222; text-align: center; border: 1px dashed #444; width: 100%;">[Adsterra 728x90 Top Banner Placeholder]</div>`,
   
   // 4. 300x250 Square Banner (Script Tag)
-  bannerSquare: `<div style="padding: 10px; background: #222; text-align: center; border: 1px dashed #444; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">[Adsterra 300x250 Square Banner Placeholder]</div>`
+  bannerSquare: `<div style="padding: 10px; background: #222; text-align: center; border: 1px dashed #444; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">[Adsterra 300x250 Square Banner Placeholder]</div>`,
+
+  // 5. Native Banner (Script Tag)
+  nativeBanner: `<div style="padding: 10px; background: #222; text-align: center; border: 1px dashed #444; width: 100%;">[Adsterra Native Banner Placeholder]</div>`
 };
 
 // Global function to trigger a popunder ad on specific clicks
