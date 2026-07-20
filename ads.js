@@ -6,17 +6,23 @@
  */
 
 const AD_CONFIG = {
-  // 1. Popunder (Direct Link or Script Tag)
-  // Usually this is a direct link you open in a new tab when someone clicks.
-  // Paste your direct link URL here:
-  popunderLink: "https://www.example.com/adsterra-popunder-link",
+  // 1. Popunder (Script Tag)
+  popunderScript: `<script src="https://pl30448435.effectivecpmnetwork.com/c0/99/35/c099352fb0c635419a5e72484491cac9.js"></script>`,
   
   // 2. Social Bar (Script Tag)
-  // Paste the entire <script src="..."> tag here:
-  socialBarScript: `<script type='text/javascript' src='//plexample.com/socialbar.js'></script>`,
+  socialBarScript: `<script src="https://pl30448437.effectivecpmnetwork.com/f9/6b/46/f96b46e79f041ce3076b315113015169.js"></script>`,
   
   // 3. 728x90 Top Banner (Script Tag)
-  bannerTop: `<div style="padding: 10px; background: #222; text-align: center; border: 1px dashed #444; width: 100%;">[Adsterra 728x90 Top Banner Placeholder]</div>`,
+  bannerTop: `<script>
+  atOptions = {
+    'key' : 'ea7fc7a87012695922a4920ca9353921',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/ea7fc7a87012695922a4920ca9353921/invoke.js"></script>`,
   
   // 4. 300x250 Square Banner (Script Tag)
   bannerSquare: `<script>
@@ -31,16 +37,14 @@ const AD_CONFIG = {
 <script src="https://www.highperformanceformat.com/062a769776dccb3dfc5fc023c80325f9/invoke.js"></script>`,
 
   // 5. Native Banner (Script Tag)
-  nativeBanner: `<div style="padding: 10px; background: #222; text-align: center; border: 1px dashed #444; width: 100%;">[Adsterra Native Banner Placeholder]</div>`
+  nativeBanner: `<script async="async" data-cfasync="false" src="https://pl30448436.effectivecpmnetwork.com/856af2dadd676850d875e9bf3398a62f/invoke.js"></script>
+<div id="container-856af2dadd676850d875e9bf3398a62f"></div>`
 };
 
 // Global function to trigger a popunder ad on specific clicks
 window.triggerPopunder = function() {
-  if (!AD_CONFIG.popunderLink || AD_CONFIG.popunderLink === "") return;
-  if (!sessionStorage.getItem("popunderTriggered")) {
-    window.open(AD_CONFIG.popunderLink, '_blank');
-    sessionStorage.setItem("popunderTriggered", "true");
-  }
+  // Deprecated: We are now injecting the popunder script globally
+  // so Adsterra handles the popunder behavior automatically.
 };
 
 // Helper function to robustly inject Adsterra script tags (which often contain multiple <script> elements)
@@ -61,6 +65,15 @@ function injectHTMLWithScripts(container, htmlString) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Inject Popunder
+  if (AD_CONFIG.popunderScript && AD_CONFIG.popunderScript.trim() !== '') {
+    const popContainer = document.createElement("div");
+    popContainer.id = "adsterra-popunder-container";
+    popContainer.style.display = "none";
+    document.body.appendChild(popContainer);
+    injectHTMLWithScripts(popContainer, AD_CONFIG.popunderScript);
+  }
+
   // Inject Social Bar
   if (AD_CONFIG.socialBarScript && AD_CONFIG.socialBarScript.trim() !== '') {
     const socialBarContainer = document.getElementById("adsterra-social-bar");
