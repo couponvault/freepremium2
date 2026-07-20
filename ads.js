@@ -21,6 +21,21 @@ function injectHTMLWithScripts(container, htmlString) {
   });
 }
 
+// Banners that use document.write need to be in an iframe
+function injectAdIframe(container, htmlString, width, height) {
+  const iframe = document.createElement('iframe');
+  iframe.style.width = width ? width : '100%';
+  iframe.style.height = height ? height : '100%';
+  iframe.style.border = 'none';
+  iframe.style.overflow = 'hidden';
+  iframe.scrolling = 'no';
+  
+  iframe.srcdoc = `<!DOCTYPE html><html><head><style>body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;}</style></head><body>${htmlString}</body></html>`;
+  
+  container.innerHTML = '';
+  container.appendChild(iframe);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   if (AD_CONFIG.popunderScript && AD_CONFIG.popunderScript.trim() !== '') {
     const popContainer = document.createElement("div");
@@ -39,7 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
   adSpaces.forEach(space => {
     const adId = space.getAttribute('data-ad-id');
     if (AD_CONFIG[adId] && AD_CONFIG[adId].trim() !== '') {
-      injectHTMLWithScripts(space, AD_CONFIG[adId]);
+      // Use iframes for banners to prevent document.write errors
+      let width = '100%';
+      let height = '100%';
+      if (adId === 'bannerTop') { width = '728px'; height = '90px'; }
+      if (adId === 'bannerSquare') { width = '300px'; height = '250px'; }
+      
+      injectAdIframe(space, AD_CONFIG[adId], width, height);
     }
   });
 });
