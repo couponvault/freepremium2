@@ -117,8 +117,12 @@ const DEFAULT_CATEGORIES = [
   "Trending", "Popular", "Featured", "HD Quality", "Amateur", "Sci-Fi", "Gaming", "Music", "Tech"
 ];
 
-const SUPABASE_URL = 'https://bkouydhkskizqcvxurey.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJrb3V5ZGhrc2tpenFjdnh1cmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1MzMyODksImV4cCI6MjEwMDEwOTI4OX0.1WuD38YNjqKVj8jtlnTBHCLxF3g6bXc-8wUQzIHAm2o';
+// Obfuscated Supabase Keys (Base64) to prevent easy scraping
+const O_URL = 'aHR0cHM6Ly9ia291eWRoa3NraXpxY3Z4dXJleS5zdXBhYmFzZS5jbw==';
+const O_KEY = 'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW1KcmIzVjVaR2hyYzJ0cGVuRmpkbmgxY21WNUlpd2ljbTlzWlNJNkltRnViMjRpTENKcFlYUWlPakUzT0RRMU16TXlPRGtzSW1WNGNDSTZNakV3TURFd09USTRPWDAuMVd1RDM4WU5qcUtWajhqdGxuVEJIQ0x4RjNnNmJYYy04d1VReklIQW0ybw==';
+
+const SUPABASE_URL = atob(O_URL);
+const SUPABASE_KEY = atob(O_KEY);
 
 let supabase = null;
 if (window.supabase) {
