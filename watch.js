@@ -91,8 +91,20 @@ function populateVideoDetails(video) {
   placeholderTitle.textContent = "Click to play";
   placeholderTitle.style.display = "block";
 
-  // When user clicks the placeholder, show the infinite loading spinner
+  // When user clicks the placeholder, show the video
   placeholder.addEventListener("click", () => {
+    if (!video.embedUrl || video.embedUrl.trim() === "") {
+      const icon = placeholder.querySelector(".player-embed-icon i");
+      if(icon) {
+        icon.setAttribute("data-lucide", "alert-triangle");
+        icon.style.animation = "none";
+        icon.style.color = "#ef4444";
+        lucide.createIcons();
+      }
+      placeholderTitle.textContent = "Video source missing (Update in Admin Panel)";
+      return;
+    }
+
     const icon = placeholder.querySelector(".player-embed-icon i");
     if(icon) {
       icon.setAttribute("data-lucide", "loader");
@@ -100,6 +112,12 @@ function populateVideoDetails(video) {
       lucide.createIcons();
     }
     placeholderTitle.textContent = "Loading stream...";
+    
+    setTimeout(() => {
+      placeholder.style.display = "none";
+      embedIframe.style.display = "block";
+      embedIframe.src = video.embedUrl;
+    }, 800); // slight fake loading delay for premium feel
   });
 
   document.getElementById("videoTitle").textContent = video.title;
