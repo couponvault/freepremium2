@@ -1,6 +1,8 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const itemId = urlParams.get('id');
+document.addEventListener("DOMContentLoaded", async () => {
+  let itemId = new URLSearchParams(window.location.search).get("id");
+  if (!itemId && window.location.pathname.startsWith("/download/")) {
+    itemId = window.location.pathname.split("/download/")[1];
+  }
   
   if (!itemId) {
     document.getElementById("itemTitle").innerText = "Invalid Link";
@@ -11,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Get item from localStorage
-  const items = getItems();
+  const items = await getItems();
   const item = items.find(i => i.id === itemId);
 
   if (!item) {

@@ -227,8 +227,8 @@ function sortVideos(videos) {
 let currentPage = 1;
 const ITEMS_PER_PAGE = 12;
 
-function renderVideos(append = false) {
-  const filtered = getFilteredVideos();
+async function renderVideos(append = false) {
+  const filtered = await getFilteredVideos();
   const sorted = sortVideos(filtered);
 
   // Update count

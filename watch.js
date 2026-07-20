@@ -10,13 +10,16 @@
 // Shared Database initialized via storage.js
 
 // Initialize Watch Page
-document.addEventListener("DOMContentLoaded", () => {
-  // Extract video ID from query params
-  const urlParams = new URLSearchParams(window.location.search);
-  const videoId = urlParams.get("v") || "vid-1"; // Default to first video
+document.addEventListener("DOMContentLoaded", async () => {
+  // Extract video ID from query params or clean URL
+  let videoId = new URLSearchParams(window.location.search).get("v");
+  if (!videoId && window.location.pathname.startsWith("/watch/")) {
+    videoId = window.location.pathname.split("/watch/")[1];
+  }
+  videoId = videoId || "vid-1"; // Default to first video
 
   // Find target video
-  const videos = getVideos();
+  const videos = await getVideos();
   const video = videos.find(v => v.id === videoId) || videos[0];
 
   // Populate Page Elements
@@ -143,12 +146,13 @@ function populateVideoDetails(video) {
 }
 
 // Generate Related Recommendations Grid
-function renderRelatedVideos(currentVideo) {
+async function renderRelatedVideos(currentVideo) {
   const relatedContainer = document.getElementById("relatedContainer");
 
   // Prioritize based on number of shared categories
   const currentCats = currentVideo.categories || [];
-  const related = getVideos().filter(v => v.id !== currentVideo.id)
+  const allVideos = await getVideos();
+  const related = allVideos.filter(v => v.id !== currentVideo.id)
                              .sort((a, b) => {
                                const aCats = a.categories || [];
                                const bCats = b.categories || [];
@@ -159,7 +163,7 @@ function renderRelatedVideos(currentVideo) {
 
   // Render custom vertical card items in the sidebar
   relatedContainer.innerHTML = related.map(v => `
-    <a href="watch.html?v=${encodeURIComponent(v.id)}" class="related-card">
+    <a href="/watch/${encodeURIComponent(v.id)}" class="related-card">
       <div class="related-thumb-wrapper">
         <img src="${escapeHTML(v.thumbnail)}" alt="${escapeHTML(v.title)}" class="related-thumb" loading="lazy">
         <span class="related-duration">${escapeHTML(v.duration)}</span>

@@ -59,8 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("metaTitle").content = document.title;
   document.getElementById("ogTitle").content = document.title;
   
-  // 1. Search Videos
-  const allVideos = typeof getVideos === "function" ? getVideos() : [];
+  // Execute Search
+  const allVideos = typeof getVideos === "function" ? await getVideos() : [];
   const filteredVideos = allVideos.filter(video => {
     return video.title.toLowerCase().includes(query) ||
            video.creator.toLowerCase().includes(query) ||

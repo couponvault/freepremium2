@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Video Form Submit
-  addVideoForm.addEventListener("submit", (e) => {
+  addVideoForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     
     const vTitle = document.getElementById("vTitle").value.trim();
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     
-    const videos = getVideos();
+    const videos = await getVideos();
     const newVideo = {
       id: "vid-" + Date.now(),
       title: vTitle,
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     
     videos.unshift(newVideo); // Add to beginning
-    saveVideos(videos);
+    await saveVideos(videos);
     
     showSuccess();
     addVideoForm.reset();
@@ -189,7 +189,7 @@ function showSuccess() {
 document.addEventListener("DOMContentLoaded", () => {
   const addPremiumForm = document.getElementById("addPremiumForm");
   if (addPremiumForm) {
-    addPremiumForm.addEventListener("submit", (e) => {
+    addPremiumForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       
       const newItem = {
@@ -202,9 +202,9 @@ document.addEventListener("DOMContentLoaded", () => {
         description: document.getElementById("pDesc").value.trim()
       };
       
-      const items = getItems();
+      const items = await getItems();
       items.unshift(newItem); // add to top
-      saveItems(items);
+      await saveItems(items);
       
       addPremiumForm.reset();
       showSuccess();
@@ -233,12 +233,12 @@ document.addEventListener("DOMContentLoaded", () => {
   renderAdminManageLists();
 });
 
-function renderAdminManageLists() {
+async function renderAdminManageLists() {
   const vList = document.getElementById("adminVideosList");
   const pList = document.getElementById("adminPremiumList");
   
   if (vList) {
-    const videos = getVideos();
+    const videos = await getVideos();
     if (videos.length === 0) {
       vList.innerHTML = '<div style="color: hsl(var(--text-muted)); font-size: 0.9rem;">No videos uploaded yet.</div>';
     } else {
@@ -255,7 +255,7 @@ function renderAdminManageLists() {
   }
   
   if (pList) {
-    const items = getItems();
+    const items = await getItems();
     if (items.length === 0) {
       pList.innerHTML = '<div style="color: hsl(var(--text-muted)); font-size: 0.9rem;">No premium items uploaded yet.</div>';
     } else {
@@ -272,20 +272,22 @@ function renderAdminManageLists() {
   }
 }
 
-window.deleteAdminVideo = function(id) {
+window.deleteAdminVideo = async function(id) {
   if (confirm("Are you sure you want to delete this video?")) {
-    let videos = getVideos();
+    let videos = await getVideos();
     videos = videos.filter(v => v.id !== id);
-    saveVideos(videos);
+    if(supabase) await supabase.from('videos').delete().eq('id', id);
+    else await saveVideos(videos);
     renderAdminManageLists();
   }
 };
 
-window.deleteAdminPremium = function(id) {
+window.deleteAdminPremium = async function(id) {
   if (confirm("Are you sure you want to delete this premium item?")) {
-    let items = getItems();
+    let items = await getItems();
     items = items.filter(i => i.id !== id);
-    saveItems(items);
+    if(supabase) await supabase.from('premium_items').delete().eq('id', id);
+    else await saveItems(items);
     renderAdminManageLists();
   }
 };
@@ -304,14 +306,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = function(evt) {
+      reader.onload = async function(evt) {
         const text = evt.target.result;
         try {
           const videosToAdd = parseCSVToVideos(text);
           if (videosToAdd.length > 0) {
-            const currentVideos = getVideos();
+            const currentVideos = await getVideos();
             const newVideos = [...videosToAdd, ...currentVideos];
-            saveVideos(newVideos);
+            await saveVideos(newVideos);
             renderAdminManageLists();
             
             csvStatus.innerHTML = `<span style="color: #10b981;"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i> Successfully imported ${videosToAdd.length} videos!</span>`;

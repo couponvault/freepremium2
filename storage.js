@@ -117,11 +117,15 @@ const DEFAULT_CATEGORIES = [
   "Trending", "Popular", "Featured", "HD Quality", "Amateur", "Sci-Fi", "Gaming", "Music", "Tech"
 ];
 
+const SUPABASE_URL = 'https://bkouydhkskizqcvxurey.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJrb3V5ZGhrc2tpenFjdnh1cmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1MzMyODksImV4cCI6MjEwMDEwOTI4OX0.1WuD38YNjqKVj8jtlnTBHCLxF3g6bXc-8wUQzIHAm2o';
+
+let supabase = null;
+if (window.supabase) {
+  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
+
 function initStorage() {
-  if (!localStorage.getItem("freepremium_videos")) {
-    localStorage.setItem("freepremium_videos", JSON.stringify(DEFAULT_VIDEOS));
-  }
-  
   let existingCats = JSON.parse(localStorage.getItem("freepremium_categories"));
   if (!existingCats || !Array.isArray(existingCats)) {
     existingCats = [];
@@ -138,21 +142,13 @@ function initStorage() {
   if (updated || !localStorage.getItem("freepremium_categories")) {
     localStorage.setItem("freepremium_categories", JSON.stringify(existingCats));
   }
-  
-  if (!localStorage.getItem("freepremium_items")) {
-    localStorage.setItem("freepremium_items", JSON.stringify([]));
-  }
 }
 
-function getVideos() {
-  const stored = JSON.parse(localStorage.getItem("freepremium_videos") || "[]");
-  return stored.map(video => {
-    // Backward compatibility: Convert single `category` to `categories` array
-    if (!video.categories) {
-      video.categories = video.category ? [video.category] : ["Uncategorized"];
-    }
-    return video;
-  });
+async function getVideos() {
+  if (!supabase) return DEFAULT_VIDEOS;
+  const { data, error } = await supabase.from('videos').select('*').order('created_at', { ascending: false });
+  if (error || !data || data.length === 0) return DEFAULT_VIDEOS;
+  return data;
 }
 
 function getCategories() {
@@ -163,16 +159,22 @@ function saveCategories(cats) {
   localStorage.setItem("freepremium_categories", JSON.stringify(cats));
 }
 
-function saveVideos(vids) {
-  localStorage.setItem("freepremium_videos", JSON.stringify(vids));
+async function saveVideos(vids) {
+  if (!supabase) return;
+  // Upsert allows insert and update
+  await supabase.from('videos').upsert(vids);
 }
 
-function getItems() {
-  return JSON.parse(localStorage.getItem("freepremium_items") || "[]");
+async function getItems() {
+  if (!supabase) return [];
+  const { data, error } = await supabase.from('premium_items').select('*').order('created_at', { ascending: false });
+  if (error) return [];
+  return data;
 }
 
-function saveItems(items) {
-  localStorage.setItem("freepremium_items", JSON.stringify(items));
+async function saveItems(items) {
+  if (!supabase) return;
+  await supabase.from('premium_items').upsert(items);
 }
 
 function renderNavCategories() {

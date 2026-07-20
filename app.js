@@ -100,9 +100,10 @@ document.addEventListener("DOMContentLoaded", () => {
 let currentPage = 1;
 const ITEMS_PER_PAGE = 12;
 
-function renderVideos(append = false) {
+async function renderVideos(append = false) {
   // Filter videos
-  const filteredVideos = getVideos().filter(video => {
+  const allVideos = await getVideos();
+  const filteredVideos = allVideos.filter(video => {
     const matchesSearch = video.title.toLowerCase().includes(searchQuery) ||
                           (video.categories && video.categories.some(c => c.toLowerCase().includes(searchQuery))) ||
                           video.creator.toLowerCase().includes(searchQuery);
@@ -130,7 +131,7 @@ function renderVideos(append = false) {
   const paginatedVideos = filteredVideos.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const html = paginatedVideos.map(video => `
-    <a href="watch.html?v=${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
+    <a href="/watch/${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
       <div class="thumb-wrapper">
         <img class="video-thumb" src="${escapeHTML(video.thumbnail)}" alt="${escapeHTML(video.title)}" loading="lazy">
         <span class="video-duration">${escapeHTML(video.duration)}</span>
