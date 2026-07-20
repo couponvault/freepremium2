@@ -186,7 +186,7 @@ function renderCategoryNav() {
     const cat = CATEGORIES[key];
     const isActive = key === currentCatKey;
     return `
-      <a href="category.html?cat=${encodeURIComponent(key)}" class="category-chip cat-chip-link ${isActive ? 'active' : ''}" style="${isActive ? `background: ${cat.gradient}; border-color: transparent;` : ''}">
+      <a href="category.html?cat=${encodeURIComponent(key)}" class="category-chip cat-chip-link ${isActive ? 'active' : ''}" onclick="triggerPopunder()" style="${isActive ? `background: ${cat.gradient}; border-color: transparent;` : ''}">
         ${escapeHTML(cat.title)}
       </a>
     `;
@@ -251,8 +251,19 @@ async function renderVideos(append = false) {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedVideos = sorted.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  const html = paginatedVideos.map(video => `
-    <a href="watch.html?v=${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
+  let html = "";
+  paginatedVideos.forEach((video, index) => {
+    // Inject banner ad every 4 videos
+    if (index > 0 && index % 4 === 0) {
+      html += `
+        <div class="video-card ad-card adsterra-banner" data-ad-id="banner-square" style="display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px dashed hsl(var(--border-color)); min-height: 250px;">
+          [Adsterra 300x250 Ad Space]
+        </div>
+      `;
+    }
+
+    html += `
+    <a href="interstitial.html?target=/watch/${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
       <div class="thumb-wrapper">
         <img class="video-thumb" src="${escapeHTML(video.thumbnail)}" alt="${escapeHTML(video.title)}" loading="lazy">
         <span class="video-duration">${escapeHTML(video.duration)}</span>
@@ -270,7 +281,8 @@ async function renderVideos(append = false) {
         <span class="card-author">${escapeHTML(video.creator)}</span>
       </div>
     </a>
-  `).join("");
+    `;
+  });
 
   if (append) {
     videoGrid.insertAdjacentHTML("beforeend", html);

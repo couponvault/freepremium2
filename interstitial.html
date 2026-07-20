@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading Video... | FreePremium</title>
+  <link rel="stylesheet" href="styles.css">
+  
+  <style>
+    .interstitial-container {
+      max-width: 800px;
+      margin: 40px auto;
+      text-align: center;
+      padding: 24px;
+    }
+    
+    .timer-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid hsl(var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 auto 24px auto;
+      color: hsl(var(--primary));
+      background: hsla(var(--primary), 0.1);
+    }
+    
+    .ad-space-square {
+      width: 300px;
+      height: 250px;
+      background: rgba(255,255,255,0.05);
+      border: 1px dashed hsl(var(--border-color));
+      margin: 24px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: hsl(var(--text-muted));
+      font-size: 0.9rem;
+    }
+    
+    .ad-space-banner {
+      width: 100%;
+      max-width: 728px;
+      height: 90px;
+      background: rgba(255,255,255,0.05);
+      border: 1px dashed hsl(var(--border-color));
+      margin: 24px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: hsl(var(--text-muted));
+      font-size: 0.9rem;
+    }
+
+    .skip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-top: 16px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .skip-btn.ready {
+      opacity: 1;
+      pointer-events: auto;
+      background: hsl(var(--primary));
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Glassmorphic Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo" style="display: flex; align-items: center;">
+        <img src="assets/logo.jpg" alt="FreePremium Logo" style="height: 44px; border-radius: 8px; object-fit: contain;">
+      </a>
+    </div>
+  </header>
+
+  <main class="interstitial-container">
+    <h1 style="font-size: 1.5rem; margin-bottom: 12px;">Your video is loading...</h1>
+    <p style="color: hsl(var(--text-muted)); margin-bottom: 32px;">Please wait while we connect to the stream.</p>
+
+    <!-- Top Ad Banner (728x90) -->
+    <div class="ad-space-banner adsterra-banner" data-ad-id="banner-top">
+      [Adsterra 728x90 Banner Ad Space]
+    </div>
+
+    <div class="timer-circle" id="countdown">
+      5
+    </div>
+
+    <!-- Square Ad (300x250) -->
+    <div class="ad-space-square adsterra-banner" data-ad-id="banner-square">
+      [Adsterra 300x250 Ad Space]
+    </div>
+
+    <a href="#" id="skipBtn" class="skip-btn">
+      Continue to Video <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+    </a>
+
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>lucide.createIcons();</script>
+  
+  <script src="storage.js"></script>
+  <!-- Ads injector -->
+  <script src="ads.js"></script>
+  <script src="interstitial.js"></script>
+</body>
+</html>

@@ -130,26 +130,38 @@ async function renderVideos(append = false) {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedVideos = filteredVideos.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  const html = paginatedVideos.map(video => `
-    <a href="/watch/${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
-      <div class="thumb-wrapper">
-        <img class="video-thumb" src="${escapeHTML(video.thumbnail)}" alt="${escapeHTML(video.title)}" loading="lazy">
-        <span class="video-duration">${escapeHTML(video.duration)}</span>
-        <div class="play-overlay">
-          <div class="play-icon-glow">
-            <i data-lucide="play" style="fill: white; width: 18px; height: 18px; margin-left: 2px;"></i>
+  let html = "";
+  paginatedVideos.forEach((video, index) => {
+    // Inject banner ad every 4 videos
+    if (index > 0 && index % 4 === 0) {
+      html += `
+        <div class="video-card ad-card adsterra-banner" data-ad-id="banner-square" style="display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px dashed hsl(var(--border-color)); min-height: 250px;">
+          [Adsterra 300x250 Ad Space]
+        </div>
+      `;
+    }
+    
+    html += `
+      <a href="interstitial.html?target=/watch/${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
+        <div class="thumb-wrapper">
+          <img class="video-thumb" src="${escapeHTML(video.thumbnail)}" alt="${escapeHTML(video.title)}" loading="lazy">
+          <span class="video-duration">${escapeHTML(video.duration)}</span>
+          <div class="play-overlay">
+            <div class="play-icon-glow">
+              <i data-lucide="play" style="fill: white; width: 18px; height: 18px; margin-left: 2px;"></i>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="card-details">
-        <div class="card-meta">
-          <span class="card-views" style="margin-left: auto;">${escapeHTML(video.views)}</span>
+        <div class="card-details">
+          <div class="card-meta">
+            <span class="card-views" style="margin-left: auto;">${escapeHTML(video.views)}</span>
+          </div>
+          <h3 class="card-title">${escapeHTML(video.title)}</h3>
+          <span class="card-author">${escapeHTML(video.creator)}</span>
         </div>
-        <h3 class="card-title">${escapeHTML(video.title)}</h3>
-        <span class="card-author">${escapeHTML(video.creator)}</span>
-      </div>
-    </a>
-  `).join("");
+      </a>
+    `;
+  });
 
   if (append) {
     videoGrid.insertAdjacentHTML("beforeend", html);
