@@ -58,3 +58,21 @@ ON public.premium_items FOR INSERT WITH CHECK (true);
 -- Allow deletes
 CREATE POLICY "Allow anon delete for premium_items" 
 ON public.premium_items FOR DELETE USING (true);
+
+-- 6. Create Site Settings Table (For SEO Keywords & Categories)
+CREATE TABLE IF NOT EXISTS public.site_settings (
+  id TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read access for site_settings" 
+ON public.site_settings FOR SELECT USING (true);
+
+CREATE POLICY "Allow anon insert for site_settings" 
+ON public.site_settings FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Allow anon update for site_settings" 
+ON public.site_settings FOR UPDATE USING (true);

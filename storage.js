@@ -151,17 +151,57 @@ async function getVideos() {
   return data;
 }
 
-function getCategories() {
-  return JSON.parse(localStorage.getItem("freepremium_categories") || "[]");
+// Global variables to hold loaded config so synchronous getters don't break old code
+let CACHED_CATEGORIES = DEFAULT_CATEGORIES;
+let CACHED_KEYWORDS = "";
+
+async function fetchSiteSettings() {
+  if (!supabase) return;
+  const { data, error } = await supabase.from('site_settings').select('*');
+  if (error || !data) return;
+  
+  let catsUpdated = false;
+  let wordsUpdated = false;
+  
+  data.forEach(row => {
+    if (row.id === 'categories') {
+      try {
+        CACHED_CATEGORIES = JSON.parse(row.value);
+        localStorage.setItem("freepremium_categories", row.value);
+        catsUpdated = true;
+      } catch(e) {}
+    }
+    if (row.id === 'seo_keywords') {
+      CACHED_KEYWORDS = row.value;
+      localStorage.setItem("freepremium_seo_keywords", row.value);
+      wordsUpdated = true;
+    }
+  });
+
+  // Re-render things if they changed
+  if (catsUpdated) renderNavCategories();
+  if (wordsUpdated) injectSEOMetadata();
 }
 
-function saveCategories(cats) {
+function getCategories() {
+  // Return cached from Supabase or fallback to localStorage
+  const localCats = localStorage.getItem("freepremium_categories");
+  if (localCats) {
+    try { return JSON.parse(localCats); } catch(e) {}
+  }
+  return CACHED_CATEGORIES;
+}
+
+async function saveCategories(cats) {
+  CACHED_CATEGORIES = cats;
   localStorage.setItem("freepremium_categories", JSON.stringify(cats));
+  if (supabase) {
+    await supabase.from('site_settings').upsert({ id: 'categories', value: JSON.stringify(cats), updated_at: new Date() });
+  }
 }
 
 async function saveVideos(vids) {
   if (!supabase) return;
-  // Upsert allows insert and update
   await supabase.from('videos').upsert(vids);
 }
 
@@ -191,11 +231,15 @@ function renderNavCategories() {
 
 function getCustomSEOKeywords() {
   const words = localStorage.getItem("freepremium_seo_keywords");
-  return words ? JSON.parse(words) : "";
+  return words || CACHED_KEYWORDS;
 }
 
-function saveCustomSEOKeywords(keywords) {
-  localStorage.setItem("freepremium_seo_keywords", JSON.stringify(keywords));
+async function saveCustomSEOKeywords(keywords) {
+  CACHED_KEYWORDS = keywords;
+  localStorage.setItem("freepremium_seo_keywords", keywords);
+  if (supabase) {
+    await supabase.from('site_settings').upsert({ id: 'seo_keywords', value: keywords, updated_at: new Date() });
+  }
 }
 
 function injectSEOMetadata() {
@@ -205,7 +249,10 @@ function injectSEOMetadata() {
     let metaTag = document.querySelector('meta[name="keywords"]');
     if (metaTag) {
       const existing = metaTag.getAttribute("content") || "";
-      metaTag.setAttribute("content", custom + ", " + existing);
+      // Avoid duplicate appending
+      if (!existing.includes(custom)) {
+         metaTag.setAttribute("content", custom + ", " + existing);
+      }
     } else {
       metaTag = document.createElement('meta');
       metaTag.name = "keywords";
@@ -229,6 +276,8 @@ function injectSEOMetadata() {
 // Auto-init and render nav categories on load
 initStorage();
 document.addEventListener("DOMContentLoaded", () => {
+  fetchSiteSettings(); // Fetch from Supabase on load
+  
   renderNavCategories();
   injectSEOMetadata();
   

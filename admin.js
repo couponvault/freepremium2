@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // Category Form Submit
-  addCategoryForm.addEventListener("submit", (e) => {
+  addCategoryForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const newCatInput = document.getElementById("newCatInput");
     const val = newCatInput.value.trim();
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const cats = getCategories();
       if(!cats.includes(val)) {
         cats.push(val);
-        saveCategories(cats);
+        await saveCategories(cats);
         renderAdminCategories();
         showSuccess();
       }
@@ -222,10 +222,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // Save on submit
-    seoForm.addEventListener("submit", (e) => {
+    seoForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const val = seoInput.value.trim();
-      saveCustomSEOKeywords(val);
+      await saveCustomSEOKeywords(val);
       showSuccess();
     });
   }
