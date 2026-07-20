@@ -6,8 +6,11 @@
  */
 
 const AD_CONFIG = {
-  // 1. Popunder (Script Tag)
-  popunderScript: `<script src="https://pl30448435.effectivecpmnetwork.com/c0/99/35/c099352fb0c635419a5e72484491cac9.js"></script>`,
+  // 1. Popunder (MUST BE A DIRECT LINK / SMARTLINK URL)
+  // Because you only want it to trigger on category clicks and NOT randomly everywhere else,
+  // you must use an Adsterra "Direct Link" here, not a popunder script tag.
+  // Example: "https://www.example.com/adsterra-direct-link"
+  popunderLink: "",
   
   // 2. Social Bar (Script Tag)
   socialBarScript: `<script src="https://pl30448437.effectivecpmnetwork.com/f9/6b/46/f96b46e79f041ce3076b315113015169.js"></script>`,
@@ -41,10 +44,14 @@ const AD_CONFIG = {
 <div id="container-856af2dadd676850d875e9bf3398a62f"></div>`
 };
 
-// Global function to trigger a popunder ad on specific clicks
+// Global function to trigger a popunder ad on specific clicks (Category Clicks)
 window.triggerPopunder = function() {
-  // Deprecated: We are now injecting the popunder script globally
-  // so Adsterra handles the popunder behavior automatically.
+  if (!AD_CONFIG.popunderLink || AD_CONFIG.popunderLink === "") return;
+  // We use a simple window.open to simulate the popunder effect specifically on this click.
+  if (!sessionStorage.getItem("popunderTriggered")) {
+    window.open(AD_CONFIG.popunderLink, '_blank');
+    sessionStorage.setItem("popunderTriggered", "true");
+  }
 };
 
 // Helper function to robustly inject Adsterra script tags (which often contain multiple <script> elements)
@@ -65,15 +72,6 @@ function injectHTMLWithScripts(container, htmlString) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Inject Popunder
-  if (AD_CONFIG.popunderScript && AD_CONFIG.popunderScript.trim() !== '') {
-    const popContainer = document.createElement("div");
-    popContainer.id = "adsterra-popunder-container";
-    popContainer.style.display = "none";
-    document.body.appendChild(popContainer);
-    injectHTMLWithScripts(popContainer, AD_CONFIG.popunderScript);
-  }
-
   // Inject Social Bar
   if (AD_CONFIG.socialBarScript && AD_CONFIG.socialBarScript.trim() !== '') {
     const socialBarContainer = document.getElementById("adsterra-social-bar");
