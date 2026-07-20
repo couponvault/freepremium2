@@ -124,9 +124,9 @@ const O_KEY = 'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKe
 const SUPABASE_URL = atob(O_URL);
 const SUPABASE_KEY = atob(O_KEY);
 
-let supabase = null;
+let supabaseClient = null;
 if (window.supabase) {
-  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 }
 
 function initStorage() {
@@ -151,8 +151,8 @@ function initStorage() {
 }
 
 async function getVideos() {
-  if (!supabase) return DEFAULT_VIDEOS;
-  const { data, error } = await supabase.from('videos').select('*').order('created_at', { ascending: false });
+  if (!supabaseClient) return DEFAULT_VIDEOS;
+  const { data, error } = await supabaseClient.from('videos').select('*').order('created_at', { ascending: false });
   if (error || !data || data.length === 0) return DEFAULT_VIDEOS;
   return data;
 }
@@ -162,8 +162,8 @@ let CACHED_CATEGORIES = DEFAULT_CATEGORIES;
 let CACHED_KEYWORDS = "";
 
 async function fetchSiteSettings() {
-  if (!supabase) return;
-  const { data, error } = await supabase.from('site_settings').select('*');
+  if (!supabaseClient) return;
+  const { data, error } = await supabaseClient.from('site_settings').select('*');
   if (error || !data) return;
   
   let catsUpdated = false;
@@ -207,26 +207,26 @@ function getCategories() {
 async function saveCategories(cats) {
   CACHED_CATEGORIES = cats;
   localStorage.setItem("freepremium_categories", JSON.stringify(cats));
-  if (supabase) {
-    await supabase.from('site_settings').upsert({ id: 'categories', value: JSON.stringify(cats), updated_at: new Date() });
+  if (supabaseClient) {
+    await supabaseClient.from('site_settings').upsert({ id: 'categories', value: JSON.stringify(cats), updated_at: new Date() });
   }
 }
 
 async function saveVideos(vids) {
-  if (!supabase) return;
-  await supabase.from('videos').upsert(vids);
+  if (!supabaseClient) return;
+  await supabaseClient.from('videos').upsert(vids);
 }
 
 async function getItems() {
-  if (!supabase) return [];
-  const { data, error } = await supabase.from('premium_items').select('*').order('created_at', { ascending: false });
+  if (!supabaseClient) return [];
+  const { data, error } = await supabaseClient.from('premium_items').select('*').order('created_at', { ascending: false });
   if (error) return [];
   return data;
 }
 
 async function saveItems(items) {
-  if (!supabase) return;
-  await supabase.from('premium_items').upsert(items);
+  if (!supabaseClient) return;
+  await supabaseClient.from('premium_items').upsert(items);
 }
 
 function renderNavCategories() {
@@ -249,8 +249,8 @@ function getCustomSEOKeywords() {
 async function saveCustomSEOKeywords(keywords) {
   CACHED_KEYWORDS = keywords;
   localStorage.setItem("freepremium_seo_keywords", keywords);
-  if (supabase) {
-    await supabase.from('site_settings').upsert({ id: 'seo_keywords', value: keywords, updated_at: new Date() });
+  if (supabaseClient) {
+    await supabaseClient.from('site_settings').upsert({ id: 'seo_keywords', value: keywords, updated_at: new Date() });
   }
 }
 

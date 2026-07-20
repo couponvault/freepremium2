@@ -276,7 +276,7 @@ window.deleteAdminVideo = async function(id) {
   if (confirm("Are you sure you want to delete this video?")) {
     let videos = await getVideos();
     videos = videos.filter(v => v.id !== id);
-    if(supabase) await supabase.from('videos').delete().eq('id', id);
+    if(supabaseClient) await supabaseClient.from('videos').delete().eq('id', id);
     else await saveVideos(videos);
     renderAdminManageLists();
   }
@@ -286,7 +286,7 @@ window.deleteAdminPremium = async function(id) {
   if (confirm("Are you sure you want to delete this premium item?")) {
     let items = await getItems();
     items = items.filter(i => i.id !== id);
-    if(supabase) await supabase.from('premium_items').delete().eq('id', id);
+    if(supabaseClient) await supabaseClient.from('premium_items').delete().eq('id', id);
     else await saveItems(items);
     renderAdminManageLists();
   }
