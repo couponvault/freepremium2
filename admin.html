@@ -202,11 +202,12 @@
   <div id="adminLoginOverlay" class="admin-login-overlay">
     <div class="login-box">
       <h2><i data-lucide="lock" style="color:hsl(var(--primary)); vertical-align:middle;"></i> Admin Access</h2>
-      <p style="color: hsl(var(--text-muted)); margin-bottom: 24px; font-size: 0.9rem;">Please enter the password to access the panel.</p>
-      <div id="loginError" class="error-msg">Incorrect password.</div>
+      <p style="color: hsl(var(--text-muted)); margin-bottom: 24px; font-size: 0.9rem;">Please login to access the panel.</p>
+      <div id="loginError" class="error-msg">Incorrect credentials.</div>
       <form id="adminLoginForm">
+        <input type="email" id="adminEmail" class="form-control" placeholder="Email Address" style="margin-bottom: 16px;" required>
         <input type="password" id="adminPassword" class="form-control" placeholder="Password" style="margin-bottom: 16px;" required>
-        <button type="submit" class="admin-btn-primary" style="width: 100%; justify-content: center;">Login</button>
+        <button type="submit" id="loginBtn" class="admin-btn-primary" style="width: 100%; justify-content: center;">Login</button>
       </form>
     </div>
   </div>
@@ -524,25 +525,40 @@
   <script>
     lucide.createIcons();
     
+    // Check if already logged in
+    const checkSession = async () => {
+      const { data: { session } } = await window.supabaseClient.auth.getSession();
+      if (session) {
+        document.getElementById("adminLoginOverlay").style.display = "none";
+        document.getElementById("adminAppContainer").style.display = "block";
+      }
+    };
+    checkSession();
+    
     // Login Logic
     document.getElementById("adminLoginForm").addEventListener("submit", async function(e) {
       e.preventDefault();
+      const email = document.getElementById("adminEmail").value;
       const pwd = document.getElementById("adminPassword").value;
+      const btn = document.getElementById("loginBtn");
       
-      // Hash the input using SHA-256
-      const encoder = new TextEncoder();
-      const data = encoder.encode(pwd);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      btn.textContent = "Logging in...";
+      btn.disabled = true;
       
-      // Compare to the pre-computed hash of 'admin123'
-      if (hashHex === "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9") {
+      const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: pwd
+      });
+      
+      if (error) {
+        document.getElementById("loginError").textContent = error.message;
+        document.getElementById("loginError").style.display = "block";
+        btn.textContent = "Login";
+        btn.disabled = false;
+      } else {
+        document.getElementById("loginError").style.display = "none";
         document.getElementById("adminLoginOverlay").style.display = "none";
         document.getElementById("adminAppContainer").style.display = "block";
-      } else {
-        document.getElementById("loginError").style.display = "block";
-        document.getElementById("adminPassword").value = "";
       }
     });
   </script>
