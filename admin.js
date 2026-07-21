@@ -2,28 +2,28 @@
 let editingVideoId = null;
 let editingPremiumId = null;
 
-async function uploadToSupabaseStorage(file, inputElem, btnElem) {
-  if (!supabaseClient) {
-    alert("Database connection not ready!");
-    return;
-  }
-  
+// Obfuscated Base64 ImgBB Key
+const OBFUSCATED_KEY = "NWQxNGFiOTdiOTEyY2U4MWFlNTAxMjhiMzhjMjMwZGY=";
+const IMGBB_API_KEY = atob(OBFUSCATED_KEY);
+
+async function uploadToImgBB(file, inputElem, btnElem) {
   const originalBtnText = btnElem.innerHTML;
   btnElem.innerHTML = '<i data-lucide="loader" style="width: 18px; height: 18px; animation: spin 1s linear infinite;"></i> Uploading...';
   if(typeof lucide !== 'undefined') lucide.createIcons();
   
+  const formData = new FormData();
+  formData.append("image", file);
+  
   try {
-    // We will upload to a bucket named 'thumbnails'
-    // File path: timestamp_filename
-    const fileName = Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
-    const { data, error } = await supabaseClient.storage.from('thumbnails').upload(fileName, file);
-    
-    if (error) {
-      alert("Image upload failed: " + error.message);
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+      method: "POST",
+      body: formData
+    });
+    const data = await res.json();
+    if (data.success) {
+      inputElem.value = data.data.url;
     } else {
-      // Get the public URL for the uploaded image
-      const { data: publicUrlData } = supabaseClient.storage.from('thumbnails').getPublicUrl(fileName);
-      inputElem.value = publicUrlData.publicUrl;
+      alert("Image upload failed: " + data.error.message);
     }
   } catch (e) {
     alert("Image upload failed.");
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (triggerFileInput && vFileInput) {
     triggerFileInput.addEventListener("click", () => vFileInput.click());
     vFileInput.addEventListener("change", (e) => {
-      if (e.target.files[0]) uploadToSupabaseStorage(e.target.files[0], vThumbUrl, triggerFileInput);
+      if (e.target.files[0]) uploadToImgBB(e.target.files[0], vThumbUrl, triggerFileInput);
     });
   }
 
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (triggerPremiumFileInput && pFileInput) {
     triggerPremiumFileInput.addEventListener("click", () => pFileInput.click());
     pFileInput.addEventListener("change", (e) => {
-      if (e.target.files[0]) uploadToSupabaseStorage(e.target.files[0], pThumbUrl, triggerPremiumFileInput);
+      if (e.target.files[0]) uploadToImgBB(e.target.files[0], pThumbUrl, triggerPremiumFileInput);
     });
   }
   
