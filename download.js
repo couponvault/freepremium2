@@ -24,8 +24,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // Set Title
+  // Set Title & Description
   document.getElementById("itemTitle").innerText = `Downloading: ${item.title}`;
+  
+  const descEl = document.getElementById("itemDescription");
+  if (descEl) {
+    descEl.textContent = item.description || "No specific features or description provided for this item.";
+  }
   
   // Start Timer
   let timeLeft = 10; // 10 seconds
