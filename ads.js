@@ -47,6 +47,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (socialBarContainer) injectHTMLWithScripts(socialBarContainer, AD_CONFIG.socialBarScript);
   }
 
+  // Inject Mobile Sticky Banner
+  if (window.innerWidth <= 768 && AD_CONFIG['bannerTop'] && AD_CONFIG['bannerTop'].trim() !== '') {
+    const stickyContainer = document.createElement("div");
+    stickyContainer.className = "sticky-bottom-ad adsterra-banner";
+    stickyContainer.setAttribute("data-ad-id", "bannerTop");
+    document.body.appendChild(stickyContainer);
+  }
+
   const adSpaces = document.querySelectorAll('.adsterra-banner');
   adSpaces.forEach(space => {
     let adId = space.getAttribute('data-ad-id');
