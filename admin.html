@@ -527,7 +527,8 @@
     
     // Check if already logged in
     const checkSession = async () => {
-      const { data: { session } } = await window.supabaseClient.auth.getSession();
+      if (!supabaseClient) return;
+      const { data: { session } } = await supabaseClient.auth.getSession();
       if (session) {
         document.getElementById("adminLoginOverlay").style.display = "none";
         document.getElementById("adminAppContainer").style.display = "block";
@@ -538,6 +539,11 @@
     // Login Logic
     document.getElementById("adminLoginForm").addEventListener("submit", async function(e) {
       e.preventDefault();
+      if (!supabaseClient) {
+        alert("Database connection not ready. Please refresh.");
+        return;
+      }
+      
       const email = document.getElementById("adminEmail").value;
       const pwd = document.getElementById("adminPassword").value;
       const btn = document.getElementById("loginBtn");
@@ -545,7 +551,7 @@
       btn.textContent = "Logging in...";
       btn.disabled = true;
       
-      const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
         email: email,
         password: pwd
       });
