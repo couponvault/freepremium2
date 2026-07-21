@@ -202,22 +202,32 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       
       const newItem = {
-        id: "item_" + Date.now(),
+        id: editingPremiumId ? editingPremiumId : "item_" + Date.now(),
         title: document.getElementById("pTitle").value.trim(),
         type: document.getElementById("pType").value,
         subtitle: document.getElementById("pSubtitle").value.trim(),
         thumbnail: document.getElementById("pThumbUrl").value.trim(),
         downloadUrl: document.getElementById("pDownloadUrl").value.trim(),
-        description: document.getElementById("pDesc").value.trim()
+        description: document.getElementById("pDesc").value.trim(),
+        created_at: editingPremiumId ? undefined : new Date()
       };
+      if (editingPremiumId) delete newItem.created_at;
       
-      // Insert ONLY the new item into the database
-      const success = await insertItem(newItem);
+      const submitBtn = addPremiumForm.querySelector('button[type="submit"]');
+      submitBtn.textContent = "Saving...";
+      submitBtn.disabled = true;
+
+      const success = await upsertItem(newItem);
       if (success) {
         addPremiumForm.reset();
+        editingPremiumId = null;
+        submitBtn.textContent = "Publish Premium Stuff";
         showSuccess();
         renderAdminManageLists();
+        document.querySelector('.tab-btn[data-tab="content-manager"]').click();
       }
+      
+      submitBtn.disabled = false;
     });
   }
   
@@ -341,6 +351,7 @@ window.editAdminPremium = async function(id) {
 
   editingPremiumId = id;
   document.getElementById("pTitle").value = item.title || '';
+  if (item.type) document.getElementById("pType").value = item.type;
   document.getElementById("pSubtitle").value = item.subtitle || '';
   document.getElementById("pThumbUrl").value = item.thumbnail || '';
   document.getElementById("pDownloadUrl").value = item.downloadUrl || '';
