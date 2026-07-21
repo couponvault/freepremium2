@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
       editingVideoId = null;
       submitBtn.textContent = "Upload Video";
       renderAdminManageLists();
-      document.querySelector('.tab-btn[data-target="content-manager"]').click();
+      document.querySelector('.tab-btn[data-tab="content-manager"]').click();
     }
     
     submitBtn.disabled = false;
@@ -331,7 +331,7 @@ window.editAdminVideo = async function(id) {
   const submitBtn = document.querySelector('#addVideoForm button[type="submit"]');
   submitBtn.textContent = "Update Video";
 
-  document.querySelector('.tab-btn[data-target="tab-video"]').click();
+  document.querySelector('.tab-btn[data-tab="tab-video"]').click();
 };
 
 window.editAdminPremium = async function(id) {
@@ -349,7 +349,7 @@ window.editAdminPremium = async function(id) {
   const submitBtn = document.querySelector('#addPremiumForm button[type="submit"]');
   submitBtn.textContent = "Update Premium Item";
 
-  document.querySelector('.tab-btn[data-target="tab-premium"]').click();
+  document.querySelector('.tab-btn[data-tab="tab-premium"]').click();
 };
 
 // CSV Bulk Import Logic
