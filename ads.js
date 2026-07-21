@@ -29,7 +29,12 @@ function injectAdIframe(container, htmlString, width, height) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (AD_CONFIG.popunderScript && AD_CONFIG.popunderScript.trim() !== '') {
+  const path = window.location.pathname;
+  const isPlaybackOrDownload = path.includes('/watch') || path.includes('watch.html') || 
+                               path.includes('/interstitial') || path.includes('interstitial.html') || 
+                               path.includes('/download') || path.includes('download.html');
+
+  if (isPlaybackOrDownload && AD_CONFIG.popunderScript && AD_CONFIG.popunderScript.trim() !== '') {
     const popContainer = document.createElement("div");
     popContainer.id = "adsterra-popunder-container";
     popContainer.style.display = "none";
