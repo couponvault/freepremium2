@@ -49,12 +49,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const adSpaces = document.querySelectorAll('.adsterra-banner');
   adSpaces.forEach(space => {
-    const adId = space.getAttribute('data-ad-id');
+    let adId = space.getAttribute('data-ad-id');
+    if (adId === 'banner-top') adId = 'bannerTop';
+    if (adId === 'banner-square') adId = 'bannerSquare';
+    
     if (AD_CONFIG[adId] && AD_CONFIG[adId].trim() !== '') {
       let width = '100%';
       let height = '100%';
       if (adId === 'bannerTop') { width = '728px'; height = '90px'; }
       if (adId === 'bannerSquare') { width = '300px'; height = '250px'; }
+      if (adId === 'nativeBanner') { height = '120px'; }
       injectAdIframe(space, AD_CONFIG[adId], width, height);
     }
   });
