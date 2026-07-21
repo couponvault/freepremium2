@@ -118,25 +118,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     const newVideo = {
-      id: "vid-" + Date.now(),
+      id: editingVideoId ? editingVideoId : "vid-" + Date.now(),
       title: vTitle,
       categories: vCategories,
       duration: vDuration,
       views: vViews,
       thumbnail: finalThumbUrl,
-      creator: vCreator,
       embedUrl: vEmbed,
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      description: vDesc
+      description: vDesc,
+      created_at: editingVideoId ? undefined : new Date() // let supabase handle if existing
     };
+    if (editingVideoId) delete newVideo.created_at;
     
-    // Insert ONLY the new video into the database
-    const success = await insertVideo(newVideo);
+    const submitBtn = addVideoForm.querySelector('button[type="submit"]');
+    submitBtn.textContent = "Saving...";
+    submitBtn.disabled = true;
+
+    const success = await upsertVideo(newVideo);
     if (success) {
       showSuccess();
       addVideoForm.reset();
+      editingVideoId = null;
+      submitBtn.textContent = "Upload Video";
       renderAdminManageLists();
+      document.querySelector('.tab-btn[data-target="content-manager"]').click();
     }
+    
+    submitBtn.disabled = false;
   });
 });
 
@@ -250,7 +258,10 @@ async function renderAdminManageLists() {
             <img src="${escapeHTML(v.thumbnail)}" alt="thumb" style="width: 50px; height: 35px; object-fit: cover; border-radius: 4px;">
             <span style="font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(v.title)}</span>
           </div>
-          <button onclick="deleteAdminVideo('${escapeHTML(v.id)}')" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; flex-shrink: 0;">Delete</button>
+          <div style="display: flex; gap: 8px;">
+            <button onclick="editAdminVideo('${escapeHTML(v.id)}')" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; flex-shrink: 0;">Edit</button>
+            <button onclick="deleteAdminVideo('${escapeHTML(v.id)}')" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; flex-shrink: 0;">Delete</button>
+          </div>
         </div>
       `).join("");
     }
@@ -267,7 +278,10 @@ async function renderAdminManageLists() {
             <img src="${escapeHTML(p.thumbnail)}" alt="thumb" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
             <span style="font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(p.title)}</span>
           </div>
-          <button onclick="deleteAdminPremium('${escapeHTML(p.id)}')" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; flex-shrink: 0;">Delete</button>
+          <div style="display: flex; gap: 8px;">
+            <button onclick="editAdminPremium('${escapeHTML(p.id)}')" style="background: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; flex-shrink: 0;">Edit</button>
+            <button onclick="deleteAdminPremium('${escapeHTML(p.id)}')" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; flex-shrink: 0;">Delete</button>
+          </div>
         </div>
       `).join("");
     }
@@ -292,6 +306,50 @@ window.deleteAdminPremium = async function(id) {
     else await saveItems(items);
     renderAdminManageLists();
   }
+};
+
+window.editAdminVideo = async function(id) {
+  const videos = await getVideos();
+  const video = videos.find(v => v.id === id);
+  if (!video) return;
+
+  editingVideoId = id;
+  document.getElementById("vTitle").value = video.title || '';
+  document.getElementById("vCreator").value = video.creator || '';
+  document.getElementById("vDuration").value = video.duration || '';
+  document.getElementById("vViews").value = video.views || '';
+  document.getElementById("vThumbUrl").value = video.thumbnail || '';
+  document.getElementById("vEmbed").value = video.embedUrl || '';
+  document.getElementById("vDesc").value = video.description || '';
+
+  // Check categories
+  const checkboxes = document.querySelectorAll("#categoryCheckboxes input[type='checkbox']");
+  checkboxes.forEach(cb => {
+    cb.checked = video.categories && video.categories.includes(cb.value);
+  });
+
+  const submitBtn = document.querySelector('#addVideoForm button[type="submit"]');
+  submitBtn.textContent = "Update Video";
+
+  document.querySelector('.tab-btn[data-target="tab-video"]').click();
+};
+
+window.editAdminPremium = async function(id) {
+  const items = await getItems();
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+
+  editingPremiumId = id;
+  document.getElementById("pTitle").value = item.title || '';
+  document.getElementById("pSubtitle").value = item.subtitle || '';
+  document.getElementById("pThumbUrl").value = item.thumbnail || '';
+  document.getElementById("pDownloadUrl").value = item.downloadUrl || '';
+  document.getElementById("pDesc").value = item.description || '';
+
+  const submitBtn = document.querySelector('#addPremiumForm button[type="submit"]');
+  submitBtn.textContent = "Update Premium Item";
+
+  document.querySelector('.tab-btn[data-target="tab-premium"]').click();
 };
 
 // CSV Bulk Import Logic

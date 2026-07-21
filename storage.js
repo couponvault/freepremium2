@@ -222,12 +222,12 @@ async function saveVideos(vids) {
   }
 }
 
-// Insert a single new video (used by admin form)
-async function insertVideo(video) {
+// Insert or update a single video (used by admin form)
+async function upsertVideo(video) {
   if (!supabaseClient) { alert('Database not connected!'); return false; }
-  const { data, error } = await supabaseClient.from('videos').insert([video]);
+  const { data, error } = await supabaseClient.from('videos').upsert([video]);
   if (error) {
-    console.error('Supabase insertVideo error:', error);
+    console.error('Supabase upsertVideo error:', error);
     alert('Failed to save video: ' + error.message);
     return false;
   }
@@ -250,12 +250,12 @@ async function saveItems(items) {
   }
 }
 
-// Insert a single new premium item (used by admin form)
-async function insertItem(item) {
+// Insert or update a single premium item (used by admin form)
+async function upsertItem(item) {
   if (!supabaseClient) { alert('Database not connected!'); return false; }
-  const { data, error } = await supabaseClient.from('premium_items').insert([item]);
+  const { data, error } = await supabaseClient.from('premium_items').upsert([item]);
   if (error) {
-    console.error('Supabase insertItem error:', error);
+    console.error('Supabase upsertItem error:', error);
     alert('Failed to save item: ' + error.message);
     return false;
   }
