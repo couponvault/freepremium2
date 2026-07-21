@@ -51,9 +51,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Admin Shortcut Announcement (Step Placeholder)
   const adminBtn = document.getElementById("adminBtn");
-  adminBtn.addEventListener("click", () => {
-    alert("Admin Panel integration is coming in a subsequent step! Get ready to manage links easily.");
-  });
+  if (adminBtn) {
+    adminBtn.addEventListener("click", () => {
+      alert("Admin Panel integration is coming in a subsequent step! Get ready to manage links easily.");
+    });
+  }
 
   // Global exit navigation page transitions
   document.addEventListener("click", (e) => {
