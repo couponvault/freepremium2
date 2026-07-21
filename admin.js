@@ -1,4 +1,6 @@
 // FreePremium Admin Logic
+let editingVideoId = null;
+let editingPremiumId = null;
 
 // Obfuscated Base64 ImgBB Key
 const OBFUSCATED_KEY = "NWQxNGFiOTdiOTEyY2U4MWFlNTAxMjhiMzhjMjMwZGY=";
