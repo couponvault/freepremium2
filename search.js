@@ -1,6 +1,6 @@
 // FreePremium - Global Search Logic
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // Navigation Menu Logic
   const menuToggle = document.getElementById("menuToggle");
   const navMenu = document.getElementById("navMenu");
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   
   // 2. Search Premium Items
-  const allItems = typeof getItems === "function" ? getItems() : [];
+  const allItems = typeof getItems === "function" ? await getItems() : [];
   const filteredItems = allItems.filter(item => {
     return item.title.toLowerCase().includes(query) ||
            (item.description && item.description.toLowerCase().includes(query)) ||

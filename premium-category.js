@@ -1,6 +1,6 @@
 // FreePremium - Premium Category Rendering
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // Mobile menu
   const menuToggle = document.getElementById("menuToggle");
   const navMenu = document.getElementById("navMenu");
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pageTitle.innerHTML = `<i data-lucide="alert-circle" style="color: #ef4444;"></i> Unknown Category`;
   }
   
-  const allItems = typeof getItems === "function" ? getItems() : [];
+  const allItems = typeof getItems === "function" ? await getItems() : [];
   const filteredItems = allItems.filter(item => item.type === typeFilter);
   
   let currentPage = 1;

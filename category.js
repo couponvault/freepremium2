@@ -59,13 +59,13 @@ const searchInput = document.getElementById("searchInput");
 const emptyState = document.getElementById("emptyState");
 
 // ── Initialize ──
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // Read category from URL
   const urlParams = new URLSearchParams(window.location.search);
   currentCatKey = (urlParams.get("cat") || "trending").toLowerCase();
 
   // Populate hero & page meta
-  populateCategoryHero(currentCatKey);
+  await populateCategoryHero(currentCatKey);
 
   // Render category navigation chips
   renderCategoryNav();
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
   lucide.createIcons();
 });
 
-function populateCategoryHero(catKey) {
+async function populateCategoryHero(catKey) {
   let cat = CATEGORIES[catKey];
   if (!cat) {
     // Generate a fallback for dynamic custom categories
@@ -165,7 +165,8 @@ function populateCategoryHero(catKey) {
   heroIcon.querySelector("i").setAttribute("data-lucide", cat.icon);
 
   // Count videos in this category
-  const count = getFilteredVideos().length;
+  const filtered = await getFilteredVideos();
+  const count = filtered.length;
   document.getElementById("catVideoCount").innerHTML = `<i data-lucide="film" style="width: 14px; height: 14px;"></i> ${count} Videos`;
 
   // Highlight active nav link
@@ -194,8 +195,9 @@ function renderCategoryNav() {
 }
 
 // ── Get Filtered Videos ──
-function getFilteredVideos() {
-  return getVideos().filter(video => {
+async function getFilteredVideos() {
+  const vids = await getVideos();
+  return vids.filter(video => {
     const matchesCat = (video.tags && video.tags.includes(currentCatKey)) ||
                        (video.categories && video.categories.some(c => c.toLowerCase() === currentCatKey));
     const matchesSearch = !searchQuery ||
