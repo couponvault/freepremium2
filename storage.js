@@ -214,7 +214,24 @@ async function saveCategories(cats) {
 
 async function saveVideos(vids) {
   if (!supabaseClient) return;
-  await supabaseClient.from('videos').upsert(vids);
+  // Only insert/upsert provided videos (not the whole array)
+  const { data, error } = await supabaseClient.from('videos').upsert(vids);
+  if (error) {
+    console.error('Supabase saveVideos error:', error);
+    alert('Failed to save video: ' + error.message);
+  }
+}
+
+// Insert a single new video (used by admin form)
+async function insertVideo(video) {
+  if (!supabaseClient) { alert('Database not connected!'); return false; }
+  const { data, error } = await supabaseClient.from('videos').insert([video]);
+  if (error) {
+    console.error('Supabase insertVideo error:', error);
+    alert('Failed to save video: ' + error.message);
+    return false;
+  }
+  return true;
 }
 
 async function getItems() {
@@ -226,7 +243,23 @@ async function getItems() {
 
 async function saveItems(items) {
   if (!supabaseClient) return;
-  await supabaseClient.from('premium_items').upsert(items);
+  const { data, error } = await supabaseClient.from('premium_items').upsert(items);
+  if (error) {
+    console.error('Supabase saveItems error:', error);
+    alert('Failed to save item: ' + error.message);
+  }
+}
+
+// Insert a single new premium item (used by admin form)
+async function insertItem(item) {
+  if (!supabaseClient) { alert('Database not connected!'); return false; }
+  const { data, error } = await supabaseClient.from('premium_items').insert([item]);
+  if (error) {
+    console.error('Supabase insertItem error:', error);
+    alert('Failed to save item: ' + error.message);
+    return false;
+  }
+  return true;
 }
 
 function renderNavCategories() {

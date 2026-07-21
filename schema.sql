@@ -46,6 +46,10 @@ ON public.videos FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow anon delete for videos" 
 ON public.videos FOR DELETE USING (true);
 
+-- Allow updates (needed for upsert)
+CREATE POLICY "Allow anon update for videos" 
+ON public.videos FOR UPDATE USING (true);
+
 -- 5. Create Policies for Premium Items
 -- Allow anyone to read premium items
 CREATE POLICY "Allow public read access for premium_items" 

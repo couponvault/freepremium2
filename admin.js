@@ -117,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     
-    const videos = await getVideos();
     const newVideo = {
       id: "vid-" + Date.now(),
       title: vTitle,
@@ -131,11 +130,13 @@ document.addEventListener("DOMContentLoaded", () => {
       description: vDesc
     };
     
-    videos.unshift(newVideo); // Add to beginning
-    await saveVideos(videos);
-    
-    showSuccess();
-    addVideoForm.reset();
+    // Insert ONLY the new video into the database
+    const success = await insertVideo(newVideo);
+    if (success) {
+      showSuccess();
+      addVideoForm.reset();
+      renderAdminManageLists();
+    }
   });
 });
 
@@ -202,12 +203,13 @@ document.addEventListener("DOMContentLoaded", () => {
         description: document.getElementById("pDesc").value.trim()
       };
       
-      const items = await getItems();
-      items.unshift(newItem); // add to top
-      await saveItems(items);
-      
-      addPremiumForm.reset();
-      showSuccess();
+      // Insert ONLY the new item into the database
+      const success = await insertItem(newItem);
+      if (success) {
+        addPremiumForm.reset();
+        showSuccess();
+        renderAdminManageLists();
+      }
     });
   }
   
