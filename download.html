@@ -3,35 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download Your File | FreePremium</title>
+  <title id="pageTitle">Premium Details | FreePremium</title>
   <link rel="stylesheet" href="/styles.css">
   
   <style>
-    .download-container {
-      max-width: 800px;
+    .details-container {
+      max-width: 900px;
       margin: 40px auto;
-      text-align: center;
       padding: 24px;
+      display: grid;
+      gap: 24px;
     }
-    
-    .timer-circle {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 4px solid hsl(var(--primary));
+    .details-header {
+      background: hsl(var(--bg-card));
+      border: 1px solid hsl(var(--border-color));
+      border-radius: 16px;
+      padding: 24px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin: 0 auto 24px auto;
+      gap: 24px;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .details-thumb {
+      width: 160px;
+      height: 160px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .details-info {
+      flex: 1;
+    }
+    .details-title {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: hsl(var(--text-primary));
+    }
+    .details-subtitle {
+      display: inline-block;
+      background: hsla(var(--primary), 0.15);
       color: hsl(var(--primary));
-      background: hsla(var(--primary), 0.1);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .details-desc-box {
+      background: hsl(var(--bg-card));
+      border: 1px solid hsl(var(--border-color));
+      border-radius: 16px;
+      padding: 24px;
+      text-align: left;
     }
     
-    .download-btn {
+    .action-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 12px;
       background: linear-gradient(135deg, #3b82f6, #ec4899);
       color: white;
@@ -41,20 +70,40 @@
       font-weight: 600;
       text-decoration: none;
       transition: all 0.3s ease;
-      opacity: 0.5;
+      opacity: 0.6;
       pointer-events: none;
       box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+      width: 100%;
+      max-width: 400px;
     }
     
-    .download-btn.ready {
+    .action-btn.ready {
       opacity: 1;
       pointer-events: auto;
       cursor: pointer;
     }
     
-    .download-btn.ready:hover {
+    .action-btn.ready:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .details-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .details-thumb {
+        width: 140px;
+        height: 140px;
+      }
+      .details-title {
+        font-size: 1.5rem;
+      }
+      .action-btn {
+        max-width: 100%;
+      }
     }
     
     .ad-space-square {
@@ -101,17 +150,27 @@
     </div>
   </header>
 
-  <main class="download-container">
-    <h1 style="font-size: 2rem; margin-bottom: 12px;" id="itemTitle">Preparing your download...</h1>
-    <p style="color: hsl(var(--text-muted)); margin-bottom: 32px;">Please wait while we securely generate your download link.</p>
-
+  <main class="details-container">
+    
     <!-- Top Ad Banner (728x90) -->
     <div class="ad-space-banner adsterra-banner" data-ad-id="banner-top">
       [Adsterra 728x90 Banner Ad Space]
     </div>
 
-    <div class="timer-circle" id="countdown">
-      10
+    <!-- Header Section -->
+    <div class="details-header">
+      <img src="assets/mod_apks_bg.jpg" id="itemThumb" class="details-thumb" alt="Thumbnail">
+      <div class="details-info">
+        <h1 class="details-title" id="itemTitle">Loading Details...</h1>
+        <div class="details-subtitle" id="itemSubtitle">Loading...</div>
+        
+        <div style="margin-top: 12px;">
+          <a href="#" id="finalDownloadBtn" class="action-btn">
+            <i data-lucide="loader" style="animation: spin 1s linear infinite;" id="btnIcon"></i>
+            <span id="btnText">Please wait 10s...</span>
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- Square Ad (300x250) -->
@@ -119,20 +178,18 @@
       [Adsterra 300x250 Ad Space]
     </div>
 
-    <div class="ad-space-banner adsterra-banner" data-ad-id="nativeBanner" style="margin-bottom: 24px; min-height: 90px; text-align: center;"></div>
-
-    <a href="#" id="finalDownloadBtn" class="download-btn">
-      <i data-lucide="download" style="width: 24px; height: 24px;"></i>
-      Generating Link...
-    </a>
-
-    <!-- App Description for SEO & Users -->
-    <div style="margin-top: 40px; text-align: left; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-      <h3 style="font-size: 1.1rem; margin-bottom: 12px; color: hsl(var(--text-primary));">App Description & Features</h3>
-      <div id="itemDescription" style="color: hsl(var(--text-muted)); font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap;">
-        Loading application details...
+    <!-- Description Section -->
+    <div class="details-desc-box">
+      <h3 style="font-size: 1.2rem; margin-bottom: 16px; color: hsl(var(--text-primary)); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+        <i data-lucide="info" style="display: inline-block; vertical-align: middle; margin-right: 8px;"></i>
+        Overview & Features
+      </h3>
+      <div id="itemDescription" style="color: hsl(var(--text-muted)); font-size: 1rem; line-height: 1.6; white-space: pre-wrap;">
+        Loading details...
       </div>
     </div>
+
+    <div class="ad-space-banner adsterra-banner" data-ad-id="nativeBanner" style="margin-bottom: 24px; min-height: 90px; text-align: center;"></div>
 
   </main>
 
