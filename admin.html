@@ -291,25 +291,25 @@
                 <input type="text" id="vTitle" class="form-control" required placeholder="Enter video title">
               </div>
               
-              <div style="display: flex; gap: 20px;">
-                <div class="form-group" style="flex: 1;">
+              <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div class="form-group" style="flex: 1; min-width: 250px;">
                   <label>Categories (Select up to 10)</label>
-                  <div id="categoryCheckboxes" class="form-control" style="height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+                  <div id="categoryCheckboxes" class="form-control" style="max-height: 300px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 12px; padding: 16px;">
                     <!-- Rendered via JS -->
                   </div>
                 </div>
-                <div class="form-group" style="flex: 1;">
+                <div class="form-group" style="flex: 1; min-width: 250px;">
                   <label>Creator / Author</label>
                   <input type="text" id="vCreator" class="form-control" required placeholder="e.g. Apex Studios">
                 </div>
               </div>
 
-              <div style="display: flex; gap: 20px;">
-                <div class="form-group" style="flex: 1;">
+              <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div class="form-group" style="flex: 1; min-width: 200px;">
                   <label>Duration (e.g. 10:25)</label>
                   <input type="text" id="vDuration" class="form-control" required placeholder="10:25">
                 </div>
-                <div class="form-group" style="flex: 1;">
+                <div class="form-group" style="flex: 1; min-width: 200px;">
                   <label>Views (e.g. 1.2M)</label>
                   <input type="text" id="vViews" class="form-control" required placeholder="1.2M views">
                 </div>
@@ -385,8 +385,8 @@
                 <input type="text" id="pTitle" class="form-control" required placeholder="e.g. Spotify Premium Mod APK">
               </div>
               
-              <div style="display: flex; gap: 20px;">
-                <div class="form-group" style="flex: 1;">
+              <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div class="form-group" style="flex: 1; min-width: 200px;">
                   <label>Type</label>
                   <select id="pType" class="form-control" required style="appearance: auto; background: hsl(var(--bg-card)); color: white; border: 1px solid hsl(var(--border-color)); padding: 12px;">
                     <option value="apk">Mod APK</option>
@@ -394,7 +394,7 @@
                     <option value="drama">Web Series</option>
                   </select>
                 </div>
-                <div class="form-group" style="flex: 1;">
+                <div class="form-group" style="flex: 1; min-width: 200px;">
                   <label>Subtitle / Version / Quality</label>
                   <input type="text" id="pSubtitle" class="form-control" required placeholder="e.g. v2.4.1 or 1080p">
                 </div>
