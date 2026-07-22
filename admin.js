@@ -150,9 +150,19 @@ document.addEventListener("DOMContentLoaded", () => {
 function renderAdminCategories() {
   const cats = getCategories();
   
-  // Render tag list
+  // Expose deleteCategory globally
+  window.deleteCategory = async function(catName) {
+    if (confirm(`Are you sure you want to delete the category "${catName}"?`)) {
+      let currentCats = getCategories();
+      currentCats = currentCats.filter(c => c !== catName);
+      await saveCategories(currentCats);
+      renderAdminCategories();
+    }
+  };
+
+  // Render tags
   const list = document.getElementById("categoriesList");
-  list.innerHTML = cats.map(cat => `<span class="category-tag">${escapeHTML(cat)}</span>`).join("");
+  list.innerHTML = cats.map(cat => `<span class="category-tag" style="display:inline-flex;align-items:center;gap:4px;">${escapeHTML(cat)} <button onclick="deleteCategory('${cat.replace(/'/g, "\\'")}')" style="background:none;border:none;color:white;cursor:pointer;font-weight:bold;font-size:16px;padding:0 4px;margin-left:4px;" title="Delete category">&times;</button></span>`).join("");
   
   // Render select dropdown options
   const checkboxContainer = document.getElementById("categoryCheckboxes");
