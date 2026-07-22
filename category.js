@@ -255,7 +255,15 @@ async function renderVideos(append = false) {
 
   let html = "";
   paginatedVideos.forEach((video, index) => {
-    // Removed inline ad card to fix blank space
+    // Inject banner ad every 4 videos
+    if (index > 0 && index % 4 === 0) {
+      html += `
+        <div class="video-card ad-card adsterra-banner" data-ad-id="banner-square" style="display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px dashed hsl(var(--border-color)); min-height: 250px;">
+        </div>
+      `;
+    }
+
+    html += `
     <a href="interstitial.html?target=watch.html?v=${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
       <div class="thumb-wrapper">
         <img class="video-thumb" src="${escapeHTML(video.thumbnail)}" alt="${escapeHTML(video.title)}" loading="lazy">
@@ -305,4 +313,5 @@ async function renderVideos(append = false) {
   }
 
   lucide.createIcons();
+  if(window.injectBanners) window.injectBanners();
 }
