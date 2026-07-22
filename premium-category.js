@@ -77,9 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <h3 class="card-title">${item.title}</h3>
           ${item.description ? `<span class="card-description" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4;">${escapeHTML(item.description)}</span>` : ''}
           <div style="margin-top: 12px;">
-            <a href="details.html?id=${item.id}" class="primary-btn" style="display: block; text-align: center; text-decoration: none; background: #ec4899;">
-              ${item.type === 'apk' ? 'Download APK' : 'Watch Online / Download'}
-            </a>
+            <a href="details.html?id=${item.id}" class="primary-btn" style="display: block; text-align: center; text-decoration: none; background: #ec4899;">View Details</a>
           </div>
         </div>
       </div>
