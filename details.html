@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Premium Details | FreePremium</title>
+  <link rel="stylesheet" href="/styles.css">
+  
+  <style>
+    .details-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 24px;
+      display: grid;
+      gap: 24px;
+    }
+    .details-header {
+      background: hsl(var(--bg-card));
+      border: 1px solid hsl(var(--border-color));
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .details-thumb {
+      width: 160px;
+      height: 160px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .details-info {
+      flex: 1;
+    }
+    .details-title {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: hsl(var(--text-primary));
+    }
+    .details-subtitle {
+      display: inline-block;
+      background: hsla(var(--primary), 0.15);
+      color: hsl(var(--primary));
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .details-desc-box {
+      background: hsl(var(--bg-card));
+      border: 1px solid hsl(var(--border-color));
+      border-radius: 16px;
+      padding: 24px;
+      text-align: left;
+    }
+    
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #3b82f6, #ec4899);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .details-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .details-thumb {
+        width: 140px;
+        height: 140px;
+      }
+      .details-title {
+        font-size: 1.5rem;
+      }
+      .action-btn {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Glassmorphic Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="/index.html" class="logo" style="display: flex; align-items: center;">
+        <img src="/assets/logo.jpg" alt="FreePremium Logo" style="height: 44px; border-radius: 8px; object-fit: contain;">
+      </a>
+      
+      <nav class="nav-menu">
+        <a href="/index.html" class="nav-link">Home</a>
+        <a href="/premium-stuff.html" class="nav-link" style="color: #ec4899; font-weight: 600;">Free Premium Stuff</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="details-container">
+
+    <!-- Header Section -->
+    <div class="details-header">
+      <img src="assets/mod_apks_bg.jpg" id="itemThumb" class="details-thumb" alt="Thumbnail">
+      <div class="details-info">
+        <h1 class="details-title" id="itemTitle">Loading Details...</h1>
+        <div class="details-subtitle" id="itemSubtitle">Loading...</div>
+        
+        <div style="margin-top: 12px;">
+          <a href="#" id="proceedBtn" class="action-btn">
+            <i data-lucide="download" id="btnIcon"></i>
+            <span id="btnText">Loading...</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Section -->
+    <div class="details-desc-box">
+      <h3 style="font-size: 1.2rem; margin-bottom: 16px; color: hsl(var(--text-primary)); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+        <i data-lucide="info" style="display: inline-block; vertical-align: middle; margin-right: 8px;"></i>
+        Overview & Features
+      </h3>
+      <div id="itemDescription" style="color: hsl(var(--text-muted)); font-size: 1rem; line-height: 1.6; white-space: pre-wrap;">
+        Loading details...
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>lucide.createIcons();</script>
+  
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="/storage.js?v=5"></script>
+  <script src="/details.js"></script>
+</body>
+</html>

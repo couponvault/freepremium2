@@ -6,70 +6,57 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   if (!itemId) {
     document.getElementById("itemTitle").innerText = "Invalid Link";
-    document.getElementById("itemSubtitle").innerText = "Error";
-    document.getElementById("btnText").innerText = "Not Found";
+    document.getElementById("countdown").innerText = "X";
+    document.getElementById("countdown").style.borderColor = "#ef4444";
+    document.getElementById("countdown").style.color = "#ef4444";
     return;
   }
 
-  // Get item from localStorage/database
+  // Get item from localStorage
   const items = await getItems();
   const item = items.find(i => i.id === itemId);
 
   if (!item) {
     document.getElementById("itemTitle").innerText = "File Not Found";
-    document.getElementById("itemSubtitle").innerText = "Error";
-    document.getElementById("btnText").innerText = "Not Found";
+    document.getElementById("countdown").innerText = "X";
+    document.getElementById("countdown").style.borderColor = "#ef4444";
+    document.getElementById("countdown").style.color = "#ef4444";
     return;
   }
 
-  // Set SEO Meta Tags
-  document.title = `${item.title} - Free Download`;
-  
-  // Set UI Details
-  document.getElementById("itemTitle").innerText = item.title;
-  document.getElementById("itemSubtitle").innerText = item.subtitle || (item.type === 'apk' ? 'Mod APK' : 'Premium');
-  document.getElementById("itemThumb").src = item.thumbnail || 'assets/mod_apks_bg.jpg';
+  // Set Title & Description
+  document.getElementById("itemTitle").innerText = `Downloading: ${item.title}`;
   
   const descEl = document.getElementById("itemDescription");
   if (descEl) {
     descEl.textContent = item.description || "No specific features or description provided for this item.";
   }
   
-  // Determine Button Text based on Type
-  let finalBtnText = "Download File";
-  let finalBtnIcon = "download";
-  if (item.type === "apk") {
-    finalBtnText = "Download APK";
-  } else if (item.type === "movie" || item.type === "drama") {
-    finalBtnText = "Watch Online / Download";
-    finalBtnIcon = "play-circle";
-  }
-  
-  // Start Timer Logic
-  let timeLeft = 10; // 10 seconds wait
+  // Start Timer
+  let timeLeft = 10; // 10 seconds
+  const countdownEl = document.getElementById("countdown");
   const btnEl = document.getElementById("finalDownloadBtn");
-  const btnTextEl = document.getElementById("btnText");
-  const btnIconEl = document.getElementById("btnIcon");
-  
-  btnTextEl.innerText = `Please wait ${timeLeft}s...`;
   
   const timer = setInterval(() => {
     timeLeft--;
-    if (timeLeft > 0) {
-      btnTextEl.innerText = `Please wait ${timeLeft}s...`;
-    } else {
+    countdownEl.innerText = timeLeft;
+    
+    if (timeLeft <= 0) {
       clearInterval(timer);
-      
-      // Update Button to Ready State
-      btnEl.classList.add("ready");
-      btnTextEl.innerText = finalBtnText;
-      btnIconEl.setAttribute("data-lucide", finalBtnIcon);
-      btnIconEl.style.animation = "none"; // stop spinning
-      
-      btnEl.href = item.downloadUrl;
-      btnEl.target = "_blank"; // Open in new tab so they stay on this page with ads
+      countdownEl.innerHTML = '<i data-lucide="check" style="width: 48px; height: 48px;"></i>';
+      countdownEl.style.borderColor = "#10b981";
+      countdownEl.style.color = "#10b981";
+      countdownEl.style.background = "rgba(16, 185, 129, 0.1)";
       
       lucide.createIcons();
+      
+      btnEl.classList.add("ready");
+      btnEl.innerHTML = '<i data-lucide="download" style="width: 24px; height: 24px;"></i> Download Now';
+      btnEl.href = item.downloadUrl;
+      btnEl.target = "_blank"; // Open in new tab so they stay on this page with ads
+      lucide.createIcons();
+      
+      // Inject Popunder script explicitly here if needed, or rely on ads.js
     }
   }, 1000);
 });
