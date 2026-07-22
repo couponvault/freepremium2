@@ -19,6 +19,7 @@ function injectHTMLWithScripts(container, htmlString) {
 function injectAdIframe(container, htmlString, width, height) {
   const iframe = document.createElement('iframe');
   iframe.style.width = width ? width : '100%';
+  iframe.style.maxWidth = '100%';
   iframe.style.height = height ? height : '100%';
   iframe.style.border = 'none';
   iframe.style.overflow = 'hidden';
