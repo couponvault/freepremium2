@@ -34,13 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                path.includes('/interstitial') || path.includes('interstitial.html') || 
                                path.includes('/download') || path.includes('download.html');
 
-  if (isPlaybackOrDownload && AD_CONFIG.popunderScript && AD_CONFIG.popunderScript.trim() !== '') {
-    const popContainer = document.createElement("div");
-    popContainer.id = "adsterra-popunder-container";
-    popContainer.style.display = "none";
-    document.body.appendChild(popContainer);
-    injectHTMLWithScripts(popContainer, AD_CONFIG.popunderScript);
-  }
+  // Popunders have been completely disabled as per user request
 
   if (AD_CONFIG.socialBarScript && AD_CONFIG.socialBarScript.trim() !== '') {
     const socialBarContainer = document.getElementById("adsterra-social-bar");
