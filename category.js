@@ -265,7 +265,7 @@ async function renderVideos(append = false) {
     }
 
     html += `
-    <a href="interstitial.html?target=/watch/${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
+    <a href="interstitial.html?target=watch.html?v=${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
       <div class="thumb-wrapper">
         <img class="video-thumb" src="${escapeHTML(video.thumbnail)}" alt="${escapeHTML(video.title)}" loading="lazy">
         <span class="video-duration">${escapeHTML(video.duration)}</span>

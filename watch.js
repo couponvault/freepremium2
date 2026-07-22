@@ -183,7 +183,7 @@ async function renderRelatedVideos(currentVideo) {
 
   // Render custom vertical card items in the sidebar
   relatedContainer.innerHTML = related.map(v => `
-    <a href="/watch/${encodeURIComponent(v.id)}" class="related-card">
+    <a href="watch.html?v=${encodeURIComponent(v.id)}" class="related-card">
       <div class="related-thumb-wrapper">
         <img src="${escapeHTML(v.thumbnail)}" alt="${escapeHTML(v.title)}" class="related-thumb" loading="lazy">
         <span class="related-duration">${escapeHTML(v.duration)}</span>
