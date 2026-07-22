@@ -365,4 +365,48 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // Age Gate Logic
+  const isVerified = localStorage.getItem("freepremium_age_verified");
+  if (isVerified !== "true" && window.location.pathname.indexOf('admin.html') === -1) {
+    const ageGateOverlay = document.createElement("div");
+    ageGateOverlay.style.position = "fixed";
+    ageGateOverlay.style.top = "0";
+    ageGateOverlay.style.left = "0";
+    ageGateOverlay.style.width = "100%";
+    ageGateOverlay.style.height = "100%";
+    ageGateOverlay.style.backgroundColor = "rgba(0, 0, 0, 0.95)";
+    ageGateOverlay.style.backdropFilter = "blur(10px)";
+    ageGateOverlay.style.zIndex = "999999";
+    ageGateOverlay.style.display = "flex";
+    ageGateOverlay.style.alignItems = "center";
+    ageGateOverlay.style.justifyContent = "center";
+    
+    ageGateOverlay.innerHTML = `
+      <div style="background: hsl(var(--bg-card)); padding: 40px; border-radius: 16px; border: 1px solid hsl(var(--border-color)); text-align: center; max-width: 400px; width: 90%;">
+        <h2 style="color: #ef4444; margin-bottom: 16px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i data-lucide="alert-triangle"></i> 18+ Caution
+        </h2>
+        <p style="color: hsl(var(--text-muted)); margin-bottom: 24px; font-size: 1rem; line-height: 1.5;">
+          This website contains content that is only suitable for adults. By entering, you confirm that you are 18 years of age or older.
+        </p>
+        <div style="display: flex; gap: 12px; flex-direction: column;">
+          <button id="ageGateYes" style="background: linear-gradient(135deg, #3b82f6, #ec4899); color: white; border: none; padding: 14px; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">Yes, I am 18+ (Enter)</button>
+          <button id="ageGateNo" style="background: transparent; color: hsl(var(--text-secondary)); border: 1px solid hsl(var(--border-color)); padding: 14px; border-radius: 8px; font-size: 1rem; cursor: pointer;">No, Exit</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(ageGateOverlay);
+    if(window.lucide) window.lucide.createIcons();
+    
+    document.getElementById("ageGateYes").addEventListener("click", () => {
+      localStorage.setItem("freepremium_age_verified", "true");
+      ageGateOverlay.remove();
+    });
+    
+    document.getElementById("ageGateNo").addEventListener("click", () => {
+      window.location.href = "https://www.google.com";
+    });
+  }
 });
