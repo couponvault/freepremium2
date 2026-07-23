@@ -3,52 +3,74 @@ let editingVideoId = null;
 let editingPremiumId = null;
 
 // =========================================================================
-// Smart SEO Keyword Spinner Engine (32 Lakh+ unique combinations)
+// Smart SEO Keyword Spinner Engine v2 — Refined & Guide-Accurate
+// 100+ Lakh unique combinations, natural titles like the SEO guide
 // =========================================================================
 const SEO_POOLS = {
-  quality: ["HD", "4K", "Full HD", "1080p", "Ultra HD", "High Quality", "Premium", "Exclusive", "Top Rated", "Best", "Viral", "Trending", "Popular", "Featured", "Handpicked", "Curated", "Uncut", "Uncensored", "Raw", "Verified"],
-  adjective: ["Hot", "Sexy", "Naughty", "Wild", "Passionate", "Sensual", "Steamy", "Intense", "Real", "Beautiful", "Stunning", "Gorgeous", "Busty", "Thick", "Petite", "Curvy", "Slim", "Natural", "Exotic", "Innocent", "Dirty", "Kinky", "Nasty", "Filthy"],
+  quality: ["HD", "4K", "Full HD", "1080p", "Ultra HD", "High Quality", "Premium", "Exclusive", "Top Rated", "Best", "Viral", "Trending", "Popular", "Featured", "Handpicked", "Curated", "Uncut", "Uncensored", "Raw", "Verified", "Crystal Clear", "Studio Quality", "Professional", "High Def"],
+  adjective: ["Hot", "Sexy", "Naughty", "Wild", "Passionate", "Sensual", "Steamy", "Intense", "Real", "Beautiful", "Stunning", "Gorgeous", "Busty", "Thick", "Petite", "Curvy", "Slim", "Natural", "Exotic", "Innocent", "Dirty", "Kinky", "Nasty", "Filthy", "Adorable", "Seductive", "Irresistible", "Breathtaking", "Alluring", "Ravishing"],
+  demographic: ["College Girls", "Women", "Babes", "Models", "Stars", "Amateurs", "Performers", "Beauties", "Goddesses", "Teens", "Stepsisters", "Neighbors", "Strangers", "Couples", "MILFs", "Wives", "Girlfriends", "Roommates"],
+  sceneSetting: ["at Home", "in the Bedroom", "in a Hotel Room", "After Hours", "on Vacation", "at the Pool", "in the Shower", "on the Couch", "in the Office", "Late Night", "on Camera", "Behind Closed Doors", "in Private", "Caught on Tape", "on a Weekend"],
   action: {
-    Lesbian: ["Scissoring", "Kissing", "Strapon Play", "Tribbing", "Fingering", "Licking", "Oral", "Seduction", "First Time", "Massage", "Oil Play", "Bath Together"],
-    MILF: ["Seduction", "Cheating", "Stepmom Fantasy", "Cougar Hunt", "Bedroom Scene", "Solo Play", "Teaching", "Caught in Act", "Afternoon Delight", "Neighbor Visit"],
-    Amateur: ["Homemade", "First Time on Camera", "Real Couple", "POV", "Selfie Style", "Webcam", "Behind the Scenes", "Casting", "Audition", "Spontaneous", "Hidden Camera Style"],
-    Mature: ["Solo Play", "Bedroom Confession", "Cougar Fantasy", "Lingerie Show", "Seduction", "Office Affair", "Experienced Lover", "Afternoon Session"],
-    Transgender: ["Solo", "Threesome", "First Date", "Transformation", "Lingerie Show", "POV", "Couple Scene", "Amateur Debut", "Webcam Show", "Casting"],
-    Anal: ["First Time", "Deep", "Rough", "Slow Sensual", "Oil Massage", "Toys", "POV", "Amateur", "Gaping", "Double", "Creampie"],
-    Threesome: ["FFM", "MMF", "College Party", "Surprise Third", "Best Friends", "Strangers Meet", "Hotel Room", "Birthday Gift", "Double Team", "Amateur Group"],
-    Hentai: ["Uncensored", "Schoolgirl", "Monster", "Tentacle", "Fantasy World", "Elf", "Demon Girl", "Sister", "Teacher", "Nurse", "Maid", "Princess"],
-    Cosplay: ["Anime Girl", "Superhero", "Maid Outfit", "School Uniform", "Nurse", "Cat Girl", "Bunny Girl", "Gamer Girl", "Elf Princess", "Witch"],
-    Femboy: ["Solo", "Cute", "Trap", "Crossdress", "Lingerie", "Webcam", "First Time", "Shy", "Amateur", "POV"],
-    Roleplay: ["Boss Secretary", "Doctor Patient", "Teacher Student", "Stranger", "Pizza Delivery", "Plumber", "Step Family", "Landlord Tenant", "Hitchhiker", "Interview"],
-    Cuckold: ["Watching Wife", "Bull Takes Over", "Husband Films", "Shared Wife", "First Time Sharing", "Hotel Room", "Interracial Bull", "Clean Up", "Phone Call"],
-    Hotwife: ["Date Night", "First Bull", "Husband Watches", "Hotel Meet", "Tinder Date", "Shared Fantasy", "Confession", "Text Messages"],
-    VR: ["180 Degree", "360 Experience", "POV Immersive", "Virtual Date", "VR Massage", "Virtual Girlfriend", "First Person", "Interactive"],
-    Latina: ["Thick Booty", "Spicy", "Dancing", "Passionate", "Amateur Homemade", "Big Ass", "Twerk", "Outdoor", "Beach", "Colombian", "Brazilian"],
-    Interracial: ["BBC", "Big Black", "First Time", "Cuckold", "Wife Shared", "Amateur", "College", "Rough", "Passionate", "Hotel Room"],
+    Lesbian: ["Scissoring", "Kissing", "Strapon Play", "Tribbing", "Fingering", "Licking", "Oral", "Seduction", "First Time", "Massage", "Oil Play", "Bath Together", "Tongue Play", "Making Out", "Strap On Riding"],
+    MILF: ["Seduction", "Cheating", "Stepmom Fantasy", "Cougar Hunt", "Bedroom Scene", "Solo Play", "Teaching", "Caught in Act", "Afternoon Delight", "Neighbor Visit", "Morning Surprise", "Kitchen Encounter", "Shower Scene"],
+    Amateur: ["Homemade", "First Time on Camera", "Real Couple", "POV", "Selfie Style", "Webcam", "Behind the Scenes", "Casting", "Audition", "Spontaneous", "Hidden Camera Style", "Verified Upload", "User Submitted"],
+    Mature: ["Solo Play", "Bedroom Confession", "Cougar Fantasy", "Lingerie Show", "Seduction", "Office Affair", "Experienced Lover", "Afternoon Session", "Self Pleasure", "Strip Tease"],
+    Transgender: ["Solo", "Threesome", "First Date", "Transformation", "Lingerie Show", "POV", "Couple Scene", "Amateur Debut", "Webcam Show", "Casting", "Passionate Night", "Self Love"],
+    Anal: ["First Time", "Deep", "Rough", "Slow Sensual", "Oil Massage", "Toys", "POV", "Amateur", "Gaping", "Double", "Creampie", "Beads", "Plug Play"],
+    Threesome: ["FFM", "MMF", "College Party", "Surprise Third", "Best Friends", "Strangers Meet", "Hotel Room", "Birthday Gift", "Double Team", "Amateur Group", "Dorm Room", "After Party"],
+    Hentai: ["Uncensored", "Schoolgirl", "Monster", "Tentacle", "Fantasy World", "Elf", "Demon Girl", "Sister", "Teacher", "Nurse", "Maid", "Princess", "Witch", "Succubus", "Dragon Girl"],
+    Cosplay: ["Anime Girl", "Superhero", "Maid Outfit", "School Uniform", "Nurse", "Cat Girl", "Bunny Girl", "Gamer Girl", "Elf Princess", "Witch", "Cheerleader", "Schoolgirl Outfit"],
+    Femboy: ["Solo", "Cute", "Trap", "Crossdress", "Lingerie", "Webcam", "First Time", "Shy", "Amateur", "POV", "Maid Outfit", "Thigh Highs"],
+    Roleplay: ["Boss Secretary", "Doctor Patient", "Teacher Student", "Stranger", "Pizza Delivery", "Plumber", "Step Family", "Landlord Tenant", "Hitchhiker", "Interview", "Babysitter", "Personal Trainer"],
+    Cuckold: ["Watching Wife", "Bull Takes Over", "Husband Films", "Shared Wife", "First Time Sharing", "Hotel Room", "Interracial Bull", "Clean Up", "Phone Call", "Texts Husband"],
+    Hotwife: ["Date Night", "First Bull", "Husband Watches", "Hotel Meet", "Tinder Date", "Shared Fantasy", "Confession", "Text Messages", "Reclaiming", "Anniversary Gift"],
+    VR: ["180 Degree", "360 Experience", "POV Immersive", "Virtual Date", "VR Massage", "Virtual Girlfriend", "First Person", "Interactive", "Eye Contact", "Look Around"],
+    Latina: ["Thick Booty", "Spicy", "Dancing", "Passionate", "Amateur Homemade", "Big Ass", "Twerk", "Outdoor", "Beach", "Colombian", "Brazilian", "Reggaeton", "Salsa Night"],
+    Interracial: ["BBC", "Big Black", "First Time", "Cuckold", "Wife Shared", "Amateur", "College", "Rough", "Passionate", "Hotel Room", "Blind Date", "Online Hookup"],
     _default: ["Solo Play", "Hardcore", "Softcore", "POV", "Compilation", "Behind Scenes", "Debut", "Interview", "Audition", "Webcam"]
   },
   countryLabel: {
-    US: ["American", "US", "USA"],
-    UK: ["British", "UK", "English"],
-    CA: ["Canadian", "Canada"],
-    AU: ["Australian", "Aussie"],
-    DE: ["German", "Deutsche"],
-    FR: ["French", "Française"],
-    JP: ["Japanese", "Japan", "JAV"],
-    ES: ["Spanish", "Española"],
-    IT: ["Italian", "Italiana"],
-    global: ["International", "Worldwide", "Global"]
+    US: ["American", "US", "USA", "United States"],
+    UK: ["British", "UK", "English", "London"],
+    CA: ["Canadian", "Canada", "Toronto"],
+    AU: ["Australian", "Aussie", "Sydney"],
+    DE: ["German", "Deutsche", "Berlin"],
+    FR: ["French", "Française", "Paris"],
+    JP: ["Japanese", "Japan", "JAV", "Tokyo"],
+    ES: ["Spanish", "Española", "Madrid"],
+    IT: ["Italian", "Italiana", "Milan"],
+    BR: ["Brazilian", "Brazil", "Rio"],
+    MX: ["Mexican", "Mexico", "Latina"],
+    KR: ["Korean", "K-Pop Style", "Seoul"],
+    NL: ["Dutch", "Netherlands", "Amsterdam"],
+    SE: ["Swedish", "Scandinavian", "Stockholm"],
+    NO: ["Norwegian", "Nordic", "Scandinavian"],
+    DK: ["Danish", "Scandinavian", "Copenhagen"],
+    PL: ["Polish", "Poland", "Warsaw"],
+    CZ: ["Czech", "Prague", "European"],
+    RU: ["Russian", "Eastern European", "Moscow"],
+    TH: ["Thai", "Thailand", "Bangkok"],
+    PH: ["Filipina", "Philippines", "Manila"],
+    CO: ["Colombian", "Colombia", "Medellín"],
+    AR: ["Argentine", "Argentina", "Buenos Aires"],
+    IN: ["Indian", "Desi", "Mumbai"],
+    global: ["International", "Worldwide", "Global", "Mixed Nationality"]
   },
-  suffix: ["Online Free", "Stream Now", "Watch Free", "Full Video", "No Sign Up", "Instant Play", "New Upload", "Latest", "Daily Update", "Just Released", "Fresh Upload", "Today", "This Week", "2026"],
+  suffix: ["Online Free", "Stream Now", "Watch Free", "Full Video", "No Sign Up", "Instant Play", "New Upload", "Latest 2026", "Daily Update", "Just Released", "Fresh Upload", "Uploaded Today", "This Week", "Must Watch", "Don't Miss", "Going Viral"],
   descTemplates: [
-    "Watch this {quality} {adjective} {niche} {action} video featuring {countryAdj} performers. Stream {niche} content in {qualityTag} quality — {suffix}.",
-    "Enjoy {quality} {niche} {action} scene with {adjective} {countryAdj} stars. Best free {niche} videos available to {suffix}.",
-    "Discover the hottest {adjective} {niche} content — {action} in stunning {qualityTag}. Featuring top {countryAdj} talent. {suffix}!",
-    "{quality} {niche} video: {adjective} {countryAdj} {action} scene you won't forget. Free to stream, no signup needed. {suffix}.",
-    "Top trending {niche} content: Watch {adjective} {countryAdj} performers in a {action} scene. {qualityTag} quality, {suffix}.",
-    "Exclusive {adjective} {niche} {action} featuring verified {countryAdj} amateurs. Streaming in {qualityTag} — {suffix}.",
-    "Premium {niche} scene: {adjective} {action} with stunning {countryAdj} stars. {qualityTag} resolution, completely free. {suffix}.",
-    "New {niche} upload: {adjective} {countryAdj} {action} in crystal clear {qualityTag}. Don't miss this one — {suffix}!"
+    "Watch this {quality} {adjective} {niche} {action} video featuring {countryAdj} {demographic} {sceneSetting}. Stream {niche} content in {qualityTag} quality — {suffix}.",
+    "Enjoy {quality} {niche} {action} scene with {adjective} {countryAdj} {demographic}. Best free {niche} videos available to {suffix}.",
+    "Discover the hottest {adjective} {niche} content — {action} {sceneSetting} in stunning {qualityTag}. Featuring top {countryAdj} {demographic}. {suffix}!",
+    "{quality} {niche} video: {adjective} {countryAdj} {demographic} in a {action} scene {sceneSetting}. Free to stream, no signup needed. {suffix}.",
+    "Top trending {niche} content: Watch {adjective} {countryAdj} {demographic} in a {action} scene. {qualityTag} quality, {suffix}.",
+    "Exclusive {adjective} {niche} {action} featuring verified {countryAdj} {demographic} {sceneSetting}. Streaming in {qualityTag} — {suffix}.",
+    "Premium {niche} scene: {adjective} {demographic} perform {action} {sceneSetting}. {qualityTag} resolution. {suffix}.",
+    "New {niche} upload: {adjective} {countryAdj} {demographic} caught {action} {sceneSetting}. {qualityTag} quality — {suffix}!",
+    "Free {quality} {niche} video — {adjective} {countryAdj} {demographic} enjoy {action} {sceneSetting}. No ads, no popups. {suffix}.",
+    "Trending now: {countryAdj} {adjective} {niche} {action} with real {demographic}. Watch in {qualityTag}. {suffix}!",
+    "{quality} quality {niche} scene featuring {adjective} {countryAdj} {demographic}. {action} {sceneSetting} — completely free. {suffix}.",
+    "Best {niche} video of the week: {adjective} {countryAdj} {demographic} in {action} mode {sceneSetting}. {qualityTag} stream, {suffix}."
   ]
 };
 
@@ -68,17 +90,30 @@ function generateSEO(country, quality, niche) {
   const actions = SEO_POOLS.action[finalNiche] || SEO_POOLS.action._default;
   const action = pickRandom(actions);
   const countryAdj = pickRandom(SEO_POOLS.countryLabel[finalCountry] || ["International"]);
+  const demo = pickRandom(SEO_POOLS.demographic);
+  const scene = pickRandom(SEO_POOLS.sceneSetting);
   const suffix = pickRandom(SEO_POOLS.suffix);
   
+  // Guide-style title patterns (matches examples like:
+  //   "Exclusive HD Lesbian Scissoring Video - Amateur US College Girls"
+  //   "British Mature MILF Roleplay - Cheating Hotwife Online"  )
   const titlePatterns = [
-    `${finalQuality} ${adj} ${finalNiche} ${action} - ${countryAdj} ${suffix}`,
-    `${adj} ${countryAdj} ${finalNiche} ${action} | ${finalQuality} ${suffix}`,
-    `Best ${finalQuality} ${finalNiche} ${action} - ${adj} ${countryAdj} Video`,
-    `${countryAdj} ${adj} ${finalNiche} - ${action} in ${finalQuality}`,
-    `Watch ${adj} ${finalNiche} ${action} | ${countryAdj} ${finalQuality} ${suffix}`,
-    `${finalQuality} ${countryAdj} ${finalNiche} ${action} Video - ${suffix}`,
-    `${adj} ${finalNiche} ${action} Featuring ${countryAdj} Stars - ${finalQuality}`,
-    `Trending ${finalNiche}: ${adj} ${countryAdj} ${action} | ${finalQuality}`
+    `${finalQuality} ${adj} ${finalNiche} ${action} Video - ${countryAdj} ${demo}`,
+    `${adj} ${countryAdj} ${finalNiche} ${action} ${scene} | ${finalQuality}`,
+    `Best ${finalQuality} ${finalNiche} ${action} - ${adj} ${countryAdj} ${demo}`,
+    `${countryAdj} ${adj} ${finalNiche} ${action} - ${demo} ${scene}`,
+    `Watch ${adj} ${finalNiche} ${action} | ${countryAdj} ${demo} ${finalQuality}`,
+    `${finalQuality} ${countryAdj} ${finalNiche} ${action} with ${adj} ${demo}`,
+    `${adj} ${finalNiche} ${action} Featuring ${countryAdj} ${demo} - ${finalQuality}`,
+    `Trending ${finalNiche}: ${adj} ${countryAdj} ${demo} ${action} | ${finalQuality}`,
+    `Exclusive ${finalQuality} ${finalNiche} ${action} - ${adj} ${countryAdj} ${demo}`,
+    `${countryAdj} ${demo} ${finalNiche} ${action} ${scene} - ${finalQuality} Video`,
+    `Free ${finalQuality} ${finalNiche} - ${adj} ${countryAdj} ${demo} ${action}`,
+    `Real ${adj} ${countryAdj} ${finalNiche} ${action} Video | ${demo} ${scene}`,
+    `${finalQuality} ${finalNiche} Video: ${adj} ${countryAdj} ${demo} ${action}`,
+    `Watch Free: ${adj} ${countryAdj} ${finalNiche} ${action} with ${demo}`,
+    `New ${finalNiche} Upload - ${adj} ${countryAdj} ${demo} ${action} in ${finalQuality}`,
+    `${adj} ${demo} Try ${finalNiche} ${action} ${scene} | ${countryAdj} ${finalQuality}`
   ];
   const title = pickRandom(titlePatterns);
   
@@ -90,6 +125,8 @@ function generateSEO(country, quality, niche) {
     .replace(/\{niche\}/g, finalNiche)
     .replace(/\{action\}/g, action)
     .replace(/\{countryAdj\}/g, countryAdj)
+    .replace(/\{demographic\}/g, demo.toLowerCase())
+    .replace(/\{sceneSetting\}/g, scene.toLowerCase())
     .replace(/\{suffix\}/g, suffix);
   
   return { title, description, suggestedNiche: finalNiche };
