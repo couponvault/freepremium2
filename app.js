@@ -137,7 +137,7 @@ async function renderVideos(append = false) {
     // Inject banner ad every 4 videos
     if (index > 0 && index % 4 === 0) {
       html += `
-        <div class="video-card ad-card adsterra-banner" data-ad-id="banner-square" style="display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px dashed hsl(var(--border-color)); min-height: 250px;">
+        <div class="video-card ad-card adsterra-banner" data-ad-id="banner-square">
         </div>
       `;
     }
