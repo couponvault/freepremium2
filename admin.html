@@ -286,6 +286,70 @@
             <p style="color: hsl(var(--text-muted)); font-size: 0.9rem; margin-bottom: 20px;">Provide a thumbnail and embed URL to add a new card to the homepage.</p>
             
             <form id="addVideoForm">
+              <!-- SEO Generator Section -->
+              <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(59, 130, 246, 0.05)); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+                <h3 style="font-size: 1rem; font-weight: 700; color: #10b981; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">
+                  <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i> Smart SEO Generator
+                </h3>
+                <p style="font-size: 0.78rem; color: hsl(var(--text-muted)); margin-bottom: 16px;">Select options below and click "Generate" to auto-fill Title & Description with SEO-optimized text. Generates 32 Lakh+ unique combinations!</p>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                  <div style="flex: 1; min-width: 140px;">
+                    <label style="font-size: 0.8rem; color: hsl(var(--text-secondary)); margin-bottom: 4px; display: block;">🌍 Target Country</label>
+                    <select id="seoCountry" class="form-control" style="padding: 8px 12px; font-size: 0.85rem;">
+                      <option value="random">🎲 Random</option>
+                      <option value="US">🇺🇸 USA</option>
+                      <option value="UK">🇬🇧 UK</option>
+                      <option value="CA">🇨🇦 Canada</option>
+                      <option value="AU">🇦🇺 Australia</option>
+                      <option value="DE">🇩🇪 Germany</option>
+                      <option value="FR">🇫🇷 France</option>
+                      <option value="JP">🇯🇵 Japan</option>
+                      <option value="ES">🇪🇸 Spain</option>
+                      <option value="IT">🇮🇹 Italy</option>
+                      <option value="global">🌐 Global</option>
+                    </select>
+                  </div>
+                  <div style="flex: 1; min-width: 140px;">
+                    <label style="font-size: 0.8rem; color: hsl(var(--text-secondary)); margin-bottom: 4px; display: block;">🎬 Quality</label>
+                    <select id="seoQuality" class="form-control" style="padding: 8px 12px; font-size: 0.85rem;">
+                      <option value="random">🎲 Random</option>
+                      <option value="HD">HD</option>
+                      <option value="4K">4K Ultra</option>
+                      <option value="1080p">1080p Full HD</option>
+                      <option value="Premium">Premium</option>
+                      <option value="Exclusive">Exclusive</option>
+                    </select>
+                  </div>
+                  <div style="flex: 1; min-width: 140px;">
+                    <label style="font-size: 0.8rem; color: hsl(var(--text-secondary)); margin-bottom: 4px; display: block;">🔥 Niche/Category</label>
+                    <select id="seoNiche" class="form-control" style="padding: 8px 12px; font-size: 0.85rem;">
+                      <option value="random">🎲 Random</option>
+                      <option value="Lesbian">Lesbian</option>
+                      <option value="MILF">MILF</option>
+                      <option value="Amateur">Amateur</option>
+                      <option value="Mature">Mature</option>
+                      <option value="Transgender">Transgender</option>
+                      <option value="Anal">Anal</option>
+                      <option value="Threesome">Threesome</option>
+                      <option value="Hentai">Hentai</option>
+                      <option value="Cosplay">Cosplay</option>
+                      <option value="Femboy">Femboy</option>
+                      <option value="Roleplay">Roleplay</option>
+                      <option value="Cuckold">Cuckold</option>
+                      <option value="Hotwife">Hotwife</option>
+                      <option value="VR">VR Porn</option>
+                      <option value="Latina">Latina</option>
+                      <option value="Interracial">Interracial</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <button type="button" id="generateSeoBtn" style="background: linear-gradient(135deg, #10b981, #3b82f6); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
+                  <i data-lucide="wand-2" style="width: 16px; height: 16px;"></i> Generate SEO Title & Description
+                </button>
+              </div>
+
               <div class="form-group">
                 <label>Video Title</label>
                 <input type="text" id="vTitle" class="form-control" required placeholder="Enter video title">

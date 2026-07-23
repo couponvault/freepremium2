@@ -2,6 +2,99 @@
 let editingVideoId = null;
 let editingPremiumId = null;
 
+// =========================================================================
+// Smart SEO Keyword Spinner Engine (32 Lakh+ unique combinations)
+// =========================================================================
+const SEO_POOLS = {
+  quality: ["HD", "4K", "Full HD", "1080p", "Ultra HD", "High Quality", "Premium", "Exclusive", "Top Rated", "Best", "Viral", "Trending", "Popular", "Featured", "Handpicked", "Curated", "Uncut", "Uncensored", "Raw", "Verified"],
+  adjective: ["Hot", "Sexy", "Naughty", "Wild", "Passionate", "Sensual", "Steamy", "Intense", "Real", "Beautiful", "Stunning", "Gorgeous", "Busty", "Thick", "Petite", "Curvy", "Slim", "Natural", "Exotic", "Innocent", "Dirty", "Kinky", "Nasty", "Filthy"],
+  action: {
+    Lesbian: ["Scissoring", "Kissing", "Strapon Play", "Tribbing", "Fingering", "Licking", "Oral", "Seduction", "First Time", "Massage", "Oil Play", "Bath Together"],
+    MILF: ["Seduction", "Cheating", "Stepmom Fantasy", "Cougar Hunt", "Bedroom Scene", "Solo Play", "Teaching", "Caught in Act", "Afternoon Delight", "Neighbor Visit"],
+    Amateur: ["Homemade", "First Time on Camera", "Real Couple", "POV", "Selfie Style", "Webcam", "Behind the Scenes", "Casting", "Audition", "Spontaneous", "Hidden Camera Style"],
+    Mature: ["Solo Play", "Bedroom Confession", "Cougar Fantasy", "Lingerie Show", "Seduction", "Office Affair", "Experienced Lover", "Afternoon Session"],
+    Transgender: ["Solo", "Threesome", "First Date", "Transformation", "Lingerie Show", "POV", "Couple Scene", "Amateur Debut", "Webcam Show", "Casting"],
+    Anal: ["First Time", "Deep", "Rough", "Slow Sensual", "Oil Massage", "Toys", "POV", "Amateur", "Gaping", "Double", "Creampie"],
+    Threesome: ["FFM", "MMF", "College Party", "Surprise Third", "Best Friends", "Strangers Meet", "Hotel Room", "Birthday Gift", "Double Team", "Amateur Group"],
+    Hentai: ["Uncensored", "Schoolgirl", "Monster", "Tentacle", "Fantasy World", "Elf", "Demon Girl", "Sister", "Teacher", "Nurse", "Maid", "Princess"],
+    Cosplay: ["Anime Girl", "Superhero", "Maid Outfit", "School Uniform", "Nurse", "Cat Girl", "Bunny Girl", "Gamer Girl", "Elf Princess", "Witch"],
+    Femboy: ["Solo", "Cute", "Trap", "Crossdress", "Lingerie", "Webcam", "First Time", "Shy", "Amateur", "POV"],
+    Roleplay: ["Boss Secretary", "Doctor Patient", "Teacher Student", "Stranger", "Pizza Delivery", "Plumber", "Step Family", "Landlord Tenant", "Hitchhiker", "Interview"],
+    Cuckold: ["Watching Wife", "Bull Takes Over", "Husband Films", "Shared Wife", "First Time Sharing", "Hotel Room", "Interracial Bull", "Clean Up", "Phone Call"],
+    Hotwife: ["Date Night", "First Bull", "Husband Watches", "Hotel Meet", "Tinder Date", "Shared Fantasy", "Confession", "Text Messages"],
+    VR: ["180 Degree", "360 Experience", "POV Immersive", "Virtual Date", "VR Massage", "Virtual Girlfriend", "First Person", "Interactive"],
+    Latina: ["Thick Booty", "Spicy", "Dancing", "Passionate", "Amateur Homemade", "Big Ass", "Twerk", "Outdoor", "Beach", "Colombian", "Brazilian"],
+    Interracial: ["BBC", "Big Black", "First Time", "Cuckold", "Wife Shared", "Amateur", "College", "Rough", "Passionate", "Hotel Room"],
+    _default: ["Solo Play", "Hardcore", "Softcore", "POV", "Compilation", "Behind Scenes", "Debut", "Interview", "Audition", "Webcam"]
+  },
+  countryLabel: {
+    US: ["American", "US", "USA"],
+    UK: ["British", "UK", "English"],
+    CA: ["Canadian", "Canada"],
+    AU: ["Australian", "Aussie"],
+    DE: ["German", "Deutsche"],
+    FR: ["French", "Française"],
+    JP: ["Japanese", "Japan", "JAV"],
+    ES: ["Spanish", "Española"],
+    IT: ["Italian", "Italiana"],
+    global: ["International", "Worldwide", "Global"]
+  },
+  suffix: ["Online Free", "Stream Now", "Watch Free", "Full Video", "No Sign Up", "Instant Play", "New Upload", "Latest", "Daily Update", "Just Released", "Fresh Upload", "Today", "This Week", "2026"],
+  descTemplates: [
+    "Watch this {quality} {adjective} {niche} {action} video featuring {countryAdj} performers. Stream {niche} content in {qualityTag} quality — {suffix}.",
+    "Enjoy {quality} {niche} {action} scene with {adjective} {countryAdj} stars. Best free {niche} videos available to {suffix}.",
+    "Discover the hottest {adjective} {niche} content — {action} in stunning {qualityTag}. Featuring top {countryAdj} talent. {suffix}!",
+    "{quality} {niche} video: {adjective} {countryAdj} {action} scene you won't forget. Free to stream, no signup needed. {suffix}.",
+    "Top trending {niche} content: Watch {adjective} {countryAdj} performers in a {action} scene. {qualityTag} quality, {suffix}.",
+    "Exclusive {adjective} {niche} {action} featuring verified {countryAdj} amateurs. Streaming in {qualityTag} — {suffix}.",
+    "Premium {niche} scene: {adjective} {action} with stunning {countryAdj} stars. {qualityTag} resolution, completely free. {suffix}.",
+    "New {niche} upload: {adjective} {countryAdj} {action} in crystal clear {qualityTag}. Don't miss this one — {suffix}!"
+  ]
+};
+
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateSEO(country, quality, niche) {
+  const allNiches = Object.keys(SEO_POOLS.action).filter(k => k !== '_default');
+  const finalNiche = niche === 'random' ? pickRandom(allNiches) : niche;
+  const allQualities = SEO_POOLS.quality;
+  const finalQuality = quality === 'random' ? pickRandom(allQualities) : quality;
+  const allCountries = Object.keys(SEO_POOLS.countryLabel);
+  const finalCountry = country === 'random' ? pickRandom(allCountries) : country;
+  
+  const adj = pickRandom(SEO_POOLS.adjective);
+  const actions = SEO_POOLS.action[finalNiche] || SEO_POOLS.action._default;
+  const action = pickRandom(actions);
+  const countryAdj = pickRandom(SEO_POOLS.countryLabel[finalCountry] || ["International"]);
+  const suffix = pickRandom(SEO_POOLS.suffix);
+  
+  const titlePatterns = [
+    `${finalQuality} ${adj} ${finalNiche} ${action} - ${countryAdj} ${suffix}`,
+    `${adj} ${countryAdj} ${finalNiche} ${action} | ${finalQuality} ${suffix}`,
+    `Best ${finalQuality} ${finalNiche} ${action} - ${adj} ${countryAdj} Video`,
+    `${countryAdj} ${adj} ${finalNiche} - ${action} in ${finalQuality}`,
+    `Watch ${adj} ${finalNiche} ${action} | ${countryAdj} ${finalQuality} ${suffix}`,
+    `${finalQuality} ${countryAdj} ${finalNiche} ${action} Video - ${suffix}`,
+    `${adj} ${finalNiche} ${action} Featuring ${countryAdj} Stars - ${finalQuality}`,
+    `Trending ${finalNiche}: ${adj} ${countryAdj} ${action} | ${finalQuality}`
+  ];
+  const title = pickRandom(titlePatterns);
+  
+  const descTemplate = pickRandom(SEO_POOLS.descTemplates);
+  const description = descTemplate
+    .replace(/\{quality\}/g, finalQuality)
+    .replace(/\{qualityTag\}/g, finalQuality)
+    .replace(/\{adjective\}/g, adj.toLowerCase())
+    .replace(/\{niche\}/g, finalNiche)
+    .replace(/\{action\}/g, action)
+    .replace(/\{countryAdj\}/g, countryAdj)
+    .replace(/\{suffix\}/g, suffix);
+  
+  return { title, description, suggestedNiche: finalNiche };
+}
+
 async function uploadToSupabaseStorage(file, inputElem, btnElem) {
   if (!supabaseClient) {
     alert("Database connection not ready!");
@@ -46,6 +139,45 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   renderAdminCategories();
+
+  // Smart SEO Generator Button
+  const generateSeoBtn = document.getElementById("generateSeoBtn");
+  if (generateSeoBtn) {
+    generateSeoBtn.addEventListener("click", () => {
+      const country = document.getElementById("seoCountry").value;
+      const quality = document.getElementById("seoQuality").value;
+      const niche = document.getElementById("seoNiche").value;
+      
+      const result = generateSEO(country, quality, niche);
+      
+      // Fill Title field
+      document.getElementById("vTitle").value = result.title;
+      
+      // Fill Description field
+      document.getElementById("vDesc").value = result.description;
+      
+      // Flash green on title to show it was generated
+      const titleField = document.getElementById("vTitle");
+      titleField.style.borderColor = "#10b981";
+      titleField.style.boxShadow = "0 0 0 3px rgba(16, 185, 129, 0.2)";
+      const descField = document.getElementById("vDesc");
+      descField.style.borderColor = "#10b981";
+      descField.style.boxShadow = "0 0 0 3px rgba(16, 185, 129, 0.2)";
+      setTimeout(() => {
+        titleField.style.borderColor = "";
+        titleField.style.boxShadow = "";
+        descField.style.borderColor = "";
+        descField.style.boxShadow = "";
+      }, 2000);
+      
+      // Button animation
+      generateSeoBtn.textContent = "✅ Generated!";
+      setTimeout(() => {
+        generateSeoBtn.innerHTML = '<i data-lucide="wand-2" style="width: 16px; height: 16px;"></i> Generate SEO Title & Description';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }, 1500);
+    });
+  }
   
   const addCategoryForm = document.getElementById("addCategoryForm");
   const addVideoForm = document.getElementById("addVideoForm");
