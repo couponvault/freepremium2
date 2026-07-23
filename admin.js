@@ -119,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const newVideo = {
       id: editingVideoId ? editingVideoId : "vid-" + Date.now(),
       title: vTitle,
+      creator: vCreator,
       categories: vCategories,
       duration: vDuration,
       views: vViews,
