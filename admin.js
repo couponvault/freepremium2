@@ -146,6 +146,36 @@ document.addEventListener("DOMContentLoaded", () => {
     
     submitBtn.disabled = false;
   });
+
+  // Auto-Extract Embed URL from pasted iframe code
+  const vEmbedField = document.getElementById("vEmbed");
+  if (vEmbedField) {
+    vEmbedField.addEventListener("paste", (e) => {
+      setTimeout(() => {
+        let val = vEmbedField.value.trim();
+        
+        // Check if pasted content contains an iframe tag
+        if (val.includes("<iframe") || val.includes("&lt;iframe")) {
+          // Decode HTML entities if any
+          val = val.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&amp;/g, "&");
+          
+          // Extract src attribute from iframe
+          const srcMatch = val.match(/src\s*=\s*["']([^"']+)["']/i);
+          if (srcMatch && srcMatch[1]) {
+            vEmbedField.value = srcMatch[1];
+            
+            // Flash green border to show success
+            vEmbedField.style.borderColor = "#10b981";
+            vEmbedField.style.boxShadow = "0 0 0 3px rgba(16, 185, 129, 0.2)";
+            setTimeout(() => {
+              vEmbedField.style.borderColor = "";
+              vEmbedField.style.boxShadow = "";
+            }, 2000);
+          }
+        }
+      }, 50); // Small delay to let paste complete
+    });
+  }
 });
 
 function renderAdminCategories() {
