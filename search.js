@@ -62,17 +62,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Execute Search
   const allVideos = typeof getVideos === "function" ? await getVideos() : [];
   const filteredVideos = allVideos.filter(video => {
-    return video.title.toLowerCase().includes(query) ||
-           video.creator.toLowerCase().includes(query) ||
-           (video.categories && video.categories.some(c => c.toLowerCase().includes(query)));
+    let cats = [];
+    if (Array.isArray(video.categories)) cats = video.categories;
+    else if (typeof video.categories === 'string') {
+      try { cats = JSON.parse(video.categories); } catch(e) { cats = []; }
+    }
+    const title = video.title || "";
+    const creator = video.creator || "";
+    
+    return title.toLowerCase().includes(query) ||
+           creator.toLowerCase().includes(query) ||
+           cats.some(c => (c||"").toLowerCase().includes(query));
   });
   
   // 2. Search Premium Items
   const allItems = typeof getItems === "function" ? await getItems() : [];
   const filteredItems = allItems.filter(item => {
-    return item.title.toLowerCase().includes(query) ||
-           (item.description && item.description.toLowerCase().includes(query)) ||
-           item.type.toLowerCase().includes(query);
+    const title = item.title || "";
+    const desc = item.description || "";
+    const type = item.type || "";
+    
+    return title.toLowerCase().includes(query) ||
+           desc.toLowerCase().includes(query) ||
+           type.toLowerCase().includes(query);
   });
   
   const videoSection = document.getElementById("videoResultsSection");

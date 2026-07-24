@@ -198,12 +198,29 @@ function renderCategoryNav() {
 async function getFilteredVideos() {
   const vids = await getVideos();
   return vids.filter(video => {
-    const matchesCat = (video.tags && video.tags.includes(currentCatKey)) ||
-                       (video.categories && video.categories.some(c => c.toLowerCase() === currentCatKey));
+    let cats = [];
+    if (Array.isArray(video.categories)) cats = video.categories;
+    else if (typeof video.categories === 'string') {
+      try { cats = JSON.parse(video.categories); } catch(e) { cats = []; }
+    }
+    
+    let tags = [];
+    if (Array.isArray(video.tags)) tags = video.tags;
+    else if (typeof video.tags === 'string') {
+      try { tags = JSON.parse(video.tags); } catch(e) { tags = []; }
+    }
+    
+    const title = video.title || "";
+    const creator = video.creator || "";
+
+    const matchesCat = tags.some(t => (t||"").toLowerCase() === currentCatKey) ||
+                       cats.some(c => (c||"").toLowerCase() === currentCatKey);
+                       
     const matchesSearch = !searchQuery ||
-      video.title.toLowerCase().includes(searchQuery) ||
-      (video.categories && video.categories.some(c => c.toLowerCase().includes(searchQuery))) ||
-      video.creator.toLowerCase().includes(searchQuery);
+      title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      cats.some(c => (c||"").toLowerCase().includes(searchQuery.toLowerCase())) ||
+      creator.toLowerCase().includes(searchQuery.toLowerCase());
+      
     return matchesCat && matchesSearch;
   });
 }

@@ -106,9 +106,19 @@ async function renderVideos(append = false) {
   // Filter videos
   const allVideos = await getVideos();
   const filteredVideos = allVideos.filter(video => {
-    const matchesSearch = video.title.toLowerCase().includes(searchQuery) ||
-                          (video.categories && video.categories.some(c => c.toLowerCase().includes(searchQuery))) ||
-                          video.creator.toLowerCase().includes(searchQuery);
+    let cats = [];
+    if (Array.isArray(video.categories)) cats = video.categories;
+    else if (typeof video.categories === 'string') {
+      try { cats = JSON.parse(video.categories); } catch(e) { cats = []; }
+    }
+    
+    const title = video.title || "";
+    const creator = video.creator || "";
+    
+    const matchesSearch = !searchQuery || 
+                          title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          cats.some(c => (c||"").toLowerCase().includes(searchQuery.toLowerCase())) ||
+                          creator.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
   });
 
