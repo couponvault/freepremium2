@@ -140,7 +140,11 @@ async function renderVideos(append = false) {
     // Inject banner ad every 4 videos
     if (index > 0 && index % 4 === 0) {
       html += `
-        <div class="video-card ad-card adsterra-banner" data-ad-id="banner-square">
+        <div class="video-card ad-card" style="border: 1px dashed hsl(var(--primary)); background: hsla(var(--primary), 0.05);">
+          <div class="thumb-wrapper adsterra-banner" data-ad-id="banner-square" style="display: flex; align-items: center; justify-content: center; background: transparent;"></div>
+          <div class="card-details" style="display: flex; align-items: center; justify-content: center; padding: 8px;">
+            <span style="font-size: 0.6rem; color: hsl(var(--primary)); font-weight: 600;">Sponsored Content</span>
+          </div>
         </div>
       `;
     }
