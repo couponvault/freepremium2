@@ -67,9 +67,6 @@
         <!-- Navigation Menu -->
         <nav class="nav-menu" id="navMenu">
           <a href="/index.html" class="nav-link active">Home</a>
-          <button id="categoriesModalBtn" class="nav-link" style="background:none; border:none; cursor:pointer; font-family:inherit;">
-            Categories <i data-lucide="list" style="width: 14px; height: 14px; display:inline-block; margin-left:4px;"></i>
-          </button>
           <a href="category.html?cat=trending" class="nav-link">Trending</a>
           <a href="category.html?cat=popular" class="nav-link">Popular</a>
         
@@ -98,7 +95,7 @@
       <!-- Browse by Collection -->
       <section class="collection-section">
         <div class="section-header">
-          <div class="section-title">Browse by Collection</div>
+          <div class="section-title">Browse Categories</div>
         </div>
         
         <!-- Collection Top Ad Banner (728x90) -->
@@ -106,32 +103,8 @@
           [Adsterra 728x90 Banner Ad Space]
         </div>
 
-        <div class="collection-grid">
-          <a href="category.html?cat=trending" class="collection-card" style="--card-gradient: linear-gradient(135deg, #ff6b35 0%, #f7c948 100%);">
-            <div class="collection-icon"><i data-lucide="flame" style="width: 24px; height: 24px;"></i></div>
-            <h3>Trending</h3>
-            <p>Hot right now</p>
-          </a>
-          <a href="category.html?cat=popular" class="collection-card" style="--card-gradient: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);">
-            <div class="collection-icon"><i data-lucide="star" style="width: 24px; height: 24px;"></i></div>
-            <h3>Popular</h3>
-            <p>All-time favorites</p>
-          </a>
-          <a href="category.html?cat=featured" class="collection-card" style="--card-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-            <div class="collection-icon"><i data-lucide="award" style="width: 24px; height: 24px;"></i></div>
-            <h3>Featured</h3>
-            <p>Editor's picks</p>
-          </a>
-          <a href="category.html?cat=hd" class="collection-card" style="--card-gradient: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);">
-            <div class="collection-icon"><i data-lucide="monitor" style="width: 24px; height: 24px;"></i></div>
-            <h3>HD Quality</h3>
-            <p>Crystal clear</p>
-          </a>
-          <a href="category.html?cat=amateur" class="collection-card" style="--card-gradient: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);">
-            <div class="collection-icon"><i data-lucide="video" style="width: 24px; height: 24px;"></i></div>
-            <h3>Amateur</h3>
-            <p>Rising creators</p>
-          </a>
+        <div id="homeCategoryList" class="cat-modal-list" style="padding: 0; justify-content: flex-start; gap: 12px; margin-top: 16px;">
+          <!-- Categories injected via JS -->
         </div>
       </section>
 

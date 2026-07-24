@@ -272,6 +272,14 @@ function renderNavCategories() {
       <a href="category.html?cat=${encodeURIComponent(cat)}" class="cat-modal-item">${escapeHTML(cat)}</a>
     `).join("");
   }
+
+  // Try to render into the Homepage List
+  const homeList = document.getElementById("homeCategoryList");
+  if(homeList) {
+    homeList.innerHTML = cats.map(cat => `
+      <a href="category.html?cat=${encodeURIComponent(cat)}" class="cat-modal-item">${escapeHTML(cat)}</a>
+    `).join("");
+  }
 }
 
 function getCustomSEOKeywords() {
