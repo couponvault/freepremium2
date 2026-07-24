@@ -214,7 +214,8 @@ async function getFilteredVideos() {
     const creator = video.creator || "";
 
     const matchesCat = tags.some(t => (t||"").toLowerCase() === currentCatKey) ||
-                       cats.some(c => (c||"").toLowerCase() === currentCatKey);
+                       cats.some(c => (c||"").toLowerCase() === currentCatKey) ||
+                       (CATEGORIES[currentCatKey] && cats.some(c => (c||"").toLowerCase() === CATEGORIES[currentCatKey].title.toLowerCase()));
                        
     const matchesSearch = !searchQuery ||
       title.toLowerCase().includes(searchQuery.toLowerCase()) ||
