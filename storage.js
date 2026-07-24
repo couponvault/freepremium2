@@ -276,9 +276,36 @@ function renderNavCategories() {
   // Try to render into the Homepage List
   const homeList = document.getElementById("homeCategoryList");
   if(homeList) {
-    homeList.innerHTML = cats.map(cat => `
-      <a href="category.html?cat=${encodeURIComponent(cat)}" class="cat-modal-item">${escapeHTML(cat)}</a>
+    const VISIBLE_COUNT = 12; // Show 12 items initially (approx 2-3 rows depending on screen)
+    
+    homeList.innerHTML = cats.map((cat, index) => `
+      <a href="category.html?cat=${encodeURIComponent(cat)}" class="cat-modal-item ${index >= VISIBLE_COUNT ? 'hidden-cat' : ''}" style="${index >= VISIBLE_COUNT ? 'display: none;' : ''}">${escapeHTML(cat)}</a>
     `).join("");
+
+    if (cats.length > VISIBLE_COUNT) {
+      homeList.innerHTML += `<button id="toggleCategoriesBtn" style="background: none; border: none; color: hsl(var(--primary)); cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 8px 16px; border-radius: 24px; border: 1px dashed hsl(var(--primary));">See More <i data-lucide="chevron-down" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-left:4px;"></i></button>`;
+      
+      // Delay slightly to ensure DOM is updated before adding event listener
+      setTimeout(() => {
+        const toggleBtn = document.getElementById("toggleCategoriesBtn");
+        const hiddenCats = document.querySelectorAll('.hidden-cat');
+        if (toggleBtn) {
+          let isExpanded = false;
+          toggleBtn.addEventListener("click", () => {
+            isExpanded = !isExpanded;
+            hiddenCats.forEach(el => {
+              el.style.display = isExpanded ? "inline-block" : "none";
+            });
+            if (isExpanded) {
+              toggleBtn.innerHTML = `See Less <i data-lucide="chevron-up" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-left:4px;"></i>`;
+            } else {
+              toggleBtn.innerHTML = `See More <i data-lucide="chevron-down" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-left:4px;"></i>`;
+            }
+            if(window.lucide) window.lucide.createIcons();
+          });
+        }
+      }, 50);
+    }
   }
 }
 
