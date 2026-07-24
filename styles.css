@@ -969,11 +969,9 @@ main {
   }
   
   .ad-card {
-    grid-column: 1 / -1;
     min-height: auto;
-    padding: 12px 0;
-    border: none;
-    background: transparent;
+    border: 1px dashed hsl(var(--border-color));
+    background: rgba(255,255,255,0.02);
   }
   
   /* Drastically reduce sizing to fit 3 columns on small screens */
