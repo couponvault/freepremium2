@@ -962,10 +962,10 @@ main {
     justify-content: center;
   }
   
-  /* 3-Column Grid requested for Mobile */
+  /* 2-Column Grid for Mobile */
   .video-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 8px !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
   }
   
   .ad-card {
@@ -974,53 +974,52 @@ main {
     background: rgba(255,255,255,0.02);
   }
   
-  /* Drastically reduce sizing to fit 3 columns on small screens */
   .video-card {
-    border-radius: 8px;
+    border-radius: 10px;
   }
 
   .video-card .card-details {
-    padding: 6px;
+    padding: 8px;
     gap: 4px;
   }
   
   .video-card .card-title {
-    font-size: 0.6rem;
-    line-height: 1.2;
+    font-size: 0.75rem;
+    line-height: 1.3;
     -webkit-line-clamp: 2;
     margin-bottom: 2px;
   }
   
   .video-card .card-category {
-    font-size: 0.45rem;
-    padding: 2px 4px;
+    font-size: 0.55rem;
+    padding: 2px 6px;
     border-radius: 4px;
   }
   
   .video-card .card-views {
-    font-size: 0.45rem;
+    font-size: 0.55rem;
   }
   
   .video-card .card-author {
-    font-size: 0.5rem;
+    font-size: 0.6rem;
   }
   
   .video-card .video-duration {
-    font-size: 0.45rem;
-    padding: 1px 3px;
-    bottom: 4px;
-    right: 4px;
-    border-radius: 2px;
+    font-size: 0.55rem;
+    padding: 2px 4px;
+    bottom: 6px;
+    right: 6px;
+    border-radius: 3px;
   }
   
   .video-card .play-icon-glow {
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
   }
   
   .video-card .play-icon-glow i {
-    width: 8px !important;
-    height: 8px !important;
+    width: 12px !important;
+    height: 12px !important;
   }
 }
 
