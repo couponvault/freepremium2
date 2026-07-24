@@ -17,7 +17,6 @@ const navMenu = document.getElementById("navMenu");
 const menuToggle = document.getElementById("menuToggle");
 const menuIcon = document.getElementById("menuIcon");
 const mobileSearchToggle = document.getElementById("mobileSearchToggle");
-const adminBtn = document.getElementById("adminBtn");
 
 // 2. Initialize App
 document.addEventListener("DOMContentLoaded", () => {
@@ -55,12 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Admin Shortcut Announcement (Step Placeholder)
-  if (adminBtn) {
-    adminBtn.addEventListener("click", () => {
-      alert("Admin Panel integration is coming in a subsequent step! Get ready to manage links easily.");
-    });
-  }
 
   // Global exit navigation page transitions
   document.addEventListener("click", (e) => {

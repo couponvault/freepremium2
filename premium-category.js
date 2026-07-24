@@ -70,14 +70,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const html = paginatedItems.map(item => `
       <div class="video-card">
         <div class="thumbnail-container">
-          <img src="${item.thumbnail}" alt="Thumbnail" class="thumbnail" style="object-fit: cover;" loading="lazy">
-          ${item.subtitle ? `<div class="duration-badge">${item.subtitle}</div>` : ''}
+          <img src="${escapeHTML(item.thumbnail)}" alt="Thumbnail" class="thumbnail" style="object-fit: cover;" loading="lazy">
+          ${item.subtitle ? `<div class="duration-badge">${escapeHTML(item.subtitle)}</div>` : ''}
         </div>
         <div class="card-details">
-          <h3 class="card-title">${item.title}</h3>
+          <h3 class="card-title">${escapeHTML(item.title)}</h3>
           ${item.description ? `<span class="card-description" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4;">${escapeHTML(item.description)}</span>` : ''}
           <div style="margin-top: 12px;">
-            <a href="details.html?id=${item.id}" class="primary-btn" style="display: block; text-align: center; text-decoration: none; background: #ec4899;">
+            <a href="details.html?id=${encodeURIComponent(item.id)}" class="primary-btn" style="display: block; text-align: center; text-decoration: none; background: #ec4899;">
               ${item.type === 'apk' ? 'Download APK' : 'Watch Online / Download'}
             </a>
           </div>

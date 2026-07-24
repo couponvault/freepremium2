@@ -49,13 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     lucide.createIcons();
   });
 
-  // Admin Shortcut Announcement (Step Placeholder)
-  const adminBtn = document.getElementById("adminBtn");
-  if (adminBtn) {
-    adminBtn.addEventListener("click", () => {
-      alert("Admin Panel integration is coming in a subsequent step! Get ready to manage links easily.");
-    });
-  }
+
 
   // Global exit navigation page transitions
   document.addEventListener("click", (e) => {
@@ -123,21 +117,25 @@ function populateVideoDetails(video) {
   });
 
   document.getElementById("videoTitle").textContent = video.title;
-  document.getElementById("videoCategory").innerHTML = (video.categories || []).map(cat => 
-    `<a href="category.html?cat=${encodeURIComponent(cat.toLowerCase())}" class="card-category" style="margin-right:8px; display:inline-block; text-decoration: none; cursor: pointer;">${escapeHTML(cat)}</a>`
+  let vidCats = [];
+  if (Array.isArray(video.categories)) vidCats = video.categories;
+  else if (typeof video.categories === 'string') { try { vidCats = JSON.parse(video.categories); } catch(e) { vidCats = []; } }
+  document.getElementById("videoCategory").innerHTML = vidCats.map(cat => 
+    `<a href="category.html?cat=${encodeURIComponent((cat||"").toLowerCase())}" class="card-category" style="margin-right:8px; display:inline-block; text-decoration: none; cursor: pointer;">${escapeHTML(cat||"")}</a>`
   ).join("");
   document.getElementById("videoViews").innerHTML = `<i data-lucide="eye" style="width: 14px; height: 14px; display: inline; vertical-align: text-bottom; margin-right: 4px;"></i> ${escapeHTML(video.views)}`;
   document.getElementById("videoDate").innerHTML = `<i data-lucide="calendar" style="width: 14px; height: 14px; display: inline; vertical-align: text-bottom; margin-right: 4px;"></i> Released ${escapeHTML(video.date || 'recently')}`;
-  document.getElementById("videoCreator").textContent = video.creator;
+  document.getElementById("videoCreator").textContent = video.creator || "Unknown";
   document.getElementById("videoDescription").textContent = video.description || "No description provided for this premium stream.";
 
   // Create Avatar Initials
-  const creatorParts = video.creator.split(" ");
+  const creatorName = video.creator || "Unknown";
+  const creatorParts = creatorName.split(" ");
   const initials = creatorParts.map(p => p[0]).join("").toUpperCase().substring(0, 2);
   document.getElementById("creatorAvatar").textContent = initials;
   
   // Breadcrumbs
-  const firstCat = (video.categories && video.categories.length > 0) ? video.categories[0] : "All";
+  const firstCat = (vidCats.length > 0) ? vidCats[0] : "All";
   document.getElementById("videoBreadcrumbs").innerHTML = `
     <a href="index.html" style="color: inherit; text-decoration: none;">Home</a> 
     <span style="margin: 0 4px;">/</span> 
@@ -170,16 +168,21 @@ async function renderRelatedVideos(currentVideo) {
   const relatedContainer = document.getElementById("relatedContainer");
 
   // Prioritize based on number of shared categories
-  const currentCats = currentVideo.categories || [];
+  let currentCats = [];
+  if (Array.isArray(currentVideo.categories)) currentCats = currentVideo.categories;
+  else if (typeof currentVideo.categories === 'string') { try { currentCats = JSON.parse(currentVideo.categories); } catch(e) { currentCats = []; } }
+  
   const allVideos = await getVideos();
   const related = allVideos.filter(v => v.id !== currentVideo.id)
                              .sort((a, b) => {
-                               const aCats = a.categories || [];
-                               const bCats = b.categories || [];
-                               const aMatchCount = aCats.filter(c => currentCats.includes(c)).length;
-                               const bMatchCount = bCats.filter(c => currentCats.includes(c)).length;
-                               return bMatchCount - aMatchCount;
-                             });
+                                let aCats = Array.isArray(a.categories) ? a.categories : [];
+                                let bCats = Array.isArray(b.categories) ? b.categories : [];
+                                if (typeof a.categories === 'string') { try { aCats = JSON.parse(a.categories); } catch(e) {} }
+                                if (typeof b.categories === 'string') { try { bCats = JSON.parse(b.categories); } catch(e) {} }
+                                const aMatchCount = aCats.filter(c => currentCats.includes(c)).length;
+                                const bMatchCount = bCats.filter(c => currentCats.includes(c)).length;
+                                return bMatchCount - aMatchCount;
+                              });
 
   // Render custom vertical card items in the sidebar
   relatedContainer.innerHTML = related.map(v => `
@@ -197,7 +200,3 @@ async function renderRelatedVideos(currentVideo) {
   `).join("");
 }
 
-// Focus Redirect to Homepage Search
-window.navigateToHomeWithSearch = function() {
-  window.location.href = "index.html";
-};

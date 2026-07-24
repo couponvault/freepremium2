@@ -187,7 +187,7 @@ function renderCategoryNav() {
     const cat = CATEGORIES[key];
     const isActive = key === currentCatKey;
     return `
-      <a href="category.html?cat=${encodeURIComponent(key)}" class="category-chip cat-chip-link ${isActive ? 'active' : ''}" onclick="triggerPopunder()" style="${isActive ? `background: ${cat.gradient}; border-color: transparent;` : ''}">
+      <a href="category.html?cat=${encodeURIComponent(key)}" class="category-chip cat-chip-link ${isActive ? 'active' : ''}" style="${isActive ? `background: ${cat.gradient}; border-color: transparent;` : ''}">
         ${escapeHTML(cat.title)}
       </a>
     `;
@@ -226,17 +226,29 @@ async function getFilteredVideos() {
 }
 
 // ── Sort Videos ──
+function parseViewCount(viewStr) {
+  if (!viewStr || typeof viewStr !== 'string') return 0;
+  const cleaned = viewStr.toLowerCase().replace(/views?/g, '').replace(/,/g, '').trim();
+  if (cleaned.endsWith('m')) return parseFloat(cleaned) * 1000000;
+  if (cleaned.endsWith('k')) return parseFloat(cleaned) * 1000;
+  return parseInt(cleaned, 10) || 0;
+}
+
 function sortVideos(videos) {
   const sorted = [...videos];
   switch (currentSort) {
     case "latest":
-      sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
+      sorted.sort((a, b) => {
+        const dateA = new Date(a.created_at || a.date || 0);
+        const dateB = new Date(b.created_at || b.date || 0);
+        return dateB - dateA;
+      });
       break;
     case "popular":
-      sorted.sort((a, b) => b.viewCount - a.viewCount);
+      sorted.sort((a, b) => parseViewCount(b.views) - parseViewCount(a.views));
       break;
     case "az":
-      sorted.sort((a, b) => a.title.localeCompare(b.title));
+      sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
       break;
   }
   return sorted;
