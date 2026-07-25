@@ -67,6 +67,87 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  // Advanced Player Controls
+  const btnLightsOff = document.getElementById("btnLightsOff");
+  const btnTheater = document.getElementById("btnTheater");
+  const btnSave = document.getElementById("btnSave");
+  const btnShare = document.getElementById("btnShare");
+  const btnReport = document.getElementById("btnReport");
+
+  if (btnLightsOff) {
+    btnLightsOff.addEventListener("click", () => {
+      document.body.classList.toggle("lights-off-active");
+      const isActive = document.body.classList.contains("lights-off-active");
+      btnLightsOff.innerHTML = isActive ? 
+        `<i data-lucide="sun" style="width:16px;height:16px;"></i> Lights On` : 
+        `<i data-lucide="moon" style="width:16px;height:16px;"></i> Lights Off`;
+      lucide.createIcons();
+    });
+  }
+
+  if (btnTheater) {
+    btnTheater.addEventListener("click", () => {
+      document.body.classList.toggle("theater-mode-active");
+      const isActive = document.body.classList.contains("theater-mode-active");
+      btnTheater.innerHTML = isActive ? 
+        `<i data-lucide="minimize" style="width:16px;height:16px;"></i> Default View` : 
+        `<i data-lucide="monitor-play" style="width:16px;height:16px;"></i> Theater Mode`;
+      
+      // Scroll to player smoothly
+      if (isActive) {
+        document.getElementById("watchLayout").scrollIntoView({ behavior: "smooth" });
+      }
+      lucide.createIcons();
+    });
+  }
+
+  if (btnSave) {
+    btnSave.addEventListener("click", () => {
+      btnSave.innerHTML = `<i data-lucide="check" style="width:16px;height:16px;color:#10b981;"></i> Saved!`;
+      lucide.createIcons();
+      setTimeout(() => {
+        btnSave.innerHTML = `<i data-lucide="bookmark" style="width:16px;height:16px;"></i> Save`;
+        lucide.createIcons();
+      }, 2000);
+    });
+  }
+
+  if (btnShare) {
+    btnShare.addEventListener("click", () => {
+      if (navigator.share) {
+        navigator.share({
+          title: document.title,
+          url: window.location.href
+        }).catch(console.error);
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        btnShare.innerHTML = `<i data-lucide="check" style="width:16px;height:16px;color:#10b981;"></i> Copied!`;
+        lucide.createIcons();
+        setTimeout(() => {
+          btnShare.innerHTML = `<i data-lucide="share-2" style="width:16px;height:16px;"></i> Share`;
+          lucide.createIcons();
+        }, 2000);
+      }
+    });
+  }
+
+  if (btnReport) {
+    btnReport.addEventListener("click", () => {
+      btnReport.innerHTML = `<i data-lucide="check" style="width:16px;height:16px;"></i> Reported`;
+      btnReport.style.color = "#10b981";
+      btnReport.style.borderColor = "rgba(16, 185, 129, 0.2)";
+      btnReport.style.background = "rgba(16, 185, 129, 0.1)";
+      lucide.createIcons();
+      setTimeout(() => {
+        btnReport.innerHTML = `<i data-lucide="flag" style="width:16px;height:16px;"></i> Report`;
+        btnReport.style.color = "#ef4444";
+        btnReport.style.borderColor = "rgba(239, 68, 68, 0.2)";
+        btnReport.style.background = "rgba(239, 68, 68, 0.1)";
+        lucide.createIcons();
+      }, 3000);
+    });
+  }
+
   // Call Lucide Init
   lucide.createIcons();
 });

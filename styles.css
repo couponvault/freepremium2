@@ -1027,6 +1027,73 @@ main {
    Video Watch Page Specific Components
    ======================================================================== */
 
+/* Advanced Player Controls & Modes */
+.player-actions-bar {
+  display: flex;
+  gap: 8px;
+  margin: -8px 0 16px 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none; /* Firefox */
+}
+.player-actions-bar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.action-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: hsla(var(--bg-card), 0.5);
+  border: 1px solid hsl(var(--border-color));
+  color: hsl(var(--text-secondary));
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.action-pill:hover {
+  background: hsla(var(--primary), 0.1);
+  color: hsl(var(--primary));
+  border-color: hsla(var(--primary), 0.3);
+}
+
+/* Lights Off Mode */
+body.lights-off-active::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 999; /* Below the player but above everything else */
+  pointer-events: none;
+}
+
+body.lights-off-active .player-wrapper,
+body.lights-off-active .player-actions-bar {
+  position: relative;
+  z-index: 1000;
+}
+
+/* Theater Mode */
+body.theater-mode-active .watch-main-layout {
+  display: flex;
+  flex-direction: column;
+}
+body.theater-mode-active .watch-primary-col {
+  width: 100%;
+}
+body.theater-mode-active .watch-sidebar-col {
+  width: 100%;
+  max-width: 100%;
+}
+body.theater-mode-active .player-wrapper {
+  max-height: 80vh;
+}
+
 .watch-main-layout {
   display: grid;
   grid-template-columns: 1fr 360px;
