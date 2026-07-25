@@ -216,6 +216,56 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   
+  // Auto-format title and auto-generate description on paste/blur
+  const vTitleInput = document.getElementById("vTitle");
+  if (vTitleInput) {
+    const handleTitleAutoFormat = () => {
+      let rawTitle = vTitleInput.value;
+      if (!rawTitle) return;
+
+      // Clean the title: remove file extensions, replace dashes/underscores with space, title case
+      let cleanTitle = rawTitle
+        .replace(/\.(mp4|avi|mkv|mov|wmv|flv|webm)$/i, '') // remove common video extensions
+        .replace(/[-_.]/g, ' ')
+        .replace(/\s+/g, ' ') // collapse spaces
+        .toLowerCase()
+        .replace(/\b\w/g, l => l.toUpperCase()) // Title case
+        .trim();
+      
+      if (vTitleInput.value !== cleanTitle) {
+        vTitleInput.value = cleanTitle;
+        vTitleInput.style.borderColor = "#10b981";
+        setTimeout(() => vTitleInput.style.borderColor = "", 1500);
+      }
+
+      // Auto generate description if it's empty
+      const vDesc = document.getElementById("vDesc");
+      if (vDesc && (!vDesc.value.trim() || vDesc.value.includes("Watch"))) {
+         const quality = document.getElementById("seoQuality") ? document.getElementById("seoQuality").value : "HD";
+         const qStr = (quality !== "random" && quality) ? quality : "HD";
+         vDesc.value = `Watch "${cleanTitle}" in exclusive ${qStr} quality online. Stream the best premium adult videos, web series, and exclusive content right here. Update your daily dose of entertainment.`;
+         vDesc.style.borderColor = "#10b981";
+         setTimeout(() => vDesc.style.borderColor = "", 1500);
+      }
+
+      // Auto-select categories based on keywords in the title (no manual selection needed)
+      const checkboxes = document.querySelectorAll('#categoryCheckboxes input[type="checkbox"]');
+      const lowerTitle = cleanTitle.toLowerCase();
+      checkboxes.forEach(cb => {
+         // Prevent matching short generic words, match full word boundaries if possible
+         const catVal = cb.value.toLowerCase();
+         if (catVal.length > 2 && new RegExp('\\b' + catVal.replace(/[^a-z0-9]/gi, '\\$&') + '\\b', 'i').test(lowerTitle)) {
+           cb.checked = true;
+         }
+      });
+    };
+
+    vTitleInput.addEventListener("paste", () => {
+      setTimeout(handleTitleAutoFormat, 50);
+    });
+    vTitleInput.addEventListener("blur", handleTitleAutoFormat);
+  }
+
   const addCategoryForm = document.getElementById("addCategoryForm");
   const addVideoForm = document.getElementById("addVideoForm");
   
