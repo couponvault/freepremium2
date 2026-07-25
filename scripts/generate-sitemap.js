@@ -46,7 +46,27 @@ async function generateSitemap() {
 
     if (videos && videos.length > 0) {
       videos.forEach(video => {
-        const date = video.created_at ? video.created_at.split('T')[0] : new Date().toISOString().split('T')[0];
+        let date = new Date().toISOString().split('T')[0];
+        try {
+          if (video.created_at) {
+            // Force replace any spaces or slashes with hyphens if user typed it manually
+            let rawDate = video.created_at.split('T')[0].replace(/[\/\s]/g, '-');
+            
+            // Validate if it matches YYYY-MM-DD
+            if (/^\d{4}-\d{2}-\d{2}$/.test(rawDate)) {
+              date = rawDate;
+            } else {
+              // Try parsing it as a real date object
+              const parsed = new Date(video.created_at);
+              if (!isNaN(parsed.getTime())) {
+                date = parsed.toISOString().split('T')[0];
+              }
+            }
+          }
+        } catch (e) {
+          // fallback to today's date if anything fails
+        }
+
         const title = escapeXml(video.title);
         const description = escapeXml(video.description || video.title || 'Premium Video');
         let thumbnail = escapeXml(video.thumbnail);
