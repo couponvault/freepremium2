@@ -1,7 +1,10 @@
-export default async function handler(req, res) {
+const fs = require('fs');
+
+async function generateSitemap() {
   try {
-    const SUPABASE_URL = atob('aHR0cHM6Ly9ia291eWRoa3NraXpxY3Z4dXJleS5zdXBhYmFzZS5jbw==');
-    const SUPABASE_KEY = atob('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW1KcmIzVjVaR2hyYzJ0cGVuRmpkbmgxY21WNUlpd2ljbTlzWlNJNkltRnViMjRpTENKcFlYUWlPakUzT0RRMU16TXlPRGtzSW1WNGNDSTZNakV3TURFd09USTRPWDAuMVd1RDM4WU5qcUtWajhqdGxuVEJIQ0x4RjNnNmJYYy04d1VReklIQW0ybw==');
+    // Decoding base64 Supabase credentials
+    const SUPABASE_URL = Buffer.from('aHR0cHM6Ly9ia291eWRoa3NraXpxY3Z4dXJleS5zdXBhYmFzZS5jbw==', 'base64').toString('ascii');
+    const SUPABASE_KEY = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW1KcmIzVjVaR2hyYzJ0cGVuRmpkbmgxY21WNUlpd2ljbTlzWlNJNkltRnViMjRpTENKcFlYUWlPakUzT0RRMU16TXlPRGtzSW1WNGNDSTZNakV3TURFd09USTRPWDAuMVd1RDM4WU5qcUtWajhqdGxuVEJIQ0x4RjNnNmJYYy04d1VReklIQW0ybw==', 'base64').toString('ascii');
 
     const response = await fetch(`${SUPABASE_URL}/rest/v1/videos?select=id,created_at`, {
       headers: {
@@ -32,7 +35,6 @@ export default async function handler(req, res) {
 
     if (videos && videos.length > 0) {
       videos.forEach(video => {
-        // Fallback to today if created_at is missing
         const date = video.created_at ? video.created_at.split('T')[0] : new Date().toISOString().split('T')[0];
         xml += `
   <url>
@@ -46,10 +48,12 @@ export default async function handler(req, res) {
 
     xml += `\n</urlset>`;
 
-    res.setHeader('Content-Type', 'text/xml');
-    res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate'); // Cache on Edge for 1 hour
-    res.status(200).send(xml);
+    fs.writeFileSync('sitemap.xml', xml);
+    console.log(`Successfully generated sitemap.xml with ${videos.length + 3} URLs.`);
   } catch (err) {
-    res.status(500).send(`Error generating sitemap: ${err.message}`);
+    console.error('Error generating sitemap:', err);
+    process.exit(1);
   }
 }
+
+generateSitemap();
