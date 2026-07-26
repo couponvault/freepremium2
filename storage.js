@@ -447,35 +447,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Global Disclaimer Logic
   if (window.location.pathname.indexOf('admin.html') === -1) {
-    // 1. Create floating button
-    const disclaimerBtn = document.createElement("button");
-    disclaimerBtn.textContent = "Disclaimer";
-    disclaimerBtn.style.position = "fixed";
-    disclaimerBtn.style.bottom = "15px";
-    disclaimerBtn.style.left = "15px";
-    disclaimerBtn.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
-    disclaimerBtn.style.color = "hsl(var(--text-secondary))";
-    disclaimerBtn.style.border = "1px solid rgba(255, 255, 255, 0.1)";
-    disclaimerBtn.style.padding = "6px 12px";
-    disclaimerBtn.style.borderRadius = "20px";
-    disclaimerBtn.style.fontSize = "0.75rem";
-    disclaimerBtn.style.cursor = "pointer";
-    disclaimerBtn.style.zIndex = "999990";
-    disclaimerBtn.style.backdropFilter = "blur(5px)";
-    disclaimerBtn.style.transition = "all 0.3s ease";
-    
-    disclaimerBtn.addEventListener("mouseover", () => {
-      disclaimerBtn.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
-      disclaimerBtn.style.color = "white";
-    });
-    disclaimerBtn.addEventListener("mouseout", () => {
-      disclaimerBtn.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
-      disclaimerBtn.style.color = "hsl(var(--text-secondary))";
-    });
-
-    document.body.appendChild(disclaimerBtn);
-
-    // 2. Create Modal
+    // Create Modal
     const disclaimerOverlay = document.createElement("div");
     disclaimerOverlay.style.position = "fixed";
     disclaimerOverlay.style.top = "0";
@@ -507,17 +479,20 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(disclaimerOverlay);
     if(window.lucide) window.lucide.createIcons();
 
-    // 3. Event Listeners for Modal
-    disclaimerBtn.addEventListener("click", () => {
-      disclaimerOverlay.style.display = "flex";
-    });
-
-    const closeBtn = disclaimerOverlay.querySelector("#closeDisclaimer");
-    const acceptBtn = disclaimerOverlay.querySelector("#acceptDisclaimer");
-
     const closeModal = () => {
       disclaimerOverlay.style.display = "none";
     };
+
+    // Hook into the header button if it exists (index.html)
+    const headerBtn = document.getElementById("disclaimerHeaderBtn");
+    if (headerBtn) {
+      headerBtn.addEventListener("click", () => {
+        disclaimerOverlay.style.display = "flex";
+      });
+    }
+
+    const closeBtn = disclaimerOverlay.querySelector("#closeDisclaimer");
+    const acceptBtn = disclaimerOverlay.querySelector("#acceptDisclaimer");
 
     closeBtn.addEventListener("click", closeModal);
     acceptBtn.addEventListener("click", closeModal);
