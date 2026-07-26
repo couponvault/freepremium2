@@ -360,7 +360,11 @@ document.addEventListener("DOMContentLoaded", () => {
       editingVideoId = null;
       submitBtn.textContent = "Upload Video";
       renderAdminManageLists();
-      document.querySelector('.tab-btn[data-tab="content-manager"]').click();
+      document.querySelector('.tab-btn[data-tab="tab-dashboard"]').click();
+      
+      // Reset thumbnail preview visually
+      const thumbnailPreview = document.getElementById("thumbnailPreview");
+      if(thumbnailPreview) thumbnailPreview.innerHTML = "<span>No Image Selected</span>";
     }
     
     submitBtn.disabled = false;
@@ -483,7 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.textContent = "Publish Premium Stuff";
         showSuccess();
         renderAdminManageLists();
-        document.querySelector('.tab-btn[data-tab="content-manager"]').click();
+        document.querySelector('.tab-btn[data-tab="tab-dashboard"]').click();
       }
       
       submitBtn.disabled = false;
