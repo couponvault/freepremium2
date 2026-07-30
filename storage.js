@@ -503,3 +503,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// Global Image Fallback (Fixes broken thumbnails due to adblockers, VPNs, or expired links)
+document.addEventListener('error', function(e) {
+  if (e.target.tagName && e.target.tagName.toLowerCase() === 'img') {
+    if (!e.target.dataset.failed) {
+      e.target.dataset.failed = "true";
+      // A sleek, dark placeholder SVG
+      e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 400 300'%3E%3Crect width='100%25' height='100%25' fill='%23111827'/%3E%3Cpath d='M150 200 L200 140 L250 220 Z' fill='%23374151'/%3E%3Ccircle cx='250' cy='100' r='30' fill='%23374151'/%3E%3Ctext x='200' y='180' font-family='sans-serif' font-size='20' font-weight='bold' fill='%236b7280' text-anchor='middle' alignment-baseline='middle'%3EPreview Unavailable%3C/text%3E%3C/svg%3E";
+      e.target.style.objectFit = "cover";
+    }
+  }
+}, true); // Use capture phase to catch the error before it bubbles
