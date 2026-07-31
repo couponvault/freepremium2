@@ -528,7 +528,7 @@ async function renderAdminManageLists() {
       vList.innerHTML = videos.map(v => `
         <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px;">
           <div style="display: flex; align-items: center; gap: 12px; overflow: hidden;">
-            <img src="${escapeHTML(v.thumbnail)}" alt="thumb" style="width: 50px; height: 35px; object-fit: cover; border-radius: 4px;">
+            <img src="${escapeHTML(v.thumbnail)}" alt="thumb" width="50" height="35" style="width: 50px; height: 35px; object-fit: cover; border-radius: 4px;">
             <span style="font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(v.title)}</span>
           </div>
           <div style="display: flex; gap: 8px;">
@@ -548,7 +548,7 @@ async function renderAdminManageLists() {
       pList.innerHTML = items.map(p => `
         <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px;">
           <div style="display: flex; align-items: center; gap: 12px; overflow: hidden;">
-            <img src="${escapeHTML(p.thumbnail)}" alt="thumb" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+            <img src="${escapeHTML(p.thumbnail)}" alt="thumb" width="50" height="50" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
             <span style="font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(p.title)}</span>
           </div>
           <div style="display: flex; gap: 8px;">

@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const html = paginatedItems.map(item => `
       <div class="video-card">
         <div class="thumbnail-container">
-          <img src="${escapeHTML(item.thumbnail)}" alt="Thumbnail" class="thumbnail" style="object-fit: cover;" loading="lazy">
+          <img src="${escapeHTML(item.thumbnail)}" alt="Thumbnail" class="thumbnail" style="object-fit: cover;" loading="lazy" width="320" height="180">
           ${item.subtitle ? `<div class="duration-badge">${escapeHTML(item.subtitle)}</div>` : ''}
         </div>
         <div class="card-details">

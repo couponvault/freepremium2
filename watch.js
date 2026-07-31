@@ -269,7 +269,7 @@ async function renderRelatedVideos(currentVideo) {
   relatedContainer.innerHTML = related.map(v => `
     <a href="watch.html?v=${encodeURIComponent(v.id)}" class="related-card">
       <div class="related-thumb-wrapper">
-        <img src="${escapeHTML(v.thumbnail)}" alt="${escapeHTML(v.title)}" class="related-thumb" loading="lazy">
+        <img src="${escapeHTML(v.thumbnail)}" alt="${escapeHTML(v.title)}" class="related-thumb" loading="lazy" width="120" height="67">
         <span class="related-duration">${escapeHTML(v.duration)}</span>
       </div>
       <div class="related-details">

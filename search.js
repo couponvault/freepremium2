@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     videoGrid.innerHTML = filteredVideos.map(video => `
       <a href="watch.html?v=${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
         <div class="thumb-wrapper">
-          <img class="video-thumb" src="${escapeHTML(video.thumbnail)}" alt="${escapeHTML(video.title)}" loading="lazy">
+          <img class="video-thumb" src="${escapeHTML(video.thumbnail)}" alt="${escapeHTML(video.title)}" loading="lazy" width="320" height="180">
           <span class="video-duration">${escapeHTML(video.duration)}</span>
           <div class="play-overlay">
             <div class="play-icon-glow">
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     premiumGrid.innerHTML = filteredItems.map(item => `
       <div class="video-card">
         <div class="thumbnail-container">
-          <img src="${escapeHTML(item.thumbnail)}" alt="Thumbnail" class="thumbnail" style="object-fit: cover;">
+          <img src="${escapeHTML(item.thumbnail)}" alt="Thumbnail" class="thumbnail" style="object-fit: cover;" loading="lazy" width="320" height="180">
           <div class="duration-badge">${typeNames[item.type] || item.type} ${item.subtitle ? `· ${escapeHTML(item.subtitle)}` : ''}</div>
         </div>
         <div class="card-details">

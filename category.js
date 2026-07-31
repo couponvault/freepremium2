@@ -300,7 +300,7 @@ async function renderVideos(append = false) {
     html += `
     <a href="interstitial.html?target=watch.html?v=${encodeURIComponent(video.id)}" class="video-card" data-id="${escapeHTML(video.id)}">
       <div class="thumb-wrapper">
-        <img class="video-thumb" src="${escapeHTML(video.thumbnail)}" alt="${escapeHTML(video.title)}" loading="lazy">
+        <img class="video-thumb" src="${escapeHTML(video.thumbnail)}" alt="${escapeHTML(video.title)}" loading="lazy" width="320" height="180">
         <span class="video-duration">${escapeHTML(video.duration)}</span>
         <div class="play-overlay">
           <div class="play-icon-glow">
