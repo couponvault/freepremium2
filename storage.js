@@ -159,7 +159,14 @@ async function getVideos() {
   if (!supabaseClient) return DEFAULT_VIDEOS;
   const { data, error } = await supabaseClient.from('videos').select('*').order('created_at', { ascending: false });
   if (error || !data || data.length === 0) return DEFAULT_VIDEOS;
-  return data;
+  return data.map(v => {
+    if (!v.views || v.views === "0" || String(v.views).trim() === "") {
+      const hash = v.id.split("").reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+      const fakeViews = (Math.abs(hash) % 899) + 100;
+      v.views = fakeViews + "K views";
+    }
+    return v;
+  });
 }
 
 // Global variables to hold loaded config so synchronous getters don't break old code
