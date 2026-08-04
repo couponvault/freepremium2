@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Populate Page Elements
   populateVideoDetails(video);
+  injectVideoSchema(video);
   
   // Dynamic SEO Tags
   document.title = `Watch ${video.title} - FreePremium`;
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const shortDesc = (video.description || "Watch high-quality premium videos and streams for free.").substring(0, 155);
   document.getElementById("metaDesc").content = shortDesc;
   document.getElementById("ogDesc").content = shortDesc;
-  document.getElementById("ogImage").content = video.thumbnail || "https://freepremium.com/assets/hero_spotlight.png";
+  document.getElementById("ogImage").content = video.thumbnail || "https://freepremium.online/assets/hero_spotlight.png";
 
   // Render Sidebar Related Suggestions
   renderRelatedVideos(video);
@@ -281,3 +282,46 @@ async function renderRelatedVideos(currentVideo) {
   `).join("");
 }
 
+
+// Inject JSON-LD VideoObject Schema
+function injectVideoSchema(video) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": video.title,
+    "description": video.description || "Watch high-quality premium videos and streams for free.",
+    "thumbnailUrl": [video.thumbnail],
+    "uploadDate": new Date().toISOString(),
+    "contentUrl": window.location.href,
+    "embedUrl": window.location.href
+  };
+
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.text = JSON.stringify(schema);
+  document.head.appendChild(script);
+
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://freepremium.online/"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": video.category || "Video",
+      "item": "https://freepremium.online/category.html?cat=" + encodeURIComponent(video.category || "trending")
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": video.title
+    }]
+  };
+  const scriptBread = document.createElement('script');
+  scriptBread.type = 'application/ld+json';
+  scriptBread.text = JSON.stringify(breadcrumb);
+  document.head.appendChild(scriptBread);
+}

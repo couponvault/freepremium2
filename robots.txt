@@ -4,4 +4,4 @@ Disallow: /admin.js
 Disallow: /scratch/
 Allow: /
 
-Sitemap: https://freepremium.com/sitemap.xml
+Sitemap: https://freepremium.online/sitemap.xml

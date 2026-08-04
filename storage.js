@@ -1,5 +1,10 @@
 // freepremium Shared Storage & Categories Logic
 
+// Global Redirects: Force HTTPS and non-www
+if (window.location.hostname.startsWith('www.') || window.location.protocol === 'http:') {
+  const newHost = window.location.hostname.replace(/^www\./, '');
+  window.location.replace('https://' + newHost + window.location.pathname + window.location.search + window.location.hash);
+}
 // Global HTML Escaper to prevent XSS
 function escapeHTML(str) {
   if (typeof str !== 'string') return str;
@@ -341,16 +346,19 @@ function injectSEOMetadata() {
     }
   }
   
-  // 2. Inject Canonical Tag
-  let canonical = document.querySelector('link[rel="canonical"]');
-  if (!canonical) {
-    canonical = document.createElement('link');
-    canonical.rel = "canonical";
-    // Strip hash or search params from URL to create clean canonical
-    let canonicalUrl = window.location.href.split('#')[0];
-    canonical.href = canonicalUrl;
-    document.head.appendChild(canonical);
-  }
+  // 2. Inject Canonical Tag (Clean and enforce HTTPS)
+  let canonicals = document.querySelectorAll('link[rel="canonical"]');
+  // Remove all existing conflicting canonicals first
+  canonicals.forEach(c => c.remove());
+  
+  const canonical = document.createElement('link');
+  canonical.rel = "canonical";
+  // Force canonical to use https://freepremium.online
+  let path = window.location.pathname;
+  let search = window.location.search; // Important for watch.html?v=XYZ
+  let canonicalUrl = `https://freepremium.online${path}${search}`;
+  canonical.href = canonicalUrl;
+  document.head.appendChild(canonical);
 }
 
 // Auto-init and render nav categories on load
