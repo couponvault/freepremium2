@@ -136,6 +136,48 @@
 
     </main>
 
+    <!-- Homepage SEO Content Block -->
+    <section class="seo-content-block" style="padding: 40px 20px; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05);">
+      <div style="max-width: 1000px; margin: 0 auto;">
+        <h1 style="font-size: 1.5rem; color: hsl(var(--text-primary)); margin-bottom: 20px;">Premium Adult Videos & Free HD Porn - FreePremium</h1>
+        <div id="seoTextContainer" style="color: hsl(var(--text-secondary)); font-size: 0.9rem; line-height: 1.6; max-height: 100px; overflow: hidden; position: relative; transition: max-height 0.3s ease;">
+          <p style="margin-bottom: 15px;">Welcome to <strong>FreePremium</strong>, your ultimate destination for high-quality, free adult entertainment. Unlike other tube sites that bombard you with intrusive popups and hidden fees, we provide a seamless, premium viewing experience completely free of charge. Whether you're looking for passionate amateur clips, professional HD studio releases, or specific niche content, our extensive library is updated daily to satisfy every desire.</p>
+          <h2 style="font-size: 1.2rem; color: hsl(var(--text-primary)); margin-top: 25px; margin-bottom: 15px;">Watch the Best Free Adult Content Online</h2>
+          <p style="margin-bottom: 15px;">Our platform is designed with user experience in mind. Navigate through our meticulously organized categories to find exactly what you crave. From trending popular videos to exclusive HD collections, we ensure that every video streams blazingly fast without buffering. Our curated selections include top-rated stars, exclusive verified amateur uploads, and high-definition streams that rival paid premium sites.</p>
+          <h3 style="font-size: 1.1rem; color: hsl(var(--text-primary)); margin-top: 20px; margin-bottom: 10px;">Safe, Secure, and 100% Free</h3>
+          <p>Privacy and security are our top priorities. You can browse our massive catalog of adult videos securely and anonymously. No credit cards, no sign-ups required. Just click and enjoy the best free adult videos on the internet today.</p>
+          
+          <div id="seoTextGradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to bottom, transparent, hsl(var(--bg-base))); pointer-events: none;"></div>
+        </div>
+        <button id="readMoreBtn" style="background: transparent; border: 1px solid hsl(var(--primary)); color: hsl(var(--primary)); padding: 8px 16px; border-radius: 20px; cursor: pointer; margin-top: 15px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: all 0.3s ease;">
+          Read More <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>
+        </button>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('readMoreBtn');
+        const container = document.getElementById('seoTextContainer');
+        const gradient = document.getElementById('seoTextGradient');
+        if(btn && container) {
+          btn.addEventListener('click', () => {
+            if (container.style.maxHeight === '100px') {
+              container.style.maxHeight = '2000px';
+              gradient.style.display = 'none';
+              btn.innerHTML = 'Read Less <i data-lucide="chevron-up" style="width: 14px; height: 14px;"></i>';
+              if(typeof lucide !== 'undefined') lucide.createIcons();
+            } else {
+              container.style.maxHeight = '100px';
+              gradient.style.display = 'block';
+              btn.innerHTML = 'Read More <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>';
+              if(typeof lucide !== 'undefined') lucide.createIcons();
+            }
+          });
+        }
+      });
+    </script>
+
     <!-- Elegant Footer -->
     <footer class="footer">
       <div class="footer-inner">
@@ -151,6 +193,14 @@
           <a href="category.html?cat=featured" class="footer-link">Featured</a>
           <a href="category.html?cat=hd" class="footer-link">HD</a>
           <a href="category.html?cat=amateur" class="footer-link">Amateur</a>
+        </div>
+        
+        <div class="footer-links" style="margin-top: 15px; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+          <a href="about.html" class="footer-link">About Us</a>
+          <a href="contact.html" class="footer-link">Contact</a>
+          <a href="dmca.html" class="footer-link">DMCA</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms.html" class="footer-link">Terms of Service</a>
         </div>
         <div class="footer-copy">
           &copy; 2026 FreePremium. Designed with high-performance dark aesthetics. All rights reserved.

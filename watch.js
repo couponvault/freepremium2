@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   injectVideoSchema(video);
   
   // Dynamic SEO Tags
-  document.title = `Watch ${video.title} - FreePremium`;
+  document.title = `Watch ${video.title} - Free HD Porn | FreePremium`;
   document.getElementById("metaTitle").content = document.title;
   document.getElementById("ogTitle").content = document.title;
   
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Populate HTML Elements
 function populateVideoDetails(video) {
-  document.title = `FreePremium - Watch ${video.title}`;
+  document.title = `Watch ${video.title} - Free HD Porn | FreePremium`;
 
   const embedIframe = document.getElementById("videoEmbed");
   const placeholder = document.getElementById("playerPlaceholder");
@@ -208,7 +208,11 @@ function populateVideoDetails(video) {
   document.getElementById("videoViews").innerHTML = `<i data-lucide="eye" style="width: 14px; height: 14px; display: inline; vertical-align: text-bottom; margin-right: 4px;"></i> ${escapeHTML(video.views)}`;
   document.getElementById("videoDate").innerHTML = `<i data-lucide="calendar" style="width: 14px; height: 14px; display: inline; vertical-align: text-bottom; margin-right: 4px;"></i> Released ${escapeHTML(video.date || 'recently')}`;
   document.getElementById("videoCreator").textContent = video.creator || "Unknown";
-  document.getElementById("videoDescription").textContent = video.description || "No description provided for this premium stream.";
+  
+  const firstCat = (vidCats.length > 0) ? vidCats[0] : "Premium";
+  const seoFallbackDesc = "Watch " + video.title + " free HD adult video. Explore the best " + firstCat + " content exclusively on FreePremium. Our collection features high-quality streaming, verified models, and daily updates. No credit cards, just instant access to premium adult entertainment.";
+  document.getElementById("videoDescription").textContent = video.description || seoFallbackDesc;
+  
 
   // Create Avatar Initials
   const creatorName = video.creator || "Unknown";
@@ -270,7 +274,7 @@ async function renderRelatedVideos(currentVideo) {
   relatedContainer.innerHTML = related.map(v => `
     <a href="watch.html?v=${encodeURIComponent(v.id)}" class="related-card">
       <div class="related-thumb-wrapper">
-        <img src="${escapeHTML(v.thumbnail)}" alt="${escapeHTML(v.title)}" class="related-thumb" loading="lazy" width="120" height="67">
+        <img src="${escapeHTML(v.thumbnail)}" alt="${escapeHTML(v.title)} free adult video thumbnail" class="related-thumb" loading="lazy" width="120" height="67">
         <span class="related-duration">${escapeHTML(v.duration)}</span>
       </div>
       <div class="related-details">
