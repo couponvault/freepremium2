@@ -355,9 +355,14 @@ function injectCategorySEO(catName) {
   const niceName = catName.charAt(0).toUpperCase() + catName.slice(1);
   
   // 1. Dynamic Intro Text
-  document.getElementById("catSeoH2").textContent = "Best " + niceName + " Videos & Free HD Porn";
-  document.getElementById("catSeoText").innerHTML = `<p style="margin-bottom: 15px;">Looking for the best free <strong>${niceName} videos</strong>? You've come to the right place. FreePremium offers an exclusive collection of high-definition adult videos spanning across the ${niceName} category. Our catalog is updated daily with top-rated studio releases and verified amateur uploads.</p>
-  <p>Unlike other tube sites, we provide a seamless, ad-light experience. Enjoy blazing fast streaming of ${niceName} content in full HD without paying a dime. Explore our extensive grid above and find exactly what satisfies your cravings.</p>`;
+  const h2 = document.getElementById("catSeoH2");
+  if (h2) h2.textContent = "Best " + niceName + " Videos & Free HD Porn";
+  
+  const textContainer = document.getElementById("catSeoText");
+  if (textContainer) {
+    textContainer.innerHTML = `<p style="margin-bottom: 15px;">Looking for the best free <strong>${niceName} videos</strong>? You've come to the right place. FreePremium offers an exclusive collection of high-definition adult videos spanning across the ${niceName} category. Our catalog is updated daily with top-rated studio releases and verified amateur uploads.</p>
+    <p>Unlike other tube sites, we provide a seamless, ad-light experience. Enjoy blazing fast streaming of ${niceName} content in full HD without paying a dime. Explore our extensive grid above and find exactly what satisfies your cravings.</p>`;
+  }
 
   // 2. Dynamic FAQs
   const faqs = [
@@ -367,7 +372,9 @@ function injectCategorySEO(catName) {
   ];
 
   const faqContainer = document.getElementById("catFaqContainer");
-  faqContainer.innerHTML = '';
+  if (faqContainer) {
+    faqContainer.innerHTML = '';
+
   
   faqs.forEach((faq, index) => {
     const qDiv = document.createElement('div');
@@ -381,4 +388,5 @@ function injectCategorySEO(catName) {
     
     faqContainer.appendChild(qDiv);
   });
+  }
 }

@@ -209,8 +209,8 @@ function populateVideoDetails(video) {
   document.getElementById("videoDate").innerHTML = `<i data-lucide="calendar" style="width: 14px; height: 14px; display: inline; vertical-align: text-bottom; margin-right: 4px;"></i> Released ${escapeHTML(video.date || 'recently')}`;
   document.getElementById("videoCreator").textContent = video.creator || "Unknown";
   
-  const firstCat = (vidCats.length > 0) ? vidCats[0] : "Premium";
-  const seoFallbackDesc = "Watch " + video.title + " free HD adult video. Explore the best " + firstCat + " content exclusively on FreePremium. Our collection features high-quality streaming, verified models, and daily updates. No credit cards, just instant access to premium adult entertainment.";
+  const seoCat = (vidCats.length > 0) ? vidCats[0] : "Premium";
+  const seoFallbackDesc = "Watch " + video.title + " free HD adult video. Explore the best " + seoCat + " content exclusively on FreePremium. Our collection features high-quality streaming, verified models, and daily updates. No credit cards, just instant access to premium adult entertainment.";
   document.getElementById("videoDescription").textContent = video.description || seoFallbackDesc;
   
 
